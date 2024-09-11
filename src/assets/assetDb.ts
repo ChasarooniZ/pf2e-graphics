@@ -211,4 +211,50 @@ export const database = {
 			_flipbook: true,
 		},
 	},
+	magic: {
+		dark: {
+			cast: {
+				'01': {
+
+				},
+				'02': {
+
+				}
+			},
+			chaos: {
+				'01': {
+
+				}
+			},
+			gloom: {
+
+				'01': {
+
+				}
+			},
+			oblivion: {
+
+				'01': {
+
+				}
+			},
+			sting: {
+				'01': {
+
+				}
+			},
+			subdue: {
+				'01': {
+
+				}
+			},
+			umbra: {
+
+				'01': {
+
+				}
+			}
+
+		}
+	}
 } as const;
