@@ -200,21 +200,23 @@ const flatAnimation = z
  * The complete animation-set object, as is encoded in JSON.
  */
 export type AnimationSet = Omit<z.infer<typeof flatAnimation>, 'default'> & {
-	contents?: AnimationSetItemPartial[];
+	contents?: AnimationSetContentsItem[];
 };
 
 /**
- * The complete animation object, as is encoded in JSON, but with every property made optional. This is used for nesting within `contents`.
+ * The partial animation-set object that is permitted within the `contents` array. It is identical to `AnimationSet`, except with `default` included and every property made optional.
  */
-export type AnimationSetItemPartial<K = Payload['type']> = Partial<Omit<z.infer<typeof flatAnimation>, 'execute'>> & {
+export type AnimationSetContentsItem<K = Payload['type']> = Partial<
+	Omit<z.infer<typeof flatAnimation>, 'execute'>
+> & {
 	execute?: Partial<Extract<Payload, { type: K }>>;
-	contents?: AnimationSetItemPartial[];
+	contents?: AnimationSetContentsItem[];
 };
 
 /**
  * Zod schema for the complete animation object, as is encoded in JSON, but with every property made optional. This is used for nesting within `contents`.
  */
-const animationSetItemPartial: z.ZodType<AnimationSetItemPartial> = flatAnimation
+const animationSetItemPartial: z.ZodType<AnimationSetContentsItem> = flatAnimation
 	.omit({ execute: true })
 	.partial()
 	.extend({

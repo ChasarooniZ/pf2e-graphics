@@ -1,8 +1,8 @@
 <script lang='ts'>
-	import type { AnimationSetItemPartial } from 'schema/payload';
+	import type { AnimationSetContentsItem } from 'schema/payload';
 	import Svelecte from 'svelecte';
 
-	export let data: AnimationSetItemPartial;
+	export let data: AnimationSetContentsItem;
 	export let readonly: boolean;
 
 	// TODO: .location, .borderColor, .fillColor, .icon

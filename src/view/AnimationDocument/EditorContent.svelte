@@ -1,5 +1,5 @@
 <script lang='ts'>
-	import type { AnimationSetItemPartial } from 'schema/payload';
+	import type { AnimationSetContentsItem } from 'schema/payload';
 	import type { AnimationSetDocument } from 'src/extensions';
 	import { TJSDialog } from '#runtime/svelte/application';
 	import { TJSDocument } from '#runtime/svelte/store/fvtt/document';
@@ -7,21 +7,21 @@
 	import Svelecte from 'svelecte';
 	import { Animation, Crosshair, Graphic, Macro, Sound } from './execute';
 
-	export let data: AnimationSetItemPartial;
+	export let data: AnimationSetContentsItem;
 	export let animation: AnimationSetDocument;
 	export let readonly: boolean;
 	export let sectionArray: number[];
 
 	log(animation);
 
-	let selection: keyof AnimationSetItemPartial = 'name';
+	let selection: keyof AnimationSetContentsItem = 'name';
 
 	// eslint-disable-next-line prefer-const
 	let upperAnimation = sectionArray.slice(1).slice(0, -1).reduce(
 		(object, index) => {
 			return ({ ...object, ...object.contents![index] });
 		},
-		animation.animationSets[sectionArray[0]] as AnimationSetItemPartial,
+		animation.animationSets[sectionArray[0]] as AnimationSetContentsItem,
 	);
 
 	$: log(upperAnimation);

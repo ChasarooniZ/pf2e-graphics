@@ -1,7 +1,7 @@
 <script lang='ts'>
-	import type { AnimationSetItemPartial } from 'schema/payload';
+	import type { AnimationSetContentsItem } from 'schema/payload';
 
-	export let data: AnimationSetItemPartial;
+	export let data: AnimationSetContentsItem;
 	export let readonly: boolean;
 </script>
 {#if !data.execute || data.execute?.type !== 'macro'}

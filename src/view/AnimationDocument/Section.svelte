@@ -1,8 +1,8 @@
 <script lang='ts'>
-	import type { AnimationSetItemPartial } from 'schema/payload';
+	import type { AnimationSetContentsItem } from 'schema/payload';
 
 	export let selection: number | string;
-	export let section: AnimationSetItemPartial;
+	export let section: AnimationSetContentsItem;
 	export let index: string;
 	export let deleteFn: (location: string) => void;
 

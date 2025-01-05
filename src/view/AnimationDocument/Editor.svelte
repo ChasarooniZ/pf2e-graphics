@@ -1,5 +1,5 @@
 <script lang='ts'>
-	import type { AnimationSet, AnimationSetItemPartial } from 'schema/payload';
+	import type { AnimationSet, AnimationSetContentsItem } from 'schema/payload';
 	import type { AnimationSetDocument } from 'src/extensions';
 	import type { Writable } from 'svelte/store';
 	import type { BasicAppExternal } from './AnimationDocumentApp';
@@ -17,7 +17,7 @@
 	let sectionArray: number[] = [];
 	$: sectionArray = String($currentSection).split('.').map(x => Number(x));
 
-	let data: AnimationSetItemPartial;
+	let data: AnimationSetContentsItem;
 
 	$: {
 		// Crash prevention in case the animation was modified
@@ -32,7 +32,7 @@
 						return object;
 					}
 				},
-				animation.animationSets[sectionArray[0]] as AnimationSetItemPartial,
+				animation.animationSets[sectionArray[0]] as AnimationSetContentsItem,
 			);
 		} catch {
 			currentSection.set('details');
@@ -55,7 +55,7 @@
 		if (locationArray.length === 1) {
 			(animation.animationSets as AnimationSet[]).splice(locationArray[0], 1);
 		} else {
-			let current = animation.animationSets[locationArray[0]] as AnimationSetItemPartial;
+			let current = animation.animationSets[locationArray[0]] as AnimationSetContentsItem;
 			const last = locationArray.pop()!;
 			for (let i = 0; i < locationArray.length - 1; i++) {
 				const key = locationArray[i];
