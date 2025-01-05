@@ -36,7 +36,7 @@ const baseTemplate = z
 	.strict();
 
 /**
- * Zod schema for the options specific to a `crosshair`-preset animation.
+ * Zod schema for a `crosshair`-type payload.
  */
 export const crosshairPayload = z
 	.object({

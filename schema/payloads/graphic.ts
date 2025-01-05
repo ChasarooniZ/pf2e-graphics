@@ -225,7 +225,7 @@ const shapeOptions = z
 	.strict();
 
 /**
- * Zod schema for the options which are specific to `graphic`-type animations.
+ * Zod schema for a `graphic`-type payload.
  */
 export const graphicPayload = effectOptions
 	.extend({

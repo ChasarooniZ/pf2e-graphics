@@ -50,7 +50,7 @@ const spinOptions = easingOptions
 	.describe('Causes the token to spin towards the `finalAngle`.');
 
 /**
- * Zod schema for the options specific to a `animation`-preset animation.
+ * Zod schema for an `animation`-type payload.
  */
 export const animationPayload = effectOptions
 	.pick({

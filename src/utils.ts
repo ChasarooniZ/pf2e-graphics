@@ -25,7 +25,6 @@ interface NotifyOptions {
 export class ErrorMsg extends Error {
 	constructor(message: string, format?: Record<string, string>, options?: ErrorOptions) {
 		super(HTMLToMarkdown(`PF2e Graphics | ${i18n(message, format)}`), options);
-		this.message = HTMLToMarkdown(`${i18n(message, format)}`);
 	}
 
 	/**
@@ -36,7 +35,7 @@ export class ErrorMsg extends Error {
 	 */
 	static send(message: string, format?: Record<string, string>, options?: ErrorOptions & NotifyOptions) {
 		const err = new this(message, format, options);
-		ui.notifications.error(`<b>PF2e Graphics</b> | ${err.message}`, options);
+		ui.notifications.error(`<b>PF2e Graphics</b> | ${i18n(message, format)}`, options);
 		return err;
 	}
 }

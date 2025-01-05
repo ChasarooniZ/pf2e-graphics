@@ -9,31 +9,34 @@ import { soundPayload } from './payloads/sound';
 import { trigger } from './triggers';
 
 /**
- * Zod schema for the animation payload that actually gets executed.
+ * Zod schema for a `macro`-type payload.
+ */
+const macroPayload = z.object({
+	type: z.literal('macro'),
+	document: UUID.describe('The UUID of the macro to be executed.'),
+	everyoneExecutes: z
+		.literal(true)
+		.optional()
+		.describe(
+			'By default, only the triggering user executes the macro. If you\'d like every logged-in user to execute the macro, enable this option.',
+		),
+	options: z
+		.object({})
+		.optional()
+		.describe(
+			'An arbitrary object of options you can pass into the macro as an argument. The following properties are always available unless overwritten:\n- `sources`: an array of token objects that triggered the payload.\n- `targets`: an array of token objects targetted by the triggering `sources`.\n- `templates`: an array of template objects associated with the trigger.\n- `user`: the user ID (string) for the triggering user.\n- `item`: the item object containing the triggered roll option (if any).\n- `currentIndex`: in a set with multiple payloads, this is the number of the currently executing payload (starting from 0)',
+		),
+});
+
+/**
+ * Zod schema for the animation-set payload that actually gets executed.
  */
 const payload = z
 	.discriminatedUnion('type', [
-		z
-			.object({
-				type: z.literal('macro'),
-				document: UUID.describe('The UUID of the macro to be executed.'),
-				everyoneExecutes: z
-					.literal(true)
-					.optional()
-					.describe(
-						'By default, only the triggering user executes the macro. If you\'d like every logged-in user to execute the macro, enable this option.',
-					),
-				options: z
-					.object({})
-					.optional()
-					.describe(
-						'An arbitrary object of options you can pass into the macro as an argument. The following properties are always available unless overwritten:\n- `sources`: an array of token objects that triggered the payload.\n- `targets`: an array of token objects targetted by the triggering `sources`.\n- `templates`: an array of template objects associated with the trigger.\n- `user`: the user ID (string) for the triggering user.\n- `item`: the item object containing the triggered roll option (if any).\n- `currentIndex`: in a set with multiple payloads, this is the number of the currently executing payload (starting from 0)',
-					),
-			})
-			.strict(),
 		animationPayload.strict(),
 		crosshairPayload.strict(),
 		graphicPayload.strict(),
+		macroPayload.strict(),
 		soundPayload.strict(),
 	])
 	.superRefine((obj, ctx) => {
@@ -115,14 +118,14 @@ const payload = z
 	.describe('The animation payload that actually gets executed.');
 
 /**
- * The animation payload that actually gets executed.
+ * The animation-set payload that actually gets executed.
  *
- * Consider using as `Extract<AnimationPayload, { type: '...' }>` to select specific members.
+ * Consider using as `Extract<Payload, { type: '...' }>` to select specific members.
  */
 export type Payload = z.infer<typeof payload>;
 
 /**
- * Zod schema for the 'flat' form of an animation object, after all `contents` have been unrolled and merged appropriately.
+ * Zod schema for the 'flat' form of an animation-set object, after all `contents` have been unrolled and merged appropriately.
  */
 const flatAnimation = z
 	.object({
@@ -194,7 +197,7 @@ const flatAnimation = z
 	.strict();
 
 /**
- * The complete animation object, as is encoded in JSON.
+ * The complete animation-set object, as is encoded in JSON.
  */
 export type AnimationSet = z.infer<typeof flatAnimation> & {
 	contents?: AnimationSetItemPartial[];
@@ -220,6 +223,7 @@ const animationSetItemPartial: z.ZodType<AnimationSetItemPartial> = flatAnimatio
 				animationPayload.partial(),
 				crosshairPayload.partial(),
 				graphicPayload.partial(),
+				macroPayload.partial(),
 				soundPayload.partial(),
 			])
 			.optional(),
