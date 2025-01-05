@@ -258,7 +258,9 @@ export let AnimCore = class AnimCore {
 
 		// Get all the flags.
 		const worldDocs = convertDocumentsToMap(window.pf2eGraphics.liveSettings.globalAnimations);
-		const userDocs = convertDocumentsToMap(owners.flatMap(u => u.getFlag('pf2e-graphics', 'animations') as UserAnimationSetDocument[] ?? []));
+		const userDocs = convertDocumentsToMap(
+			owners.flatMap(u => (u.getFlag('pf2e-graphics', 'animations') as UserAnimationSetDocument[]) ?? []),
+		);
 
 		// const actorOriginKeys = actorOrigin?.getFlag('pf2e-graphics', 'animations') ?? [];
 		// const itemOriginKeys = itemOrigin?.getFlag('pf2e-graphics', 'animations') ?? [];
@@ -563,13 +565,7 @@ export let AnimCore = class AnimCore {
 export function convertDocumentsToMap(document: AnimationSetDocument[]): JSONMap {
 	const map = new Map<string, AnimationSetMetadataWrapper>();
 	for (const doc of document) {
-		map.set(
-			doc.rollOption,
-			new AnimationSetMetadataWrapper(
-				doc.animationSets,
-				{ module: doc.source },
-			),
-		);
+		map.set(doc.rollOption, new AnimationSetMetadataWrapper(doc.animationSets, { module: doc.source }));
 	}
 	return map;
 }
