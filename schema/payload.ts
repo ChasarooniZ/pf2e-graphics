@@ -182,7 +182,7 @@ const flatAnimation = z
 			.literal(true)
 			.optional()
 			.describe(
-				'In the case when two animations can be played simultaneously, but only one should, the one with `default: true` is preferred. This can notably occur in when the `predicates` of two animations in `contents` are both true.',
+				'When no animation sets within the same `contents` depth would be executed due to a lack of matches in `predicates`, a set with `default: true` will be executed anyway. Conversely, if multiple sets at the same `contents` depth would be executed, a set with `default: true` will be ignored.\nThis is especially useful when you have one \'standard\' payload, with variants for particular edge-cases. For instance, changing the sound of a Strike depending on the target\'s traits, or more generally setting the default payload when certain module settings are enabled or disabled (e.g. persistence, quality).\nThe same effect can be achieved using combining logic in `predicates`; this property is just a convenience.',
 			),
 		predicates: z
 			.array(predicate)
@@ -199,7 +199,7 @@ const flatAnimation = z
 /**
  * The complete animation-set object, as is encoded in JSON.
  */
-export type AnimationSet = z.infer<typeof flatAnimation> & {
+export type AnimationSet = Omit<z.infer<typeof flatAnimation>, 'default'> & {
 	contents?: AnimationSetItemPartial[];
 };
 
@@ -244,6 +244,7 @@ const animationSetItemPartial: z.ZodType<AnimationSetItemPartial> = flatAnimatio
  * @remarks This schema isn't refined for valid super-structure.
  */
 const animationSet: z.ZodType<AnimationSet> = flatAnimation
+	.omit({ default: true })
 	.extend({
 		contents: z
 			.lazy(() =>

@@ -399,16 +399,13 @@ export let AnimCore = class AnimCore {
 
 		/**
 		 * 'Unfolds' `AnimationSet`s into their 'executable' form. This removes all remaining references, shorthands, and nested structures. Unfolded `AnimationSet`s are tested against the triggering roll data and only returned if they match.
-		 * @param animationSet An array of `AnimationSet` objects without any `reference` properties.
+		 * @param animationSets An array of `AnimationSet` objects without any `reference` properties.
 		 * @returns An array of `AnimationSet` objects without any `reference`, `default`, or `contents` properties (i.e. an array of unfolded `AnimationSet`s).
 		 */
 		function unfoldAnimationSets(
-			animationSet: Omit<AnimationSet, 'reference'>[],
+			animationSets: Omit<AnimationSet, 'reference'>[],
 		): Omit<AnimationSet, 'reference' | 'default' | 'contents'>[] {
-			return animationSet.flatMap((folder) => {
-				// `default` affects the child-selection process (see below), so can be deleted.
-				delete folder.default;
-
+			return animationSets.flatMap((folder) => {
 				// Childless animations don't need unfolding.
 				if (!folder.contents) return folder;
 
@@ -418,14 +415,18 @@ export let AnimCore = class AnimCore {
 				);
 
 				// One child animation can be labelled as `default`, which causes it to be applied if and only if no child animations' predicates match.
-				if (!validChildren.length && folder.contents.some(x => x.default)) {
+				if (!validChildren.length) {
 					// If there are no valid children, then we need to find the default children and make them valid.
-					validChildren = folder.contents.filter(x => x.default);
+					const defaultChildren = folder.contents.filter(x => x.default);
+					if (defaultChildren.length) {
+						if (defaultChildren.length > 1) log('Animation set has multiple defaults?!', folder);
+						validChildren = defaultChildren;
+					}
 				} else if (validChildren.length > 1) {
 					// If there are MULTIPLE valid children, remove the default children from the valid options.
 					validChildren = validChildren.filter(x => !x.default);
 				} else {
-					// If there is only one valid child, then we don't need to do anything.
+					// If there's only one valid child, we don't need to do anything.
 				}
 
 				// We no longer need this.
@@ -434,7 +435,10 @@ export let AnimCore = class AnimCore {
 				// Recurse to unfold the children's children, and then perform a final predicate test.
 				return unfoldAnimationSets(
 					// Merge children into the parent.
-					validChildren.map(child => mergeObjectsConcatArrays(folder, child)),
+					validChildren.map((child) => {
+						delete child.default; // We no longer need this.
+						return mergeObjectsConcatArrays(folder, child);
+					}),
 				).filter(child => game.pf2e.Predicate.test(child.predicates, rollOptions));
 			});
 		}
