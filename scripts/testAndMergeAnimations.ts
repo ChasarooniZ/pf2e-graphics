@@ -1,6 +1,5 @@
 import type { ModuleDataObject } from '../schema/index.ts';
 import type { AnimationSet, AnimationSetsObject } from '../schema/payload.ts';
-import type { JSONMap } from '../src/storage/AnimCore.ts';
 import type { FileValidationFailure } from './helpers.ts';
 import * as fs from 'node:fs';
 import { validateAnimationData } from '../schema/validation/index.ts';
@@ -43,7 +42,7 @@ export function testAndMergeAnimations(
 			}
 		}
 	})();
-	const mergedAnimations: JSONMap = new Map();
+	const mergedAnimations: Map<keyof ModuleDataObject, ValueOf<ModuleDataObject>> = new Map();
 
 	const results = testFilesRecursively(
 		targetPath,
