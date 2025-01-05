@@ -216,7 +216,7 @@ export type AnimationSetContentsItem<K = Payload['type']> = Partial<
 /**
  * Zod schema for the complete animation object, as is encoded in JSON, but with every property made optional. This is used for nesting within `contents`.
  */
-const animationSetItemPartial: z.ZodType<AnimationSetContentsItem> = flatAnimation
+const animationSetContentsItem: z.ZodType<AnimationSetContentsItem> = flatAnimation
 	.omit({ execute: true })
 	.partial()
 	.extend({
@@ -232,7 +232,7 @@ const animationSetItemPartial: z.ZodType<AnimationSetContentsItem> = flatAnimati
 		contents: z
 			.lazy(() =>
 				z
-					.array(animationSetItemPartial)
+					.array(animationSetContentsItem)
 					.min(2)
 					.refine(...uniqueItems),
 			)
@@ -251,7 +251,7 @@ const animationSet: z.ZodType<AnimationSet> = flatAnimation
 		contents: z
 			.lazy(() =>
 				z
-					.array(animationSetItemPartial)
+					.array(animationSetContentsItem)
 					.min(2)
 					.refine(...uniqueItems),
 			)
