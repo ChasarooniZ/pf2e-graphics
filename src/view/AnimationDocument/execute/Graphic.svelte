@@ -11,8 +11,10 @@
 
 	let positionType: 'static' | 'dynamic' = 'static';
 </script>
-{#if !data.execute || data.execute?.type !== 'graphic'}
-	<p>This isn't the right component! Something went extremely wrong if you are seeing this!</p>
+{#if !data.execute}
+	{#if !readonly}
+		<p><em>Attempted to render a 'graphic' execute section without an execute object present.</em></p>
+	{/if}
 {:else}
 	<div class='space-y-2'>
 		<!-- #region Graphic -->
@@ -49,6 +51,49 @@
 				</div>
 			</label>
 		{/if}
+		<!-- #region Persistent -->
+		<label class='grid grid-cols-3 items-center'>
+			<span data-tooltip='TODO: Explain'>
+				Persistent
+				<i class='fa fa-info-circle pl-px'></i>
+			</span>
+			<div class='flex align-middle items-center col-span-2'>
+				<select
+					disabled={readonly}
+					value={data.execute.persistent}
+					on:change={(e) => {
+						// @ts-expect-error
+						if (data.execute?.persistent === '') {
+							delete data.execute.persistent;
+						} else if (data?.execute) {
+							// @ts-expect-error SVELTE 5 WHEN
+							data.execute.persistent = e.currentTarget.value;
+						};
+					}}
+				>
+					<option value=''>No</option>
+					<option value='canvas'>Canvas</option>
+					<option value='tokenPrototype'>Token Prototype</option>
+				</select>
+			</div>
+		</label>
+		<!-- #endregion -->
+		<!-- #region Tie To Documents -->
+		<label class='grid grid-cols-3 items-center'>
+			<span data-tooltip='TODO: Explain'>
+				Tie To Documents
+				<i class='fa fa-info-circle pl-px'></i>
+			</span>
+			<div class='flex align-middle items-center col-span-2'>
+				<input
+					disabled={readonly}
+					{readonly}
+					bind:checked={data.execute.tieToDocuments}
+					type='checkbox'
+				/>
+			</div>
+		</label>
+		<!-- #endregion -->
 		{#if !data.execute.position}
 			<!-- If wrong, don't! -->
 			{(data.execute.position = []) && ''}
@@ -106,8 +151,7 @@
 								<i class='fa fa-trash fa-fw p-0 m-0'></i>
 							</button>
 						</header>
-						<!-- #region Static -->
-						{#if position.type === 'static'}
+						{#if position.type !== 'screenSpace'}
 							<label class='grid grid-cols-3 items-center'>
 								<span data-tooltip='TODO: Explain'>
 									Location
@@ -127,6 +171,9 @@
 									disabled={readonly}
 								/>
 							</label>
+						{/if}
+						<!-- #region Static -->
+						{#if position.type === 'static'}
 							<label class='grid grid-cols-3 items-center'>
 								<span data-tooltip='TODO: Explain'>
 									Move Towards
@@ -263,5 +310,89 @@
 				{/each}
 			</div>
 		{/if}
+		<div class='
+			flex flex-col gap-2 p-1
+			border border-solid rounded-sm bg-slate-600/15
+		'>
+			<label class='grid grid-cols-3 items-center'>
+				<span data-tooltip='TODO: Explain'>
+					Size
+					<i class='fa fa-info-circle pl-px'></i>
+				</span>
+				<div class='flex align-middle items-center col-span-2'>
+					<select
+						disabled={readonly}
+						class='grow h-8 capitalize'
+						value={data.execute.size?.type}
+						on:change={(e) => {
+							const type = e.currentTarget.value;
+							if (type === '' && data.execute?.size) {
+								delete data.execute.size;
+							} else if (data.execute) {
+								if (!('size' in data.execute)) {
+									data.execute.size = {
+										// @ts-ignore-error Lacking typescript support in Svelte 4
+										type,
+									};
+								} else if (data.execute.size) {
+									// @ts-ignore-error Lacking typescript support in Svelte 4
+									data.execute.size.type = type;
+								}
+							}
+							data = data;
+						}}
+					>
+						<option></option>
+						{#each ['absolute', 'relative', 'directed', 'screenSpace'] as option}
+							<option value={option}>{option}</option>
+						{/each}
+					</select>
+				</div>
+			</label>
+			{#if data.execute?.size?.type === 'relative'}
+				<label class='grid grid-cols-3 items-center'>
+					<span data-tooltip='TODO: Explain'>
+						Relative To
+						<i class='fa fa-info-circle pl-px'></i>
+					</span>
+					<div class='flex align-middle items-center col-span-2'>
+						<select
+							disabled={readonly}
+							class='grow h-8 capitalize'
+							bind:value={data.execute.size.relativeTo}
+						>
+							{#each ['SOURCES', 'TARGETS'] as option}
+								<option value={option}>{option}</option>
+							{/each}
+						</select>
+					</div>
+				</label>
+				<label class='grid grid-cols-3 items-center'>
+					<span data-tooltip='TODO: Explain'>
+						Scaling
+						<i class='fa fa-info-circle pl-px'></i>
+					</span>
+					<div class='flex align-middle items-center col-span-2'>
+						<input
+							disabled={readonly}
+							{readonly}
+							type='number'
+							bind:value={data.execute.size.scaling}
+							min='0.1' step='0.1' placeholder='1'
+							on:change={() => {
+								if (data.execute
+									&& data.execute?.size
+									&& data.execute?.size?.type === 'relative'
+									&& !data.execute.size?.scaling
+								) {
+									delete data.execute.size.scaling;
+									data = data;
+								}
+							}}
+						/>
+					</div>
+				</label>
+			{/if}
+		</div>
 	</div>
 {/if}

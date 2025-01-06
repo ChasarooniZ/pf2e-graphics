@@ -24,10 +24,18 @@
 			{
 				icon: 'fa fa-file-export',
 				label: 'Export',
+				onPress: () => window.saveDataToFile(
+					JSON.stringify(item, null, '\t'),
+					'text/json',
+					`pf2e-graphics-${item.name}.json`,
+				),
 			},
 			{
 				icon: 'fa fa-file-import',
 				label: 'Import',
+				onPress: () => {
+				// TODO:
+				},
 			},
 			{
 				icon: 'fa fa-copy',

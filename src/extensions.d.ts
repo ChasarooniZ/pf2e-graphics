@@ -1,5 +1,6 @@
 import type { SvelteApplicationOptions } from '@typhonjs-fvtt/runtime/svelte/application';
 import type { TJSSessionStorage } from '@typhonjs-fvtt/runtime/svelte/store/web-storage';
+import type { saveDataToFile } from 'foundry-pf2e/foundry/client/core/utils.js';
 import type { Writable } from 'svelte/store';
 import type { AnimationSet, ModuleDataObject } from '../schema';
 import type { liveSettings } from './settings';
@@ -74,6 +75,7 @@ export type moduleFlags =
 	};
 
 declare global {
+
 	interface pf2eGraphics {
 		socket: SocketlibSocket;
 		modules: Writable<Map<string, ModuleDataObject>>;
@@ -110,6 +112,7 @@ declare global {
 	}
 
 	interface Window {
+		saveDataToFile;
 		CanvasAnimation;
 		ImagePopout;
 		TextureTransitionFilter: typeof TextureTransitionFilter;

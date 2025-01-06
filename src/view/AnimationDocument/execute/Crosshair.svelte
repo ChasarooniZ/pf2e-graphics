@@ -2,8 +2,10 @@
 	import type { AnimationSetContentsItem } from 'schema/payload';
 	import Svelecte from 'svelecte';
 
-	export let data: AnimationSetContentsItem;
+	export let dataO: AnimationSetContentsItem;
 	export let readonly: boolean;
+
+	const data = dataO as AnimationSetContentsItem<'crosshair'>;
 
 	// TODO: .location, .borderColor, .fillColor, .icon
 
@@ -15,8 +17,10 @@
 		};
 	}
 </script>
-{#if !data.execute || data.execute?.type !== 'crosshair'}
-	<p>This isn't the right component! Something went extremely wrong if you are seeing this!</p>
+{#if !data.execute}
+	{#if !readonly}
+		<p><em>Attempted to render a 'crosshair' execute section without an execute object present.</em></p>
+	{/if}
 {:else}
 	<div class='space-y-2'>
 		<!-- #region Name -->

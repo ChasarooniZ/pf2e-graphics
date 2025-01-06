@@ -117,7 +117,7 @@
 			</button>
 		</footer>
 	</aside>
-	<main class='px-2 w-3/4 overflow-hidden'>
+	<main class='px-2 w-3/4 overflow-y-auto overflow-x-hidden'>
 		{#if $currentSection === 'details'}
 			<div class='space-y-1'>
 				<label class='grid grid-cols-2 items-center'>

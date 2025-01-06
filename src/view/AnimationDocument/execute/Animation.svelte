@@ -1,11 +1,15 @@
 <script lang='ts'>
 	import type { AnimationSetContentsItem } from 'schema/payload';
 
-	export let data: AnimationSetContentsItem;
+	export let dataO: AnimationSetContentsItem;
 	export let readonly: boolean;
+
+	const data = dataO as AnimationSetContentsItem<'animation'>;
 </script>
-{#if !data.execute || data.execute?.type !== 'animation'}
-	<p>This isn't the right component! Something went extremely wrong if you are seeing this!</p>
+{#if !data.execute}
+	{#if !readonly}
+		<p><em>Attempted to render a 'animation' execute section without an execute object present.</em></p>
+	{/if}
 {:else}
 	<div class='space-y-2'>
 		<label class='grid grid-cols-3 items-center'>

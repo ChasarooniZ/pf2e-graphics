@@ -28,7 +28,11 @@
 	}
 </script>
 
-<main class='space-y-1'>
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<main
+	class='space-y-1'
+	on:keypress={(e) => { if (e.key === 'Enter') mode === 'copy' ? copy() : make(); }}
+>
 	<label class='flex gap-2'>
 		<span class='self-center basis-1/3'>
 			{i18n('pf2e-graphics.sidebar.animationSets.create.animationSet.popup.fields.name.title')}

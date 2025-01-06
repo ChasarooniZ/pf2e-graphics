@@ -297,13 +297,13 @@
 					{#if data.execute.type === 'graphic'}
 						<Graphic bind:dataO={data} {readonly} />
 					{:else if data.execute.type === 'animation'}
-						<Animation bind:data={data} {readonly} />
+						<Animation bind:dataO={data} {readonly} />
 					{:else if data.execute.type === 'sound'}
-						<Sound bind:data={data} {readonly} />
+						<Sound bind:dataO={data} {readonly} />
 					{:else if data.execute.type === 'crosshair'}
-						<Crosshair bind:data={data} {readonly} />
+						<Crosshair bind:dataO={data} {readonly} />
 					{:else if data.execute.type === 'macro'}
-						<Macro bind:data={data} {readonly} />
+						<Macro bind:dataO={data} {readonly} />
 					{/if}
 				</div>
 			</section>
