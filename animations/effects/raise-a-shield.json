@@ -30,7 +30,9 @@
 					"predicates": [
 						"settings:persistent"
 					],
-					"triggers": ["effect"],
+					"triggers": [
+						"effect"
+					],
 					"execute": {
 						"persistent": "tokenPrototype",
 						"tieToDocuments": true
