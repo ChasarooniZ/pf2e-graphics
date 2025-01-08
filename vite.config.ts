@@ -5,6 +5,7 @@ import autoprefixer from 'autoprefixer';
 import p from 'picocolors';
 import minify from 'postcss-minify';
 import PrefixWrap from 'postcss-prefixwrap';
+import Sonda from 'sonda/vite';
 import { sveltePreprocess } from 'svelte-preprocess';
 import tailwindcss from 'tailwindcss';
 import nesting from 'tailwindcss/nesting';
@@ -50,6 +51,7 @@ function plugins(mode: string): PluginOption[] {
 			},
 		},
 		getAnimationsPlugin(),
+		Sonda({ enabled: false }), // Toggle manually to preview package size until I figure out how to do this from npm scripts
 	];
 }
 

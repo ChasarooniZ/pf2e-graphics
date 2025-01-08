@@ -4,7 +4,6 @@
 	import type { BasicAppExternal } from './AnimationDocumentApp';
 	import { ApplicationShell } from '#runtime/svelte/component/application';
 	import { getContext } from 'svelte';
-	import { JSONEditor } from 'svelte-jsoneditor';
 	import Editor from './Editor.svelte';
 
 	export let elementRoot: HTMLElement;
@@ -47,15 +46,19 @@
 			{#if application.options.tab === 'main'}
 				<Editor bind:animation readonly={application.options.readonly} />
 			{:else if application.options.tab === 'json'}
-				<JSONEditor
-					content={{ json: animation }}
-					readOnly={true}
-					mode={application.options.jsonMode}
-					navigationBar={false}
-					statusBar={false}
-					indentation='	'
-					tabSize={2}
-				/>
+				{#await import('svelte-jsoneditor')}
+					Waiting for extra JSONEditor code...
+				{:then Module}
+					<Module.JSONEditor
+						content={{ json: animation }}
+						readOnly={true}
+						mode={application.options.jsonMode}
+						navigationBar={false}
+						statusBar={false}
+						indentation='	'
+						tabSize={2}
+					/>
+				{/await}
 			{/if}
 		</main>
 		<footer class='flex gap-1 grow-0 pt-2'>
