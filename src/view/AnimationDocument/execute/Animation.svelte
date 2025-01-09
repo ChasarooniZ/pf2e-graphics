@@ -4,7 +4,7 @@
 	export let dataO: AnimationSetContentsItem;
 	export let readonly: boolean;
 
-	const data = dataO as AnimationSetContentsItem<'animation'>;
+	$: data = dataO as AnimationSetContentsItem<'animation'>;
 </script>
 {#if !data.execute}
 	{#if !readonly}

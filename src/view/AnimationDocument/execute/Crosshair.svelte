@@ -5,7 +5,7 @@
 	export let dataO: AnimationSetContentsItem;
 	export let readonly: boolean;
 
-	const data = dataO as AnimationSetContentsItem<'crosshair'>;
+	$: data = dataO as AnimationSetContentsItem<'crosshair'>;
 
 	// TODO: .location, .borderColor, .fillColor, .icon
 

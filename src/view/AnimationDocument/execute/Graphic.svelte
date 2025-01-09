@@ -4,7 +4,7 @@
 	export let dataO: AnimationSetContentsItem;
 	export let readonly: boolean;
 
-	let data = dataO as AnimationSetContentsItem<'graphic'>;
+	$: data = dataO as AnimationSetContentsItem<'graphic'>;
 
 	// @ts-expect-error TODO: Sequencer Types
 	const entries: string[] = window.Sequencer.Database.publicFlattenedSimpleEntries;
