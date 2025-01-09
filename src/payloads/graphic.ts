@@ -73,8 +73,19 @@ function processGraphic(
 		if (payload.repeats.async) seq.async();
 	}
 
-	// if (payload.repeats)
-	// if (payload.reflection)
+	if (payload.reflection) {
+		if (payload.reflection.x === 'always') {
+			seq.mirrorX();
+		} else if (payload.reflection.x === 'random') {
+			seq.randomizeMirrorX();
+		}
+		if (payload.reflection.y === 'always') {
+			seq.mirrorY();
+		} else if (payload.reflection.y === 'random') {
+			seq.randomizeMirrorY();
+		}
+	}
+
 	// if (payload.rotation)
 
 	if (payload.visibility) {
@@ -96,15 +107,12 @@ function processGraphic(
 
 	if (payload.size) {
 		if (payload.size.type === 'directed') {
-			seq.stretchTo(
-				positionToArgument(payload.size.endpoint, data),
-				{
-					hideLineOfSight: payload.size.requiresLineOfSight === 'hide',
-					requiresLineOfSight: payload.size.requiresLineOfSight === 'terminate',
-					onlyX: payload.size.stretch ?? false,
-					tiling: payload.size.tile ?? false,
-				},
-			);
+			seq.stretchTo(positionToArgument(payload.size.endpoint, data), {
+				hideLineOfSight: payload.size.requiresLineOfSight === 'hide',
+				requiresLineOfSight: payload.size.requiresLineOfSight === 'terminate',
+				onlyX: payload.size.stretch ?? false,
+				tiling: payload.size.tile ?? false,
+			});
 
 			// TODO: Implement
 			// throw ErrorMsg.send('pf2e-graphics.execute.common.error.unimplemented', {
@@ -170,7 +178,10 @@ function processGraphic(
 					}
 					placeable = positionToArgument(firstPlaceable, data);
 				}
-				if (placeable instanceof CONFIG.Token.objectClass || placeable instanceof CONFIG.Token.documentClass) {
+				if (
+					placeable instanceof CONFIG.Token.objectClass
+					|| placeable instanceof CONFIG.Token.documentClass
+				) {
 					if (placeable instanceof CONFIG.Token.documentClass) {
 						placeable = placeable.object as TokenPF2e;
 					}
@@ -231,7 +242,10 @@ function processGraphic(
 							if (payload.size.scaling) seq.scale(payload.size.scaling);
 						}
 					}
-				} else if (placeable instanceof MeasuredTemplate || placeable instanceof MeasuredTemplateDocument) {
+				} else if (
+					placeable instanceof MeasuredTemplate
+					|| placeable instanceof MeasuredTemplateDocument
+				) {
 					seq.scaleToObject(payload.size.scaling ?? 1, {
 						uniform: !!payload.size.uniform,
 					});
