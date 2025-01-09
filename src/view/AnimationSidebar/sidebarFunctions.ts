@@ -128,8 +128,7 @@ export function popupCreateAnimation(mode: 'make' | 'copy' = 'make', animation?:
 		{
 			title: i18n('pf2e-graphics.sidebar.animationSets.create.animationSet.popup.title'),
 			content: {
-				// @ts-expect-error TJS-2-TS Fix in the next update maybe?
-				class: CreateAnimation,
+				class: CreateAnimation, // VSCode complains but vite-checker does not. No idea.
 				props: {
 					mode,
 					animation,
