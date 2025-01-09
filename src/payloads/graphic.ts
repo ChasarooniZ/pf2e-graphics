@@ -68,6 +68,11 @@ function processGraphic(
 
 	if (payload.waitUntilFinished) seq.waitUntilFinished(...parseMinMaxObject(payload.waitUntilFinished));
 
+	if (payload.repeats) {
+		seq.repeats(payload.repeats.count, ...parseMinMaxObject(payload.repeats.delay));
+		if (payload.repeats.async) seq.async();
+	}
+
 	// if (payload.repeats)
 	// if (payload.reflection)
 	// if (payload.rotation)
