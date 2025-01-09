@@ -53,7 +53,7 @@ function plugins(mode: string): PluginOption[] {
 		getAnimationsPlugin(),
 		Sonda({
 			sources: true,
-			enabled: false, // Toggle manually to preview package size until I figure out how to do this from npm scripts
+			enabled: !!process.env.SONDA, // Toggle manually to preview package size until I figure out how to do this from npm scripts
 		}),
 	];
 }
