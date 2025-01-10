@@ -142,6 +142,6 @@ export function popupCreateAnimation(mode: 'make' | 'copy' = 'make', animation?:
 			left: sidebarRect.x - 310,
 			top: sidebarRect.y - 5,
 			width: 300,
-		} as ConstructorParameters<typeof TJSDialog>[1], // TODO: Fix in TJS 0.2.0
+		},
 	).render(true, { focus: true });
 }

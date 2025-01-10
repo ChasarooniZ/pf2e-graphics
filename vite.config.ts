@@ -28,7 +28,7 @@ function plugins(mode: string): PluginOption[] {
 		: {};
 
 	return [
-		checker({ typescript: true, enableBuild: false }),
+		checker({ typescript: true, enableBuild: true }),
 		tsconfigPaths(),
 		svelte({
 			compilerOptions,
