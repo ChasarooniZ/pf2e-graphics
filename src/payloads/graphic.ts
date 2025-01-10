@@ -163,20 +163,41 @@ function processGraphic(
 
 	if (payload.size) {
 		if (payload.size.type === 'directed') {
-			seq.stretchTo(positionToArgument(payload.size.endpoint, data), {
-				hideLineOfSight: payload.size.requiresLineOfSight === 'hide',
-				requiresLineOfSight: payload.size.requiresLineOfSight === 'terminate',
-				onlyX: payload.size.stretch ?? false,
-				tiling: payload.size.tile ?? false,
-			});
+			const options: Parameters<typeof seq.stretchTo>[1] = {
+				attachTo: payload.size.attach,
+				onlyX: payload.size.stretch,
+				tiling: payload.size.tile,
+			};
 
-			// TODO: Implement
-			// throw ErrorMsg.send('pf2e-graphics.execute.common.error.unimplemented', {
-			// 	payloadType: 'graphic',
-			// 	unimplemented: '<code>size.type: "directed"</code>',
-			// });
+			if (payload.size.requiresLineOfSight) {
+				options.requiresLineOfSight = true;
+				if (payload.size.requiresLineOfSight === 'hide') {
+					options.hideLineOfSight = true;
+				} else if (payload.size.requiresLineOfSight !== 'terminate') {
+					throw ErrorMsg.send('pf2e-graphics.execute.common.error.unknownDiscriminatedUnionValue', {
+						payloadType: 'graphic',
+						property: 'size.requiresLineOfSight',
+					});
+				}
+			}
+
+			if (payload.rotation) {
+				if (payload.rotation.type !== 'directed') {
+					throw ErrorMsg.send('pf2e-graphics.execute.common.error.incompatibleValue', {
+						payloadType: 'graphic',
+						property1: 'size.type',
+						property2: 'rotation.type',
+					});
+				}
+				options.offset = offsetToVector2(payload.rotation.offset);
+				options.randomOffset = payload.rotation.randomOffset;
+				options.local = payload.rotation.local;
+				options.gridUnits = payload.rotation.gridUnits;
+			}
+
+			seq.stretchTo(positionToArgument(payload.size.endpoint, data), options);
 		} else {
-			// #region Common properties
+			// #region Common (`sizeBaseObject`) properties
 			if (payload.size.spriteScale) seq.spriteScale(...parseMinMaxObject(payload.size.spriteScale));
 
 			// TODO: check this actually works as expected
@@ -194,7 +215,6 @@ function processGraphic(
 				});
 			}
 			// #endregion
-
 			if (payload.size.type === 'absolute') {
 				if (payload.size.width || payload.size.height) {
 					seq.size(
