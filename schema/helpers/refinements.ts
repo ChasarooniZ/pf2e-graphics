@@ -1,3 +1,5 @@
+import { pluralise } from './utils';
+
 /**
  * Zod refinement to ensure a numeric value isn't zero.
  */
@@ -9,14 +11,23 @@ export const nonZero: [(num: number) => boolean, string] = [
 /**
  * Zod refinement to ensure an object has at least one property.
  */
-export const nonEmpty: [(obj: object) => boolean, string] = [
-	(obj) => {
-		// eslint-disable-next-line no-unreachable-loop
-		for (const _key in obj) return true; // This is simply most performant ¯\_(ツ)_/¯
-		return false;
-	},
-	'Object must not be empty.',
-];
+export const nonEmpty = minimumProperties(1);
+
+/**
+ * Generator for a Zod refinement that ensures an object has at least `minimum` properties.
+ */
+export function minimumProperties(minimum: number): [(obj: object) => boolean, string] {
+	return [
+		(obj) => {
+			let count = 0;
+			for (const _key in obj) {
+				if (++count === minimum) return true;
+			}
+			return false;
+		},
+		`Object must have at least ${minimum} ${pluralise('property', minimum)}.`,
+	];
+}
 
 /**
  * Zod refinement to ensure an array has no duplicate elements (not perfect, but good enough).
