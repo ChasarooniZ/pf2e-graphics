@@ -40,6 +40,7 @@ export default antfu(
 	{
 		files: ['**/*.svelte'],
 		rules: {
+			'no-undef-init': 'off',
 			'no-self-assign': 'off',
 		},
 	},
