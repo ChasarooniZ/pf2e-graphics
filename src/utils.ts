@@ -1,5 +1,6 @@
 /* eslint-disable no-prototype-builtins */
 
+import type { SvelteApp } from '@typhonjs-fvtt/runtime/svelte/application';
 import type { ActorPF2e, UserPF2e } from 'foundry-pf2e';
 
 /* eslint-disable no-console */
@@ -249,7 +250,7 @@ export function mergeObjectsConcatArrays<T extends MergeableObject, U extends Me
  * @param buttons An array of application header buttons.
  * @returns An array of application header buttons with the Ko-fi donation button in index `0`.
  */
-export function kofiButton(buttons: ApplicationHeaderButton[]): ApplicationHeaderButton[] {
+export function kofiButton(buttons: SvelteApp.HeaderButton[]): SvelteApp.HeaderButton[] {
 	buttons.unshift({
 		icon: 'fas fa-mug-hot ko-fi',
 		class: 'hover:underline',
