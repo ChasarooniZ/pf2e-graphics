@@ -1,5 +1,6 @@
 <script lang='ts'>
 	import type { AnimationSetContentsItem } from 'schema/payload';
+	import { TJSDialog } from '@typhonjs-fvtt/runtime/svelte/application';
 
 	export let selection: number | string;
 	export let section: AnimationSetContentsItem;
@@ -10,6 +11,19 @@
 		if (!section.contents) section.contents = [];
 		section.contents.push({});
 		section = section;
+	}
+
+	function deleteSection(e: MouseEvent) {
+		if (e.shiftKey) {
+			deleteFn(index);
+		} else {
+			TJSDialog.confirm({
+				modal: true,
+				title: 'Confirm Deletion',
+				content: 'Are you sure you want to delete this section?<p/><b>All data will be lost.</b>',
+				onYes: () => { deleteFn(index); },
+			});
+		}
 	}
 </script>
 
@@ -33,10 +47,10 @@
 				Section {index}
 			{/if}
 		</span>
-		<button on:click={addContent} class='size-min text-xs mx-0.5 p-0 px-1'>
+		<button on:click|stopPropagation={addContent} class='size-min text-xs mx-0.5 p-0 px-1'>
 			<i class='fa fa-plus fa-fw m-0 p-0'></i>
 		</button>
-		<button on:click={() => deleteFn(index)} class='size-min text-xs mx-0.5 p-0 px-1'>
+		<button on:click|stopPropagation={deleteSection} class='size-min text-xs mx-0.5 p-0 px-1'>
 			<i class='fa fa-trash fa-fw m-0 p-0'></i>
 		</button>
 	</div>
