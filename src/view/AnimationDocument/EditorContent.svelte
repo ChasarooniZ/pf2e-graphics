@@ -4,7 +4,7 @@
 	import type { AnimationSetDocument } from 'src/extensions';
 	import { TJSDialog } from '#runtime/svelte/application';
 	import { TJSDocument } from '#runtime/svelte/store/fvtt/document';
-	import { ErrorMsg, log } from 'src/utils';
+	import { ErrorMsg, isTrueish, log } from 'src/utils';
 	import Svelecte from 'svelecte';
 	import { Animation, Crosshair, Graphic, Macro, Sound } from './execute';
 
@@ -65,9 +65,9 @@
 
 	function checkIfEmpty(object: object) {
 		const entries = Object.entries(object)
-			.filter(x => Array.isArray(x[1]) ? x[1].length > 0 : false)
-			.filter(x => x[0] !== 'type');
-
+			.filter(x => Array.isArray(x[1]) ? x[1].length > 0 : true)
+			.filter(x => x[0] !== 'type')
+			.filter(x => isTrueish(x[1]));
 		return entries.length === 0;
 	}
 </script>
@@ -86,7 +86,7 @@
 				class='grow h-8'
 				bind:value={selection}
 			>
-				{#each ['Name', 'Triggers', 'Predicates', 'Removes', 'Execute'].filter(x => !Object.keys(data).includes(x.toLowerCase())) as section}
+				{#each ['Execute', 'Name', 'Triggers', 'Predicates', 'Removes'].filter(x => !Object.keys(data).includes(x.toLowerCase())) as section}
 					<option value={section.toLowerCase()}>{section}</option>
 				{/each}
 			</select>

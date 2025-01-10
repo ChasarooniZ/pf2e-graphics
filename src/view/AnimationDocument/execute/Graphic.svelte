@@ -58,23 +58,29 @@
 				<i class='fa fa-info-circle pl-px'></i>
 			</span>
 			<div class='flex align-middle items-center col-span-2'>
-				<select
+				<input
 					disabled={readonly}
-					value={data.execute.persistent}
+					type='checkbox'
+					checked={Boolean(data.execute?.persistent)}
 					on:change={(e) => {
-						// @ts-expect-error
-						if (data.execute?.persistent === '') {
+						if (!data?.execute) return;
+						if (e.currentTarget.checked) {
+							data.execute.persistent = 'canvas';
+						} else {
 							delete data.execute.persistent;
-						} else if (data?.execute) {
-							// @ts-expect-error SVELTE 5 WHEN
-							data.execute.persistent = e.currentTarget.value;
-						};
+						}
+						data = data;
 					}}
-				>
-					<option value=''>No</option>
-					<option value='canvas'>Canvas</option>
-					<option value='tokenPrototype'>Token Prototype</option>
-				</select>
+				/>
+				{#if data.execute?.persistent}
+					<select
+						disabled={readonly || !data.execute.persistent}
+						bind:value={data.execute.persistent}
+					>
+						<option value='canvas'>Canvas</option>
+						<option value='tokenPrototype'>Token Prototype</option>
+					</select>
+				{/if}
 			</div>
 		</label>
 		<!-- #endregion -->
