@@ -31,22 +31,52 @@ function processGraphic(
 	// TODO: Handling of `.copySprite()` and antialiasing
 	const seq = new Sequence().effect().file(AnimCore.parseFiles(payload.graphic));
 
-	if (position.type === 'static') {
-		seq.atLocation(positionToArgument(position.location, data));
-		// TODO:
-	} else if (position.type === 'dynamic') {
-		seq.attachTo(positionToArgument(position.location, data));
-		// TODO:
-	} else if (position.type === 'screenSpace') {
+	if (position.type === 'screenSpace') {
 		seq.screenSpace();
 		if (position.aboveUI) seq.screenSpaceAboveUI();
 		if (position.anchor) seq.screenSpaceAnchor(offsetToVector2(position.anchor));
 		if (position.offset) seq.screenSpacePosition(offsetToVector2(position.offset));
 	} else {
-		throw ErrorMsg.send('pf2e-graphics.execute.common.error.unknownDiscriminatedUnionValue', {
-			payloadType: 'graphic',
-			property: 'position[].type',
-		});
+		// #region Common (`positionBaseObject`) properties
+		if (position.missed) seq.missed();
+		if (position.spriteOffset) {
+			seq.spriteOffset(offsetToVector2(position.spriteOffset), {
+				gridUnits: position.spriteOffset.gridUnits,
+			});
+		}
+		const options: Parameters<typeof seq.attachTo>[1] = {
+			randomOffset: position.randomOffset,
+			offset: offsetToVector2(position.offset),
+			local: position.local,
+			gridUnits: position.gridUnits,
+		};
+		// #endregion
+		if (position.type === 'static') {
+			seq.atLocation(positionToArgument(position.location, data), options);
+			if (position.moveTowards) {
+				seq.moveTowards(
+					positionToArgument(position.moveTowards.target, data),
+					// @ts-expect-error TODO: Sequencer type should only have `ease`, no `target`
+					{ ease: position.moveTowards.ease },
+				);
+				if (position.moveTowards.speed) seq.moveSpeed(position.moveTowards.speed);
+			}
+		} else if (position.type === 'dynamic') {
+			options.align = position.align;
+			options.edge = position.edge;
+			options.bindVisibility = !position.unbindVisibility;
+			options.bindAlpha = !position.unbindAlpha;
+			// @ts-expect-error TODO: sequencer types (documentation sometimes uses `followRotation`?)
+			options.bindRotation = !position.ignoreRotation;
+			options.bindScale = !position.unbindScale;
+			options.bindElevation = !position.unbindElevation;
+			seq.attachTo(positionToArgument(position.location, data), options);
+		} else {
+			throw ErrorMsg.send('pf2e-graphics.execute.common.error.unknownDiscriminatedUnionValue', {
+				payloadType: 'graphic',
+				property: 'position[].type',
+			});
+		}
 	}
 
 	if (payload.name) seq.name(payload.name);
@@ -86,61 +116,57 @@ function processGraphic(
 		}
 	}
 
-	if (payload.rotation) {
-		if (payload.rotation.type === 'directed') {
-			// Handled in the section for `payload.size.type === 'directed'`
-		} else {
-			// #region Common (`rotationBaseObject`) properties
-			if (payload.rotation.spinIn) {
-				seq.rotateIn(
-					payload.rotation.spinIn.initialAngle,
-					payload.rotation.spinIn.duration,
-					payload.rotation.spinIn,
-				);
-			}
-			if (payload.rotation.spinOut) {
-				seq.rotateOut(
-					payload.rotation.spinOut.finalAngle,
-					payload.rotation.spinOut.duration,
-					payload.rotation.spinOut,
-				);
-			}
-			if (payload.rotation.spriteAngle) {
-				if (typeof payload.rotation.spriteAngle === 'number') {
-					seq.spriteRotation(payload.rotation.spriteAngle);
-				} else if (payload.rotation.spriteAngle === 'random') {
-					// @ts-expect-error TODO: add Sequencer type
-					seq.randomSpriteRotation();
-				} else if (payload.rotation.spriteAngle === 'none') {
-					seq.zeroSpriteRotation();
-				} else {
-					throw ErrorMsg.send('pf2e-graphics.execute.common.error.unknownDiscriminatedUnionValue', {
-						payloadType: 'graphic',
-						property: 'rotation.spriteAngle',
-					});
-				}
-			}
-			// #endregion
-			if (payload.rotation.type === 'absolute') {
-				if (payload.rotation.angle) {
-					if (payload.rotation.angle === 'random') {
-						seq.randomRotation();
-					} else {
-						seq.rotate(payload.rotation.angle);
-					}
-				}
-			} else if (payload.rotation.type === 'relative') {
-				seq.rotateTowards(positionToArgument(payload.rotation.target, data), {
-					...payload.rotation,
-					attachTo: payload.rotation.attach ?? false,
-					offset: offsetToVector2(payload.rotation.offset ?? {}),
-				});
+	if (payload.rotation && payload.rotation.type !== 'directed') {
+		// #region Common (`rotationBaseObject`) properties
+		if (payload.rotation.spinIn) {
+			seq.rotateIn(
+				payload.rotation.spinIn.initialAngle,
+				payload.rotation.spinIn.duration,
+				payload.rotation.spinIn,
+			);
+		}
+		if (payload.rotation.spinOut) {
+			seq.rotateOut(
+				payload.rotation.spinOut.finalAngle,
+				payload.rotation.spinOut.duration,
+				payload.rotation.spinOut,
+			);
+		}
+		if (payload.rotation.spriteAngle) {
+			if (typeof payload.rotation.spriteAngle === 'number') {
+				seq.spriteRotation(payload.rotation.spriteAngle);
+			} else if (payload.rotation.spriteAngle === 'random') {
+				// @ts-expect-error TODO: add Sequencer type
+				seq.randomSpriteRotation();
+			} else if (payload.rotation.spriteAngle === 'none') {
+				seq.zeroSpriteRotation();
 			} else {
 				throw ErrorMsg.send('pf2e-graphics.execute.common.error.unknownDiscriminatedUnionValue', {
 					payloadType: 'graphic',
-					property: 'rotation.type',
+					property: 'rotation.spriteAngle',
 				});
 			}
+		}
+		// #endregion
+		if (payload.rotation.type === 'absolute') {
+			if (payload.rotation.angle) {
+				if (payload.rotation.angle === 'random') {
+					seq.randomRotation();
+				} else {
+					seq.rotate(payload.rotation.angle);
+				}
+			}
+		} else if (payload.rotation.type === 'relative') {
+			seq.rotateTowards(positionToArgument(payload.rotation.target, data), {
+				...payload.rotation,
+				attachTo: payload.rotation.attach ?? false,
+				offset: offsetToVector2(payload.rotation.offset ?? {}),
+			});
+		} else {
+			throw ErrorMsg.send('pf2e-graphics.execute.common.error.unknownDiscriminatedUnionValue', {
+				payloadType: 'graphic',
+				property: 'rotation.type',
+			});
 		}
 	}
 
@@ -199,7 +225,6 @@ function processGraphic(
 		} else {
 			// #region Common (`sizeBaseObject`) properties
 			if (payload.size.spriteScale) seq.spriteScale(...parseMinMaxObject(payload.size.spriteScale));
-
 			// TODO: check this actually works as expected
 			if (payload.size.scaleIn) {
 				seq.scaleIn(payload.size.scaleIn.initialScale, payload.size.scaleIn.duration, {
@@ -207,7 +232,6 @@ function processGraphic(
 					delay: payload.size.scaleIn.delay || 0,
 				});
 			}
-
 			if (payload.size.scaleOut) {
 				seq.scaleOut(payload.size.scaleOut.finalScale, payload.size.scaleOut.duration, {
 					ease: payload.size.scaleOut.ease,
