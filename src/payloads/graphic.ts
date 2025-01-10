@@ -86,7 +86,63 @@ function processGraphic(
 		}
 	}
 
-	// if (payload.rotation)
+	if (payload.rotation) {
+		if (payload.rotation.type === 'directed') {
+			// Handled in the section for `payload.size.type === 'directed'`
+		} else {
+			// #region Common (`rotationBaseObject`) properties
+			if (payload.rotation.spinIn) {
+				seq.rotateIn(
+					payload.rotation.spinIn.initialAngle,
+					payload.rotation.spinIn.duration,
+					payload.rotation.spinIn,
+				);
+			}
+			if (payload.rotation.spinOut) {
+				seq.rotateOut(
+					payload.rotation.spinOut.finalAngle,
+					payload.rotation.spinOut.duration,
+					payload.rotation.spinOut,
+				);
+			}
+			if (payload.rotation.spriteAngle) {
+				if (typeof payload.rotation.spriteAngle === 'number') {
+					seq.spriteRotation(payload.rotation.spriteAngle);
+				} else if (payload.rotation.spriteAngle === 'random') {
+					// @ts-expect-error TODO: add Sequencer type
+					seq.randomSpriteRotation();
+				} else if (payload.rotation.spriteAngle === 'none') {
+					seq.zeroSpriteRotation();
+				} else {
+					throw ErrorMsg.send('pf2e-graphics.execute.common.error.unknownDiscriminatedUnionValue', {
+						payloadType: 'graphic',
+						property: 'rotation.spriteAngle',
+					});
+				}
+			}
+			// #endregion
+			if (payload.rotation.type === 'absolute') {
+				if (payload.rotation.angle) {
+					if (payload.rotation.angle === 'random') {
+						seq.randomRotation();
+					} else {
+						seq.rotate(payload.rotation.angle);
+					}
+				}
+			} else if (payload.rotation.type === 'relative') {
+				seq.rotateTowards(positionToArgument(payload.rotation.target, data), {
+					...payload.rotation,
+					attachTo: payload.rotation.attach ?? false,
+					offset: offsetToVector2(payload.rotation.offset ?? {}),
+				});
+			} else {
+				throw ErrorMsg.send('pf2e-graphics.execute.common.error.unknownDiscriminatedUnionValue', {
+					payloadType: 'graphic',
+					property: 'rotation.type',
+				});
+			}
+		}
+	}
 
 	if (payload.visibility) {
 		if (payload.visibility.opacity) seq.opacity(payload.visibility.opacity);

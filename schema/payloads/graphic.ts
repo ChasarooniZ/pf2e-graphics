@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { effectOptions } from '.';
 import { angle, easing, hexColour, ID, UUID } from '../helpers/atoms';
-import { nonEmpty, nonZero, uniqueItems } from '../helpers/refinements';
+import { minimumProperties, nonEmpty, nonZero, uniqueItems } from '../helpers/refinements';
 import {
 	easingOptions,
 	playableFile,
@@ -44,10 +44,10 @@ const rotationBaseObject = z.object({
 			'Causes the graphic to spin from its defined angle to a final one when it is about to finish executing.',
 		),
 	spriteAngle: angle
-		.or(z.enum(['random', 'NONE']))
+		.or(z.enum(['random', 'none']))
 		.optional()
 		.describe(
-			'An angle in degrees (°) to rotate the graphic within its container/bounding box. Alternatively, use the value `"random"` to set a random sprite rotation on each execution. The value `"NONE"`, lastly, prevents the graphic from rotating, even if its container does (see `varyProperties`).\nOnly use this if you know what you\'re doing; it can make the graphic hard to select in the Effect Manager, and often you\'ll only need a regular rotation anyway.',
+			'An angle in degrees (°) to rotate the graphic within its container/bounding box. Alternatively, use the value `"random"` to set a random sprite rotation on each execution. The value `"none"`, lastly, prevents the graphic from rotating, even if its container does (see `varyProperties`).\nOnly use this if you know what you\'re doing; it can make the graphic hard to select in the Effect Manager, and often you\'ll only need a regular rotation anyway.',
 		),
 });
 
@@ -687,13 +687,8 @@ export const graphicPayload = effectOptions
 					})
 					.strict(),
 			])
+			.refine(...minimumProperties(2))
 			.superRefine((obj, ctx) => {
-				if (Object.keys(obj).length <= 1) {
-					ctx.addIssue({
-						code: z.ZodIssueCode.custom,
-						message: 'Object must have `type` and at least one other property.',
-					});
-				}
 				if (obj.type === 'relative' && obj.offset) {
 					const keysNeedingOffset = ['randomOffset', 'local', 'gridUnits'].filter(key => key in obj);
 					if (keysNeedingOffset.length) {
@@ -707,7 +702,7 @@ export const graphicPayload = effectOptions
 			})
 			.optional()
 			.describe(
-				'Controls the rotation of the graphic. You can either define an independent rotation (`"type": "absolute"`), or rotate relative to another point or object (`"type": "relative"`). If you\'ve set `"type": "directed"` in `size`, you can fine-tune the rotation here.',
+				'Controls the rotation of the graphic. You can either define a rotation independent of the canvas state (`"type": "absolute"`), or rotate the graphic relative to a point or placeable (`"type": "relative"`). If you\'ve set `"type": "directed"` in `size`, you can fine-tune the rotation here using the same `type`.',
 			),
 		visibility: z
 			.object({
