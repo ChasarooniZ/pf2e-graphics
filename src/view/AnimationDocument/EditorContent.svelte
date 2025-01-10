@@ -1,4 +1,5 @@
 <script lang='ts'>
+	import type { MacroPF2e } from 'foundry-pf2e';
 	import type { AnimationSetContentsItem } from 'schema/payload';
 	import type { AnimationSetDocument } from 'src/extensions';
 	import { TJSDialog } from '#runtime/svelte/application';
@@ -51,14 +52,14 @@
 		}
 	}
 
-	const macroDoc = new TJSDocument<Macro>();
+	const macroDoc = new TJSDocument<MacroPF2e>();
 	function onDrop(event: DragEvent) {
 		if (readonly || data.execute?.type !== 'macro') return;
 		try {
 			const transfer = event.dataTransfer?.getData('text/plain');
 			if (transfer) macroDoc.setFromDataTransfer(JSON.parse(transfer));
-			if ($macroDoc.collectionName !== 'macros') throw ErrorMsg.send('This isn\'t a macro!'); // TODO: i18n
-			data.execute.document = $macroDoc.uuid;
+			if (macroDoc.get()?.collectionName !== 'macros') throw ErrorMsg.send('This isn\'t a macro!'); // TODO: i18n
+			data.execute.document = macroDoc.get()?.uuid;
 		} catch {}
 	}
 
@@ -294,16 +295,26 @@
 				</label>
 				<hr class='mx-1' />
 				<div class='p-1 pb-2'>
+					<!--
+						The ts-ignores below are an absolute hack that should be
+						removed when Svelte 5 comes around with TS support in Svelte markup.
+					 	See https://github.com/sveltejs/language-tools/issues/1026
+					-->
 					{#if data.execute.type === 'graphic'}
-						<Graphic bind:dataO={data} {readonly} />
+						{true && /* @ts-ignore */ ''}
+						<Graphic bind:data={data} {readonly} />
 					{:else if data.execute.type === 'animation'}
-						<Animation bind:dataO={data} {readonly} />
+						{true && /* @ts-ignore */ ''}
+						<Animation bind:data={data} {readonly} />
 					{:else if data.execute.type === 'sound'}
-						<Sound bind:dataO={data} {readonly} />
+						{true && /* @ts-ignore */ ''}
+						<Sound bind:data={data} {readonly} />
 					{:else if data.execute.type === 'crosshair'}
-						<Crosshair bind:dataO={data} {readonly} />
+						{true && /* @ts-ignore */ ''}
+						<Crosshair bind:data={data} {readonly} />
 					{:else if data.execute.type === 'macro'}
-						<Macro bind:dataO={data} {readonly} />
+						{true && /* @ts-ignore */ ''}
+						<Macro bind:data={data} {readonly} />
 					{/if}
 				</div>
 			</section>

@@ -2,10 +2,8 @@
 	import type { AnimationSetContentsItem } from 'schema/payload';
 	import Svelecte from 'svelecte';
 
-	export let dataO: AnimationSetContentsItem;
+	export let data: AnimationSetContentsItem<'crosshair'>;
 	export let readonly: boolean;
-
-	$: data = dataO as AnimationSetContentsItem<'crosshair'>;
 
 	// TODO: .location, .borderColor, .fillColor, .icon
 

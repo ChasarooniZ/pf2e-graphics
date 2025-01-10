@@ -1,10 +1,8 @@
 <script lang='ts'>
 	import type { AnimationSetContentsItem } from 'schema/payload';
 
-	export let dataO: AnimationSetContentsItem;
+	export let data: AnimationSetContentsItem<'graphic'>;
 	export let readonly: boolean;
-
-	$: data = dataO as AnimationSetContentsItem<'graphic'>;
 
 	// @ts-expect-error TODO: Sequencer Types
 	const entries: string[] = window.Sequencer.Database.publicFlattenedSimpleEntries;
@@ -13,7 +11,9 @@
 </script>
 {#if !data.execute}
 	{#if !readonly}
-		<p><em>Attempted to render a 'graphic' execute section without an execute object present.</em></p>
+		<p>
+			<em>Attempted to render a 'graphic' execute section without an execute object present.</em>
+		</p>
 	{/if}
 {:else}
 	<div class='space-y-2'>

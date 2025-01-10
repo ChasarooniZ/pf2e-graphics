@@ -1,10 +1,8 @@
 <script lang='ts'>
 	import type { AnimationSetContentsItem } from 'schema/payload';
 
-	export let dataO: AnimationSetContentsItem;
+	export let data: AnimationSetContentsItem<'sound'>;
 	export let readonly: boolean;
-
-	$: data = dataO as AnimationSetContentsItem<'sound'>;
 </script>
 {#if !data.execute}
 	{#if !readonly}
