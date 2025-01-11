@@ -6,7 +6,10 @@ import { derived } from 'svelte/store';
 
 const ignoredWords = ['item:slug:'];
 
-export function initVariables(): Readable<AnimationSetDocument[]> {
+export function initVariables(): {
+	animations: Readable<AnimationSetDocument[]>;
+	userDisabled: Readable<Record<string, string[]>>;
+} {
 	const userDocs = game.users.map(x => new TJSDocument(x));
 	const users: Readable<UserAnimationSetDocument[]> = derived(userDocs, $userDocs =>
 		$userDocs.flatMap(user =>
@@ -34,8 +37,22 @@ export function initVariables(): Readable<AnimationSetDocument[]> {
 			})),
 	);
 
-	const world: Readable<WorldAnimationSetDocument[]>
-		= window.pf2eGraphics.storeSettings.getReadableStore('globalAnimations');
+	const world: Readable<WorldAnimationSetDocument[]> = window.pf2eGraphics.storeSettings.getReadableStore('globalAnimations')!;
 
-	return derived([users, module, world], ([$users, $module, $world]) => [...$users, ...$world, ...$module]);
+	return {
+		animations: derived(
+			[users, module, world],
+			([$users, $module, $world]) => [...$users, ...$world, ...$module],
+		),
+		userDisabled: derived(
+			userDocs,
+			($userDocs) => {
+				const obj: Record<string, string[]> = {};
+				for (const userDoc of $userDocs) {
+					obj[userDoc.id] = userDoc.getFlag('pf2e-graphics', 'disabledAnimations') as string[] || [];
+				}
+				return obj;
+			},
+		),
+	};
 }

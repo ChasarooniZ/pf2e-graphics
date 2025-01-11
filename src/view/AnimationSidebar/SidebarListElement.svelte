@@ -1,12 +1,14 @@
 <script lang='ts'>
 	import type { AnimationSetDocument } from 'src/extensions';
+	import type { Readable } from 'svelte/store';
 	import { TJSContextMenu } from '@typhonjs-fvtt/standard/application/menu';
-	import { i18n } from 'src/utils';
+	import { i18n, info } from 'src/utils';
 	import { slide } from 'svelte/transition';
 	import { copyAnimation, openAnimation, removeAnimation } from './sidebarFunctions';
 
 	export let item: AnimationSetDocument;
 	export let index: number;
+	export let hidden: { global: Readable<string[]>; user: Readable<Record<string, string[]>>	};
 
 	function moduleIDToName(id: string): string {
 		const module = game.modules.get(id)!;
@@ -19,6 +21,10 @@
 			y: Math.ceil(bounds.bottom + 1 || 0),
 			x: Math.ceil(bounds.left + 1 || 0),
 		};
+		const disabledUserAnimations = game.user.getFlag('pf2e-graphics', 'disabledAnimations') as string[] || [];
+		const disabledUser = disabledUserAnimations.includes(animation.rollOption);
+		const disabledGlobalAnimations = window.pf2eGraphics.liveSettings.globalDisabledAnimations;
+		const disabledGlobal = disabledGlobalAnimations.includes(animation.rollOption);
 
 		const items = [
 			{
@@ -42,7 +48,60 @@
 				label: 'Duplicate',
 				onPress: () => copyAnimation(animation),
 			},
+			{
+				icon: 'fa fa-eye-slash',
+				label: disabledUser ? 'Enable' : 'Disable',
+				onPress: () => {
+					if (disabledUser) {
+						game.user.setFlag(
+							'pf2e-graphics',
+							'disabledAnimations',
+							disabledUserAnimations.filter(x => x !== animation.rollOption),
+						).then(() => {
+							// TODO: i18n
+							info(`You will now see <code>${animation.rollOption}</code> animations.`);
+						});
+					} else {
+						game.user.setFlag(
+							'pf2e-graphics',
+							'disabledAnimations',
+							disabledUserAnimations.concat([animation.rollOption]),
+						).then(() => {
+							// TODO: i18n
+							info(`You will no longer see <code>${animation.rollOption}</code> animations.`);
+						});
+					}
+				},
+			},
 		];
+
+		if (game.user.isGM) {
+			items.push({
+				icon: 'fa fa-ban',
+				label: `${disabledGlobal ? 'Enable' : 'Disable'} for Everyone`,
+				onPress: () => {
+					if (disabledGlobal) {
+						game.settings.set(
+							'pf2e-graphics',
+							'globalDisabledAnimations',
+							disabledGlobalAnimations.filter(x => x !== animation.rollOption),
+						).then(() => {
+							// TODO: i18n
+							info(`The <code>${animation.rollOption}</code> animations will no longer be displayed.`);
+						});
+					} else {
+						game.settings.set(
+							'pf2e-graphics',
+							'globalDisabledAnimations',
+							disabledGlobalAnimations.concat([animation.rollOption]),
+						).then(() => {
+							// TODO: i18n
+							info(`The <code>${animation.rollOption}</code> animations will no longer be displayed.`);
+						});
+					}
+				},
+			});
+		}
 
 		if (animation.source !== 'module') {
 			items.push({
@@ -62,6 +121,13 @@
 			items,
 		});
 	}
+
+	const { user, global } = hidden;
+	$: users = Object.entries($user)
+		.filter(x => x[1].includes(item.rollOption))
+		.map(x => window.game.users.get(x[0])?.name)
+		.join(', ');
+	$: hiddenToYou = users.includes(game.user.name) || $global.includes(item.rollOption);
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
@@ -79,9 +145,17 @@
 		border-0 first:border-t border-b
 		border-black border-solid
 		text-left w-full
+		{hiddenToYou ? 'text-white/50' : ''}
 	'
 >
 	<aside class='absolute right-0 top-0 m-1'>
+		{#if $global.includes(item.rollOption) && Object.values($user).flat().includes(item.rollOption)}
+			<i data-tooltip={i18n('pf2e-graphics.disabled.both', { users })} class='fas fa-eye-slash'></i>
+		{:else if $global.includes(item.rollOption)}
+			<i data-tooltip={i18n('pf2e-graphics.disabled.global')} class='fas fa-eye-slash'></i>
+		{:else if Object.values($user).flat().includes(item.rollOption)}
+			<i data-tooltip={i18n('pf2e-graphics.disabled.users', { users })} class='fas fa-eye-slash'></i>
+		{/if}
 		{#if item.source === 'module'}
 			{#if item.module === 'pf2e-graphics'}
 				<i data-tooltip={i18n('pf2e-graphics.scopes.full.core')} class='fas fa-cube'></i>

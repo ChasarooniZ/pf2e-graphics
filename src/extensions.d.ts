@@ -3,7 +3,7 @@ import type { TJSSessionStorage } from '@typhonjs-fvtt/runtime/svelte/store/web-
 import type { saveDataToFile } from 'foundry-pf2e/foundry/client/core/utils.js';
 import type { Writable } from 'svelte/store';
 import type { AnimationSet, ModuleDataObject } from '../schema';
-import type { liveSettings } from './settings';
+import type { liveSettings, storeSettingsType } from './settings';
 import type { AnimationHistoryObject, AnimCore } from './storage/AnimCore';
 
 export type CombinedSvelteApplicationOptions = ApplicationOptions & SvelteApplicationOptions;

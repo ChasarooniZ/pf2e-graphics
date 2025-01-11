@@ -10,6 +10,7 @@ let settings: TJSLiveGameSettings & {
 	buttonPosition: 0 | 1 | 2;
 	dev: boolean;
 	globalAnimations: WorldAnimationSetDocument[];
+	globalDisabledAnimations: string[];
 	suppressWarnings: boolean;
 	volume: number;
 	delay: number;
@@ -27,6 +28,19 @@ const settingsData = [
 		options: {
 			name: 'pf2e-graphics.settings.globalAnimations.name',
 			hint: 'pf2e-graphics.settings.globalAnimations.hint',
+			scope: 'world',
+			config: false,
+			type: Array,
+			default: [],
+		},
+	},
+	{
+		namespace: 'pf2e-graphics',
+		key: 'globalDisabledAnimations',
+		folder: 'PF2e Graphics',
+		options: {
+			name: 'pf2e-graphics.settings.globalDisabledAnimations.name',
+			hint: 'pf2e-graphics.settings.globalDisabledAnimations.hint',
 			scope: 'world',
 			config: false,
 			type: Array,

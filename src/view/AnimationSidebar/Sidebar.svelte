@@ -12,13 +12,22 @@
 	let list: Readable<AnimationSetDocument[]> = readable([]);
 	const unhook = Hooks.on('pf2eGraphicsReady', () => assignDerivedToList());
 	onMount(() => {
-		if (window.pf2eGraphics.AnimCore.ready) assignDerivedToList();
+		if (window.pf2eGraphics?.AnimCore?.ready) assignDerivedToList();
 		// Return on onMount = onDismount
 		return () => Hooks.off('pf2eGraphicsReady', unhook);
 	});
 
+	let hiddenAnimations: {
+		global: Readable<string[]>;
+		user: Readable<Record<string, string[]>>;
+	};
 	function assignDerivedToList() {
-		list = derived([initVariables(), search], ([vars, $search]) =>
+		const variables = initVariables();
+		hiddenAnimations = {
+			user: variables.userDisabled,
+			global: window.pf2eGraphics.storeSettings.getReadableStore('globalDisabledAnimations')!,
+		};
+		list = derived([variables.animations, search], ([vars, $search]) =>
 			vars
 				.filter(item => item.name !== '_tokenImages')
 				.filter(
@@ -63,7 +72,7 @@
 		class='m-0 p-0 list-none overflow-x-hidden overflow-y-auto'
 	>
 		{#each $list.filter(x => x.source !== 'module') as item, index}
-			<SidebarListElement {item} {index} />
+			<SidebarListElement {item} {index} hidden={hiddenAnimations} />
 		{:else}
 			<li class='p-8 text-center opacity-40 italic text-sm'>
 				{i18n('pf2e-graphics.sidebar.animationSets.list.empty')}
@@ -87,7 +96,7 @@
 			</header>
 			{#if showModuleAnimations}
 				{#each $list.filter(x => x.source === 'module') as item, index}
-					<SidebarListElement {item} {index} />
+					<SidebarListElement {item} {index} hidden={hiddenAnimations} />
 				{/each}
 			{/if}
 		</li>
