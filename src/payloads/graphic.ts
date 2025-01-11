@@ -190,9 +190,9 @@ function processGraphic(
 	if (payload.size) {
 		if (payload.size.type === 'directed') {
 			const options: Parameters<typeof seq.stretchTo>[1] = {
-				attachTo: payload.size.attach,
-				onlyX: payload.size.stretch,
-				tiling: payload.size.tile,
+				attachTo: payload.size.attach ?? false,
+				onlyX: payload.size.stretch ?? false,
+				tiling: payload.size.tile ?? false,
 			};
 
 			if (payload.size.requiresLineOfSight) {
