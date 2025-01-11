@@ -34,10 +34,14 @@
 						"elevation": {
 							"sortLayer": "belowTokens"
 						},
+						"rotation": {
+							"type": "absolute",
+							"angle": "random"
+						},
 						"size": {
 							"type": "relative",
 							"relativeTo": "SOURCES",
-							"scaling": 2,
+							"scaling": 2.2,
 							"scaleIn": {
 								"duration": 1000,
 								"initialScale": 0,

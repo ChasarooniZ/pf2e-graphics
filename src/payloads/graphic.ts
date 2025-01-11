@@ -45,10 +45,10 @@ function processGraphic(
 			});
 		}
 		const options: Parameters<typeof seq.attachTo>[1] = {
-			randomOffset: position.randomOffset,
+			randomOffset: position.randomOffset ?? 0,
 			offset: offsetToVector2(position.offset),
-			local: position.local,
-			gridUnits: position.gridUnits,
+			local: position.local ?? false,
+			gridUnits: position.gridUnits ?? false,
 		};
 		// #endregion
 		if (position.type === 'static') {
