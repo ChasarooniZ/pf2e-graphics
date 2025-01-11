@@ -66,7 +66,8 @@
 		/>
 	</div>
 </header>
-<div class='inline-flex flex-col'>
+<!-- Load bearing height style. Don't ask. -->
+<div class='inline-flex flex-col h-1'>
 	<ol
 		class:grow={!$search}
 		class='m-0 p-0 list-none overflow-x-hidden overflow-y-auto'
@@ -79,21 +80,21 @@
 			</li>
 		{/each}
 	</ol>
-	<ol class='
-		m-0 p-0
-		list-none overflow-x-hidden overflow-y-auto
-	'>
-		<li class='[&>li]:pl-2 [&>li]:border-l-4 [&>li]:border-solid [&>li]:border-l-red-900'>
-			<header
-				role='tree'
-				tabindex='0'
-				class='p-2 leading-6 bg-red-900'
-				on:click={() => (showModuleAnimations = !showModuleAnimations)}
-				on:keypress={() => (showModuleAnimations = !showModuleAnimations)}
-			>
-				<i class='fas fa-cubes pr-1'></i>
-				Module Animations
-			</header>
+	<ol class='m-0 p-0 max-h-[50%]'>
+		<header
+			role='tree'
+			tabindex='0'
+			class='p-2 leading-6 bg-red-900'
+			on:click={() => (showModuleAnimations = !showModuleAnimations)}
+			on:keypress={() => (showModuleAnimations = !showModuleAnimations)}
+		>
+			<i class='fas fa-cubes pr-1'></i>
+			Module Animations
+		</header>
+		<li class='
+			[&>li]:pl-2 [&>li]:border-l-4 [&>li]:border-solid [&>li]:border-l-red-900
+			list-none overflow-x-hidden overflow-y-auto
+		'>
 			{#if showModuleAnimations}
 				{#each $list.filter(x => x.source === 'module') as item, index}
 					<SidebarListElement {item} {index} hidden={hiddenAnimations} />
@@ -102,4 +103,3 @@
 		</li>
 	</ol>
 </div>
-<footer class='directory-footer'></footer>
