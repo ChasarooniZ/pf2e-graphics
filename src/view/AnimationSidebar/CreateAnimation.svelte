@@ -2,7 +2,7 @@
 	import type { AnimationSetDocument } from 'src/extensions';
 	import { getContext } from 'svelte';
 	import { ErrorMsg, i18n } from '../../utils';
-	import { makeAnimation, openAnimation } from './sidebarFunctions';
+	import { type animationPresetType, makeAnimation, openAnimation } from './sidebarFunctions';
 
 	export let mode: 'make' | 'copy';
 	export let animation: AnimationSetDocument | undefined;
@@ -14,7 +14,7 @@
 	let location: AnimationSetDocument['source'] = 'user';
 
 	function make() {
-		const newAnimation = makeAnimation(name, type, location);
+		const newAnimation = makeAnimation(name, type as animationPresetType, location);
 		openAnimation(newAnimation);
 		application.close();
 	}
@@ -22,7 +22,7 @@
 	function copy() {
 		if (!animation) throw ErrorMsg.send('Attempted to copy no animation?'); // TODO: i18n
 
-		const newAnimation = makeAnimation(name, type, location, foundry.utils.deepClone(animation));
+		const newAnimation = makeAnimation(name, type as animationPresetType, location, foundry.utils.deepClone(animation));
 		openAnimation(newAnimation);
 		application.close();
 	}
@@ -53,11 +53,11 @@
 				{i18n('pf2e-graphics.sidebar.animationSets.create.animationSet.popup.fields.type.title')}
 			</span>
 			<select class='basis-2/3' bind:value={type}>
+				<option value='custom'>{i18n('pf2e-graphics.presetTypes.custom')}</option>
 				<option value='ranged'>{i18n('pf2e-graphics.presetTypes.ranged')}</option>
 				<option value='melee'>{i18n('pf2e-graphics.presetTypes.melee')}</option>
 				<option value='onToken'>{i18n('pf2e-graphics.presetTypes.onToken')}</option>
 				<option value='template'>{i18n('pf2e-graphics.presetTypes.template')}</option>
-				<option value='custom'>{i18n('pf2e-graphics.presetTypes.custom')}</option>
 			</select>
 		</label>
 	{/if}

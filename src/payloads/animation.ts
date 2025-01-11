@@ -82,7 +82,7 @@ async function processAnimation(
 			// TODO: Sequencer types make this partial
 			const options = {
 				// `delay` is redundant here due to top-level `delay` (see above)
-				ease: payload.position.ease,
+				ease: payload.position.ease ?? 'linear',
 				relativeToCenter: !payload.position.placeCorner,
 			};
 			// @ts-expect-error TODO: fix Sequencer type

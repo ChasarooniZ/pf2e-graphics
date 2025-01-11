@@ -101,6 +101,17 @@
 					}
 				},
 			});
+
+			if (animation.source !== 'world') {
+				items.push({
+					icon: 'fa fa-arrow-up',
+					label: 'Copy as World Animation',
+					onPress: () => {
+						const newAnim = { ...animation, source: 'world' } as AnimationSetDocument;
+						copyAnimation(newAnim);
+					},
+				});
+			}
 		}
 
 		if (animation.source !== 'module') {

@@ -110,7 +110,7 @@
 			'>
 				<label class='grid grid-cols-3 items-center'>
 					<span data-tooltip='TODO: Explain'>
-						Position
+						Starting Position
 						<i class='fa fa-info-circle pl-px'></i>
 					</span>
 					<div class='flex align-middle items-center col-span-2'>
@@ -322,7 +322,7 @@
 		'>
 			<label class='grid grid-cols-3 items-center'>
 				<span data-tooltip='TODO: Explain'>
-					Size
+					Size / Direction
 					<i class='fa fa-info-circle pl-px'></i>
 				</span>
 				<div class='flex align-middle items-center col-span-2'>

@@ -1,7 +1,7 @@
 import type { AnimationSetDocument, UserAnimationSetDocument, WorldAnimationSetDocument } from 'src/extensions';
 import type { AnimationSet } from '../../../schema';
 import { TJSDialog } from '@typhonjs-fvtt/runtime/svelte/application';
-import { ErrorMsg, i18n } from 'src/utils';
+import { ErrorMsg, i18n, log } from 'src/utils';
 import AnimationDocumentApp from '../AnimationDocument/AnimationDocumentApp';
 import CreateAnimation from './CreateAnimation.svelte';
 
@@ -77,17 +77,47 @@ export function sluggify(name: string) {
 		.replaceAll(/(spell|item)-/g, '$1:');
 }
 
-export function makeAnimation(name: string, type: string, location: string, animation?: AnimationSetDocument): AnimationSetDocument {
+export type animationPresetType = 'custom' | 'ranged' | 'melee' | 'onToken' | 'template';
+export function makeAnimation(name: string, type: animationPresetType, location: string, animation?: AnimationSetDocument): AnimationSetDocument {
 	const id = foundry.utils.randomID();
 	if (!name) name = `Animation ${id.slice(0, 4)}`;
 
 	// TODO:
-	const template: AnimationSet[] = type === 'ranged' ? [] : [];
+	const preset: AnimationSet[] = [];
+
+	switch (type) {
+		case 'ranged': {
+			preset.push({
+				name: `${name} - Projectile`,
+				triggers: ['attack-roll'],
+				execute: {
+					type: 'graphic',
+					graphic: [
+						'jb2a.arrow',
+					],
+					position: [
+						{
+							type: 'static',
+							location: 'SOURCES',
+						},
+					],
+					size: {
+						type: 'directed',
+						endpoint: 'TARGETS',
+					},
+				},
+			});
+			break;
+		}
+
+		case 'custom': break;
+		default: log('Unknown preset type!');
+	}
 
 	switch (location) {
 		case 'world':
 			return addToWorld({
-				animationSets: template,
+				animationSets: preset,
 				rollOption: sluggify(name), // TODO: if this is just template data, make sure the user gets shouted at if they leave it like this (remember you can use the `rollOption` Zod schema to at least check it's got the right format)
 
 				// Ordering here is important, animation has to override animationSets and rollOption
@@ -100,7 +130,7 @@ export function makeAnimation(name: string, type: string, location: string, anim
 		case 'user':
 		default:
 			return addToCurrentUser({
-				animationSets: template,
+				animationSets: preset,
 				rollOption: sluggify(name), // TODO: as above
 
 				// Ordering here is important, animation has to override animationSets and rollOption
@@ -115,6 +145,7 @@ export function makeAnimation(name: string, type: string, location: string, anim
 }
 
 export function removeAnimation(animation: AnimationSetDocument): void {
+	// TODO: Add a confirmation button
 	if (animation.source === 'world') return removeFromWorld(animation);
 	if (animation.source === 'user') return removeFromCurrentUser(animation);
 	if (animation.source === 'module')

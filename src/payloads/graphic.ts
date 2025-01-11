@@ -57,7 +57,7 @@ function processGraphic(
 				seq.moveTowards(
 					positionToArgument(position.moveTowards.target, data),
 					// @ts-expect-error TODO: Sequencer type should only have `ease`, no `target`
-					{ ease: position.moveTowards.ease },
+					{ ease: position.moveTowards.ease ?? 'linear' },
 				);
 				if (position.moveTowards.speed) seq.moveSpeed(position.moveTowards.speed);
 			}
@@ -193,6 +193,7 @@ function processGraphic(
 				attachTo: payload.size.attach ?? false,
 				onlyX: payload.size.stretch ?? false,
 				tiling: payload.size.tile ?? false,
+				// TODO: @Spappz Add randomOffset and the remaining options here.
 			};
 
 			if (payload.size.requiresLineOfSight) {
@@ -228,13 +229,13 @@ function processGraphic(
 			// TODO: check this actually works as expected
 			if (payload.size.scaleIn) {
 				seq.scaleIn(payload.size.scaleIn.initialScale, payload.size.scaleIn.duration, {
-					ease: payload.size.scaleIn.ease,
+					ease: payload.size.scaleIn.ease ?? 'linear',
 					delay: payload.size.scaleIn.delay || 0,
 				});
 			}
 			if (payload.size.scaleOut) {
 				seq.scaleOut(payload.size.scaleOut.finalScale, payload.size.scaleOut.duration, {
-					ease: payload.size.scaleOut.ease,
+					ease: payload.size.scaleOut.ease ?? 'linear',
 					delay: payload.size.scaleOut.delay || 0,
 				});
 			}

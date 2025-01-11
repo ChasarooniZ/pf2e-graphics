@@ -1,4 +1,4 @@
-import type { AnimationSetDocument, UserAnimationSetDocument } from 'src/extensions';
+import type { AnimationSetDocument, UserAnimationSetDocument, WorldAnimationSetDocument } from 'src/extensions';
 import type { Mode } from 'svelte-jsoneditor';
 import { type SvelteApp, SvelteApplication } from '#runtime/svelte/application';
 import { ErrorMsg, i18n, kofiButton, log } from '../../utils';
@@ -67,6 +67,12 @@ export default class AnimationDocumentApp extends SvelteApplication<BasicAppOpti
 				break;
 			}
 			case 'world': {
+				const store = window.pf2eGraphics.storeSettings.getWritableStore('globalAnimations')!;
+				store.update((val: WorldAnimationSetDocument[]) => {
+					val.findSplice(x => x.id === _animation.id);
+					val.push(_animation);
+					return val;
+				});
 				break;
 			}
 			default:
