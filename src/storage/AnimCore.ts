@@ -267,7 +267,7 @@ export let AnimCore = class AnimCore {
 		// const actorKeys = actor?.getFlag('pf2e-graphics', 'animations') ?? [];
 		// const itemKeys = item?.getFlag('pf2e-graphics', 'animations') ?? [];
 
-		const disabledUser = game.user.getFlag('pf2e-graphics', 'disabledAnimations') as string[] | undefined;
+		const disabledUser = game.user.getFlag('pf2e-graphics', 'disabledAnimations') as string[] ?? [];
 		const disabledGlobal = window.pf2eGraphics.liveSettings.globalDisabledAnimations;
 		/**
 		 * Priority (highest to lowest):
@@ -280,11 +280,7 @@ export let AnimCore = class AnimCore {
 		 * External modules >
 		 * PF2e Graphics itself
 		 */
-		obj.animations = new Map(
-			[...this.animations, ...worldDocs, ...userDocs]
-				.filter(val => (disabledUser && disabledUser.length) ? !disabledUser.includes(val[0]) : true)
-				.filter(val => !disabledGlobal.includes(val[0])),
-		);
+		obj.animations = new Map([...this.animations, ...worldDocs, ...userDocs].filter(val => !disabledUser.includes(val[0]) || !disabledGlobal.includes(val[0])));
 
 		/* Nobody cares for now
 		obj.sources = {
