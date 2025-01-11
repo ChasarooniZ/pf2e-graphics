@@ -4,6 +4,7 @@
 	import type { Writable } from 'svelte/store';
 	import type { BasicAppExternal } from './AnimationDocumentApp';
 	import { getContext } from 'svelte';
+	import { sluggify } from '../AnimationSidebar/sidebarFunctions';
 	import EditorContent from './EditorContent.svelte';
 	import Section from './Section.svelte';
 
@@ -124,14 +125,29 @@
 					<span>
 						Display Name
 					</span>
-					<input type='text' bind:value={animation.name} {readonly} disabled={readonly} />
+					<input
+						type='text'
+						{readonly} disabled={readonly}
+						bind:value={animation.name}
+						on:change={() => {
+							if (animation.name.trim() === '' && 'id' in animation)
+								animation.name = `Animation ${animation.id.slice(0, 4)}`;
+						}}
+					/>
 				</label>
 				<label class='grid grid-cols-2 items-center'>
 					<span>
 						Primary Predicate
 						<i class='fa fa-info-circle pl-px' data-tooltip='TODO: Explain'></i>
 					</span>
-					<input type='text' bind:value={animation.rollOption} {readonly} disabled={readonly} />
+					<input
+						type='text'
+						{readonly} disabled={readonly}
+						bind:value={animation.rollOption}
+						on:change={() => {
+							if (animation.rollOption.trim() === '' && 'id' in animation)
+								animation.rollOption = sluggify(`Animation ${animation.id.slice(0, 4)}`);
+						}} />
 				</label>
 			</div>
 		{:else}

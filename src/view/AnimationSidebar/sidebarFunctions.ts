@@ -71,14 +71,18 @@ export function copyAnimation(animation: AnimationSetDocument, addCopy: boolean 
 	}
 }
 
+export function sluggify(name: string) {
+	return game.pf2e.system.sluggify(name)
+		.replaceAll(/((spell-)?effect)-/g, 'effect:')
+		.replaceAll(/(spell|item)-/g, '$1:');
+}
+
 export function makeAnimation(name: string, type: string, location: string, animation?: AnimationSetDocument): AnimationSetDocument {
+	const id = foundry.utils.randomID();
+	if (!name) name = `Animation ${id.slice(0, 4)}`;
+
 	// TODO:
 	const template: AnimationSet[] = type === 'ranged' ? [] : [];
-
-	const sluggify = (name: string) =>
-		game.pf2e.system.sluggify(name)
-			.replaceAll(/((spell-)?effect)-/g, 'effect:')
-			.replaceAll(/(spell|item)-/g, '$1:');
 
 	switch (location) {
 		case 'world':
@@ -88,7 +92,7 @@ export function makeAnimation(name: string, type: string, location: string, anim
 
 				// Ordering here is important, animation has to override animationSets and rollOption
 				...animation,
-				id: foundry.utils.randomID(),
+				id,
 				name,
 				source: 'world',
 			});
@@ -101,7 +105,7 @@ export function makeAnimation(name: string, type: string, location: string, anim
 
 				// Ordering here is important, animation has to override animationSets and rollOption
 				...animation,
-				id: foundry.utils.randomID(),
+				id,
 				name,
 				user: game.userId,
 				source: 'user',
