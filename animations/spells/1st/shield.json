@@ -11,6 +11,8 @@
 			],
 			"contents": [
 				{
+					"name": "sound-shields-shot",
+					"predicates": ["origin-exists"],
 					"triggers": ["effect"],
 					"execute": {
 						"type": "sound",
@@ -25,6 +27,7 @@
 					}
 				},
 				{
+					"name": "graphic-shields-shot",
 					"predicates": ["origin-exists"],
 					"triggers": ["effect"],
 					"execute": {
@@ -49,11 +52,12 @@
 					}
 				},
 				{
+					"name": "sound-shields-up",
 					"triggers": ["effect"],
 					"execute": {
 						"type": "sound",
 						"sound": [
-							"graphics-sfx.magic.buff.generic.03"
+							"graphics-sfx.magic.buff.generic.{03,08}"
 						],
 						"position": [
 							{
@@ -63,6 +67,7 @@
 					}
 				},
 				{
+					"name": "graphic-shields",
 					"execute": {
 						"type": "graphic",
 						"graphic": [
@@ -100,12 +105,14 @@
 					]
 				},
 				{
+					"name": "sound-shields-down",
 					"triggers": ["effect"],
 					"predicates": ["settings:persistent"],
 					"execute": {
 						"type": "sound",
 						"sound": [
-							"graphics-sfx.magic.buff.generic.01"
+							"graphics-sfx.magic.buff.generic.{01,04,09}",
+							"graphics-sfx.magic.dark.break.mana.01.{01,02}"
 						],
 						"position": [
 							{
