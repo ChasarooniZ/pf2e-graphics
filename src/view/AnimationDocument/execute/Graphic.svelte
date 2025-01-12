@@ -8,6 +8,8 @@
 	const entries: string[] = window.Sequencer.Database.publicFlattenedSimpleEntries;
 
 	let positionType: 'static' | 'dynamic' = 'static';
+
+	let collapsed: number[] = [];
 </script>
 {#if !data.execute}
 	{#if !readonly}
@@ -136,12 +138,26 @@
 						</button>
 					</div>
 				</label>
-				{#each data.execute.position as position}
+				{#each data.execute.position as position, index}
+					{@const hidden = collapsed.includes(index)}
 					<div class='
 						flex flex-col gap-2 p-1
 						border border-solid rounded-sm bg-slate-400/10
 					'>
-						<header class='flex items-center gap-2 border-0 border-b pb-1 border-solid'>
+						<header class='
+							flex items-center gap-2
+							border-solid border-0 {hidden ? '' : 'border-b pb-1'}
+						'>
+							<button class='size-min mr-auto' on:click={() => {
+								if (!hidden) {
+									collapsed.push(index);
+								} else {
+									collapsed.findSplice(x => x === index);
+								}
+								collapsed = collapsed;
+							}}>
+								<i class='fa {hidden ? 'fa-chevron-down' : 'fa-chevron-up'} fa-fw p-0 m-0'></i>
+							</button>
 							<span class='text-lg'>
 								Type: <i>{position.type}</i>
 							</span>
@@ -157,160 +173,162 @@
 								<i class='fa fa-trash fa-fw p-0 m-0'></i>
 							</button>
 						</header>
-						{#if position.type !== 'screenSpace'}
-							<label class='grid grid-cols-3 items-center'>
-								<span data-tooltip='TODO: Explain'>
-									Location
-									<i class='fa fa-info-circle pl-px'></i>
-								</span>
-								<datalist id='location'>
-									<option>SOURCES</option>
-									<option>TARGETS</option>
-									<option>TEMPLATES</option>
-								</datalist>
-								<input
-									class='col-span-2'
-									list='location'
-									type='text'
-									bind:value={position.location}
-									{readonly}
-									disabled={readonly}
-								/>
-							</label>
-						{/if}
-						<!-- #region Static -->
-						{#if position.type === 'static'}
-							<label class='grid grid-cols-3 items-center'>
-								<span data-tooltip='TODO: Explain'>
-									Move Towards
-									<i class='fa fa-info-circle pl-px'></i>
-								</span>
-								<div class='flex items-center gap-2 h-7 col-span-2'>
+						{#if !hidden}
+							{#if position.type !== 'screenSpace'}
+								<label class='grid grid-cols-3 items-center'>
+									<span data-tooltip='TODO: Explain'>
+										Location
+										<i class='fa fa-info-circle pl-px'></i>
+									</span>
+									<datalist id='location'>
+										<option>SOURCES</option>
+										<option>TARGETS</option>
+										<option>TEMPLATES</option>
+									</datalist>
 									<input
-										type='checkbox'
+										class='col-span-2'
+										list='location'
+										type='text'
+										bind:value={position.location}
+										{readonly}
 										disabled={readonly}
-										checked={Boolean(position.moveTowards)}
-										on:change={(e) => {
-											// TODO: Remove unnecessary typecheck in Svelte 5
-											if (position.type !== 'static') return;
-											if (e.currentTarget.checked) {
-												position.moveTowards = { target: 'SOURCES' };
-											} else {
-												delete position.moveTowards;
-												position = position;
-											}
-										}}
 									/>
-									{#if position.moveTowards}
-										<select
-											class='grow'
-											bind:value={position.moveTowards.target}
-											disabled={readonly}
-										>
-											{#each ['SOURCES', 'TARGETS', 'TEMPLATES'] as section}
-												<option value={section}>
-													{section.toLowerCase().capitalize()}
-												</option>
-											{/each}
-										</select>
-									{/if}
-								</div>
-							</label>
-						{/if}
-						<!-- #endregion -->
-						{#if !position.offset}
-							<!-- If wrong, don't! -->
-							{(position.offset = { x: 0, y: 0 }) && ''}
-						{:else}
-							<label class='grid grid-cols-3 items-center'>
-								<span data-tooltip='TODO: Explain'>
-									Offset
-									<i class='fa fa-info-circle pl-px'></i>
-								</span>
-								<div class='grid grid-cols-2 gap-4 items-stretch col-span-2'>
-									<label class='flex items-center gap-2'>
-										X
+								</label>
+							{/if}
+							<!-- #region Static -->
+							{#if position.type === 'static'}
+								<label class='grid grid-cols-3 items-center'>
+									<span data-tooltip='TODO: Explain'>
+										Move Towards
+										<i class='fa fa-info-circle pl-px'></i>
+									</span>
+									<div class='flex items-center gap-2 h-7 col-span-2'>
 										<input
-											type='text'
-											bind:value={position.offset.x}
-											{readonly}
+											type='checkbox'
 											disabled={readonly}
+											checked={Boolean(position.moveTowards)}
+											on:change={(e) => {
+												// TODO: Remove unnecessary typecheck in Svelte 5
+												if (position.type !== 'static') return;
+												if (e.currentTarget.checked) {
+													position.moveTowards = { target: 'SOURCES' };
+												} else {
+													delete position.moveTowards;
+													position = position;
+												}
+											}}
 										/>
-									</label>
-									<label class='flex items-center gap-2'>
-										Y
-										<input
-											type='text'
-											bind:value={position.offset.y}
-											{readonly}
-											disabled={readonly}
-										/>
-									</label>
-								</div>
-							</label>
-						{/if}
+										{#if position.moveTowards}
+											<select
+												class='grow'
+												bind:value={position.moveTowards.target}
+												disabled={readonly}
+											>
+												{#each ['SOURCES', 'TARGETS', 'TEMPLATES'] as section}
+													<option value={section}>
+														{section.toLowerCase().capitalize()}
+													</option>
+												{/each}
+											</select>
+										{/if}
+									</div>
+								</label>
+							{/if}
+							<!-- #endregion -->
+							{#if !position.offset}
+								<!-- If wrong, don't! -->
+								{(position.offset = { x: 0, y: 0 }) && ''}
+							{:else}
+								<label class='grid grid-cols-3 items-center'>
+									<span data-tooltip='TODO: Explain'>
+										Offset
+										<i class='fa fa-info-circle pl-px'></i>
+									</span>
+									<div class='grid grid-cols-2 gap-4 items-stretch col-span-2'>
+										<label class='flex items-center gap-2'>
+											X
+											<input
+												type='text'
+												bind:value={position.offset.x}
+												{readonly}
+												disabled={readonly}
+											/>
+										</label>
+										<label class='flex items-center gap-2'>
+											Y
+											<input
+												type='text'
+												bind:value={position.offset.y}
+												{readonly}
+												disabled={readonly}
+											/>
+										</label>
+									</div>
+								</label>
+							{/if}
 
-						{#if position.type !== 'screenSpace'}
-							<!-- Random Offset -->
-							<label class='grid grid-cols-3 items-center'>
-								<span data-tooltip='TODO: Explain'>
-									Random Offset
-									<i class='fa fa-info-circle pl-px'></i>
-								</span>
-								<div class='flex align-middle items-center col-span-2'>
-									<input
-										type='number'
-										bind:value={position.randomOffset}
-										{readonly}
-										disabled={readonly}
-									/>
-								</div>
-							</label>
-							<!-- Grid Units -->
-							<label class='grid grid-cols-3 items-center'>
-								<span data-tooltip='TODO: Explain'>
-									Grid Units
-									<i class='fa fa-info-circle pl-px'></i>
-								</span>
-								<div class='flex align-middle items-center col-span-2'>
-									<input
-										type='checkbox'
-										bind:checked={position.gridUnits}
-										{readonly}
-										disabled={readonly}
-									/>
-								</div>
-							</label>
-							<!-- Local -->
-							<label class='grid grid-cols-3 items-center'>
-								<span data-tooltip='TODO: Explain'>
-									Local
-									<i class='fa fa-info-circle pl-px'></i>
-								</span>
-								<div class='flex align-middle items-center col-span-2'>
-									<input
-										type='checkbox'
-										bind:checked={position.local}
-										{readonly}
-										disabled={readonly}
-									/>
-								</div>
-							</label>
-							<!-- Missed -->
-							<label class='grid grid-cols-3 items-center'>
-								<span data-tooltip='TODO: Explain'>
-									Missed
-									<i class='fa fa-info-circle pl-px'></i>
-								</span>
-								<div class='flex align-middle items-center col-span-2'>
-									<input
-										type='number'
-										bind:value={position.missed}
-										{readonly}
-										disabled={readonly}
-									/>
-								</div>
-							</label>
+							{#if position.type !== 'screenSpace'}
+								<!-- Random Offset -->
+								<label class='grid grid-cols-3 items-center'>
+									<span data-tooltip='TODO: Explain'>
+										Random Offset
+										<i class='fa fa-info-circle pl-px'></i>
+									</span>
+									<div class='flex align-middle items-center col-span-2'>
+										<input
+											type='number'
+											bind:value={position.randomOffset}
+											{readonly}
+											disabled={readonly}
+										/>
+									</div>
+								</label>
+								<!-- Grid Units -->
+								<label class='grid grid-cols-3 items-center'>
+									<span data-tooltip='TODO: Explain'>
+										Grid Units
+										<i class='fa fa-info-circle pl-px'></i>
+									</span>
+									<div class='flex align-middle items-center col-span-2'>
+										<input
+											type='checkbox'
+											bind:checked={position.gridUnits}
+											{readonly}
+											disabled={readonly}
+										/>
+									</div>
+								</label>
+								<!-- Local -->
+								<label class='grid grid-cols-3 items-center'>
+									<span data-tooltip='TODO: Explain'>
+										Local
+										<i class='fa fa-info-circle pl-px'></i>
+									</span>
+									<div class='flex align-middle items-center col-span-2'>
+										<input
+											type='checkbox'
+											bind:checked={position.local}
+											{readonly}
+											disabled={readonly}
+										/>
+									</div>
+								</label>
+								<!-- Missed -->
+								<label class='grid grid-cols-3 items-center'>
+									<span data-tooltip='TODO: Explain'>
+										Missed
+										<i class='fa fa-info-circle pl-px'></i>
+									</span>
+									<div class='flex align-middle items-center col-span-2'>
+										<input
+											type='number'
+											bind:value={position.missed}
+											{readonly}
+											disabled={readonly}
+										/>
+									</div>
+								</label>
+							{/if}
 						{/if}
 					</div>
 				{/each}
