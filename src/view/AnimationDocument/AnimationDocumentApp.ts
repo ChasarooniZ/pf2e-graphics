@@ -25,7 +25,7 @@ export default class AnimationDocumentApp extends SvelteApplication<BasicAppOpti
 		}
 
 		if (this.options.readonly) {
-			this.options.animation = Object.freeze(foundry.utils.deepClone(this.options.animation));
+			this.options.animation = foundry.utils.deepClone(this.options.animation);
 		}
 
 		log('AnimationDocumentApp', this);

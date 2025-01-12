@@ -104,9 +104,12 @@
 			{:else}
 				{#each animation.animationSets as section, index}
 					<Section
+						{readonly}
 						{section}
+						bind:array={animation.animationSets}
 						bind:selection={$currentSection}
-						index={String(index)}
+						globalIndex={String(index)}
+						localIndex={index}
 						deleteFn={deleteSectionOrContent}
 					/>
 				{/each}

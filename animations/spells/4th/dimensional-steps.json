@@ -6,6 +6,7 @@
 			],
 			"contents": [
 				{
+					"name": "spell-dimensional-steps",
 					"execute": {
 						"type": "crosshair",
 						"name": "spell-dimensional-steps",
