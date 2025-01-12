@@ -62,8 +62,8 @@ function processGraphic(
 				if (position.moveTowards.speed) seq.moveSpeed(position.moveTowards.speed);
 			}
 		} else if (position.type === 'dynamic') {
-			options.align = position.align;
-			options.edge = position.edge;
+			if (position.align) options.align = position.align;
+			if (position.edge) options.edge = position.edge;
 			options.bindVisibility = !position.unbindVisibility;
 			options.bindAlpha = !position.unbindAlpha;
 			// @ts-expect-error TODO: sequencer types (documentation sometimes uses `followRotation`?)
