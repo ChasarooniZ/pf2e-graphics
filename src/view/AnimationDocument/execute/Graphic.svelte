@@ -10,6 +10,10 @@
 	let positionType: 'static' | 'dynamic' = 'static';
 
 	let collapsed: number[] = [];
+
+	for (let i = 0; i < (data.execute?.position?.length ?? 0); i++) {
+		collapsed.push(i);
+	}
 </script>
 {#if !data.execute}
 	{#if !readonly}
