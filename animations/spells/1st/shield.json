@@ -1,0 +1,120 @@
+{
+	"effect:shield": [
+		{
+			"predicates": [
+				{
+					"gte": [
+						"settings:quality",
+						1
+					]
+				}
+			],
+			"contents": [
+				{
+					"triggers": ["effect"],
+					"execute": {
+						"type": "sound",
+						"sound": [
+							"graphics-sfx.magic.holy.protection"
+						],
+						"position": [
+							{
+								"location": "TARGETS"
+							}
+						]
+					}
+				},
+				{
+					"predicates": ["origin-exists"],
+					"triggers": ["effect"],
+					"execute": {
+						"type": "graphic",
+						"graphic": [
+							"jb2a.bullet.03.blue"
+						],
+						"position": [
+							{
+								"type": "dynamic",
+								"location": "SOURCES"
+							}
+						],
+						"size": {
+							"type": "directed",
+							"endpoint": "TARGETS"
+						},
+						"reflection": {
+							"x": "always"
+						},
+						"waitUntilFinished": -1000
+					}
+				},
+				{
+					"triggers": ["effect"],
+					"execute": {
+						"type": "sound",
+						"sound": [
+							"graphics-sfx.magic.buff.generic.03"
+						],
+						"position": [
+							{
+								"location": "SOURCES"
+							}
+						]
+					}
+				},
+				{
+					"execute": {
+						"type": "graphic",
+						"graphic": [
+							"jb2a.shield.01.complete.01.blue"
+						],
+						"tieToDocuments": true,
+						"position": [
+							{
+								"type": "dynamic",
+								"location": "SOURCES"
+							}
+						],
+						"size": {
+							"type": "relative",
+							"scaling": 1.5
+						},
+						"waitUntilFinished": -500
+					},
+					"contents": [
+						{
+							"default": true,
+							"triggers": [
+								"effect",
+								"start-turn"
+							]
+						},
+						{
+							"triggers": ["effect"],
+							"predicates": ["settings:persistent"],
+							"execute": {
+								"persistent": "tokenPrototype",
+								"tieToDocuments": true
+							}
+						}
+					]
+				},
+				{
+					"triggers": ["effect"],
+					"predicates": ["settings:persistent"],
+					"execute": {
+						"type": "sound",
+						"sound": [
+							"graphics-sfx.magic.buff.generic.01"
+						],
+						"position": [
+							{
+								"location": "SOURCES"
+							}
+						]
+					}
+				}
+			]
+		}
+	]
+}
