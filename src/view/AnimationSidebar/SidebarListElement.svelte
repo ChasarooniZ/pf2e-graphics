@@ -33,7 +33,7 @@
 				icon: 'fa fa-file-export',
 				label: 'Export',
 				onPress: async () => {
-					let validated: string | AnimationSet[]; ;
+					let validated: string | AnimationSet[];
 					if (typeof item.animationSets !== 'string') {
 						const result = await AnimationDocumentApp.validate(item);
 						if (result.success) {
