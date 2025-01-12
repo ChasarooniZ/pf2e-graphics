@@ -57,9 +57,13 @@ export default class AnimationDocumentApp extends SvelteApplication<BasicAppOpti
 	 * Validates the data and returns the object if it is valid with success: true.
 	 * Otherwise, we get success: false with an error getter.
 	 */
-	async validate(_animation: AnimationSetDocument = this.options.animation) {
+	static async validate(_animation: AnimationSetDocument) {
 		const { animationSets } = await import('schema/index');
 		return animationSets.safeParse(_animation.animationSets);
+	}
+
+	async validate(_animation: AnimationSetDocument = this.options.animation) {
+		return AnimationDocumentApp.validate(_animation);
 	}
 
 	async save(_animation: AnimationSetDocument = this.options.animation) {

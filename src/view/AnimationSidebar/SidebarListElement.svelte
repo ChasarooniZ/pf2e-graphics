@@ -1,9 +1,11 @@
 <script lang='ts'>
+	import type { AnimationSet } from 'schema';
 	import type { AnimationSetDocument } from 'src/extensions';
 	import type { Readable } from 'svelte/store';
 	import { TJSContextMenu } from '@typhonjs-fvtt/standard/application/menu';
-	import { i18n, info } from 'src/utils';
+	import { i18n, info, warn } from 'src/utils';
 	import { slide } from 'svelte/transition';
+	import AnimationDocumentApp from '../AnimationDocument/AnimationDocumentApp';
 	import { copyAnimation, openAnimation, removeAnimation } from './sidebarFunctions';
 
 	export let item: AnimationSetDocument;
@@ -30,11 +32,33 @@
 			{
 				icon: 'fa fa-file-export',
 				label: 'Export',
-				onPress: () => window.saveDataToFile(
-					JSON.stringify(item, null, '\t'),
-					'text/json',
-					`pf2e-graphics-${item.name}.json`,
-				),
+				onPress: async () => {
+					let validated: string | AnimationSet[]; ;
+					if (typeof item.animationSets !== 'string') {
+						const result = await AnimationDocumentApp.validate(item);
+						if (result.success) {
+							validated = result.data;
+						} else {
+							validated = item.animationSets;
+							warn(
+								'The export animation failed the validation check! This may range from typos to malformed data. Check the console for more info.',
+								{},
+								{ data: result },
+							); // TODO: i18n
+						}
+					} else {
+						validated = item.animationSets;
+					}
+					const data = {
+						...item,
+						animationSets: validated,
+					};
+					window.saveDataToFile(
+						JSON.stringify(data, null, '\t'),
+						'text/json',
+						`pf2e-graphics-${item.name}.json`,
+					);
+				},
 			},
 			{
 				icon: 'fa fa-file-import',

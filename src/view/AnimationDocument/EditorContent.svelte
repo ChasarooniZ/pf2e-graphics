@@ -30,7 +30,7 @@
 	function addSection() {
 		switch (selection) {
 			case 'name': {
-				data.name = 'Animation Name';
+				data.name = 'animation-section';
 				break;
 			}
 			case 'triggers': {
