@@ -27,6 +27,8 @@ export default class AnimationDocumentApp extends SvelteApplication<BasicAppOpti
 		if (this.options.readonly) {
 			this.options.animation = Object.freeze(foundry.utils.deepClone(this.options.animation));
 		}
+
+		log('AnimationDocumentApp', this);
 	}
 
 	static override get defaultOptions() {
@@ -49,6 +51,15 @@ export default class AnimationDocumentApp extends SvelteApplication<BasicAppOpti
 				intro: true,
 			},
 		});
+	}
+
+	/**
+	 * Validates the data and returns the object if it is valid with success: true.
+	 * Otherwise, we get success: false with an error getter.
+	 */
+	async validate(_animation: AnimationSetDocument = this.options.animation) {
+		const { animationSets } = await import('schema/index');
+		return animationSets.safeParse(_animation.animationSets);
 	}
 
 	async save(_animation: AnimationSetDocument = this.options.animation) {

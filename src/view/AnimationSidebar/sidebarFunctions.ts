@@ -88,7 +88,7 @@ export function makeAnimation(name: string, type: animationPresetType, location:
 	switch (type) {
 		case 'ranged': {
 			preset.push({
-				name: `${name} - Projectile`,
+				name: `${sluggify(name)}-projectile`,
 				triggers: ['attack-roll'],
 				execute: {
 					type: 'graphic',
