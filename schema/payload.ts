@@ -130,25 +130,6 @@ export type Payload = z.infer<typeof payload>;
 const flatAnimation = z
 	.object({
 		name: ID.optional(),
-		generic: z
-			.discriminatedUnion('type', [
-				z.object({ type: z.literal('slot') }).strict(),
-				z
-					.object({
-						type: z.literal('add-on'),
-						order: z
-							.enum(['last'])
-							.optional()
-							.describe(
-								'Determines where the generic animation is placed in the animation stack when it applies (default: `first`).',
-							),
-					})
-					.strict(),
-			])
-			.optional()
-			.describe(
-				'An animation can be marked as \'generic\'. This means that it doesn\'t just describe one unique event, but rather a general occurrence that might occur in many contexts (such as Casting a Spell, or scoring a critical hit on a Strike).\nThere are two parts to generic animations.\n- First, on the receiving end, we have `type: "slot"` generics. This indicates that this animation is a vacant spot for that general occurrence; it does nothing on its own, but indicates a spot (!) for an `add-on` to fill.\n- Speaking of `add-on` generics, these are the \'templates\' that are actually applied. An `add-on` either fills a `slot` with a matching `id`, or it\'s simply prepended/appended the an animation set whenever it applies if `id` is undefined. You can control the position the `add-on` is placed using `order`.',
-			),
 		reference: rollOption
 			.optional()
 			.describe(
@@ -191,9 +172,33 @@ const flatAnimation = z
 	.strict();
 
 /**
+ * Zod schema for the definition of a `generic` animation set.
+ */
+const generic = z
+	.discriminatedUnion('type', [
+		z.object({ type: z.literal('slot') }).strict(),
+		z
+			.object({
+				type: z.literal('add-on'),
+				order: z
+					.enum(['last'])
+					.optional()
+					.describe(
+						'Determines where the generic animation is placed in the animation stack when it applies (default: `first`).',
+					),
+			})
+			.strict(),
+	])
+	.optional()
+	.describe(
+		'An animation can be marked as \'generic\'. This means that it doesn\'t just describe one unique event, but rather a general occurrence that might occur in many contexts (such as Casting a Spell, or scoring a critical hit on a Strike).\nThere are two parts to generic animations.\n- First, on the receiving end, we have `type: "slot"` generics. This indicates that this animation is a vacant spot for that general occurrence; it does nothing on its own, but indicates a slot (!) that an `add-on` can fill.\n- `add-on` generics are the premade \'templates\' that are actually applied. An `add-on` either fills a `slot` with a matching `label`, or it\'s simply prepended/appended the an animation set whenever it applies if `label` is undefined. You can control the position the `add-on` is placed using `order`.',
+	);
+
+/**
  * The complete animation-set object, as is encoded in JSON.
  */
 export type AnimationSet = z.infer<typeof flatAnimation> & {
+	generic?: z.infer<typeof generic>;
 	contents?: AnimationSetContentsItem[];
 };
 
@@ -248,6 +253,7 @@ const animationSetContentsItem: z.ZodType<AnimationSetContentsItem> = flatAnimat
  */
 const animationSet: z.ZodType<AnimationSet> = flatAnimation
 	.extend({
+		generic,
 		contents: z
 			.array(animationSetContentsItem)
 			.min(2)
@@ -263,7 +269,7 @@ const animationSet: z.ZodType<AnimationSet> = flatAnimation
 export const animationSets = z
 	.array(animationSet)
 	.min(1)
-	// .superRefine((arr, ctx) => superValidate(arr, ctx))
+	// TODO: .superRefine((arr, ctx) => superValidate(arr, ctx))
 	.refine(...uniqueItems);
 
 /**

@@ -87,7 +87,7 @@ export let AnimCore = class AnimCore {
 		const map = new Map(
 			Object.entries(modules.get('pf2e-graphics')!).map(([rollOption, animationSets]) => [
 				rollOption,
-				this.wrapAnimationSets('pf2e-graphics', animationSets),
+				this.wrapAnimationSets('pf2e-graphics', animationSets as string | AnimationSet[]),
 			]),
 		);
 
@@ -96,7 +96,7 @@ export let AnimCore = class AnimCore {
 		modules.forEach((moduleDataObject, module) => {
 			if (module === 'pf2e-graphics') return;
 			Object.entries(moduleDataObject).forEach(([rollOption, animationSets]) =>
-				map.set(rollOption, this.wrapAnimationSets(module, animationSets)),
+				map.set(rollOption, this.wrapAnimationSets(module, animationSets as string | AnimationSet[])),
 			);
 		});
 

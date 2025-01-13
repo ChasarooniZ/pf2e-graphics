@@ -99,7 +99,7 @@ function processGraphic(
 	if (payload.waitUntilFinished) seq.waitUntilFinished(...parseMinMaxObject(payload.waitUntilFinished));
 
 	if (payload.repeats) {
-		seq.repeats(payload.repeats.count, ...parseMinMaxObject(payload.repeats.delay));
+		seq.repeats(payload.repeats.count, ...parseMinMaxObject(payload.repeats.delay ?? 0));
 		if (payload.repeats.async) seq.async();
 	}
 

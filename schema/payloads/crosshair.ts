@@ -42,7 +42,7 @@ export const crosshairPayload = z
 	.object({
 		type: z.literal('crosshair'),
 		name: ID.describe(
-			'Identifies the crosshair\'s selected position so that it can be used elsewhere (for instance, in the `atLocation` property of another animation).',
+			'Identifies the crosshair\'s selected position so that it can be used elsewhere (for instance, in the `atLocation` property of another animation). The value is a case-sensitive string that must be unique among every `name` between *PF2e Graphics*, any extension modules you have enabled, and any named locations in your world. Make sure it\'s reasonably distinguished!',
 		),
 		label: z
 			.object({

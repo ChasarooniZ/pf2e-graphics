@@ -4,6 +4,7 @@ import {
 	addCustomExecutionContext,
 	type ExecutionContext,
 	offsetToVector2,
+	parseMinMaxObject,
 	positionToArgument,
 	verifyPermissions,
 } from '.';
@@ -50,11 +51,7 @@ async function processAnimation(
 
 	// #region Common effect stuff
 	if (payload.repeats) {
-		if (typeof payload.repeats.delay === 'object') {
-			seq.repeats(payload.repeats.count, payload.repeats.delay.min, payload.repeats.delay.max);
-		} else {
-			seq.repeats(payload.repeats.count, payload.repeats.delay ?? 0);
-		}
+		seq.repeats(payload.repeats.count, ...parseMinMaxObject(payload.repeats.delay ?? 0));
 		if (payload.repeats.async) seq.async();
 	}
 	if (payload.waitUntilFinished) {

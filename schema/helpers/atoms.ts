@@ -9,13 +9,14 @@ export const JSONValue = z
 	.describe('Any possible value that can be encoded in JSON.');
 
 /**
- * An animation's 'ID' is an almost-unique string to allow other options to reference it. This is notably important for `generic` animations, as well as animations that `remove` others.
+ * An ID is an almost-unique, case-sensitive string that exists so that other entities can reference it. This is notably important for named locations (set by crosshair payloads), `generic` animation sets, and animation sets using `removes`.
  */
 export const ID = z
 	.string()
+	.min(5)
 	.regex(
-		/^[a-z0-9][\w!?&()'.,:;\-]{4,}[a-z0-9!?)]$/i,
-		'Animation IDs should be easily readable and reasonably unique.',
+		/^[a-z0-9]+(?:(?:['").,;:] | [-+&/] | [(@#"]|[!?]{1,3} |\.\.\. |[-' &/])[a-z0-9]+)*(?:['")]|[!?]{1,3}|\.\.\.)?$/i,
+		'The value should be easily readable and reasonably unique.',
 	)
 	.refine(
 		str =>
@@ -26,12 +27,12 @@ export const ID = z
 				'TARGETS', // *
 				'TEMPLATE',
 				'TEMPLATES', // *
+				// 'ALL_ON_SOURCES', // **
+				// 'ALL_ON_TARGETS', // **
 			].includes(str),
-		'This name is reserved.',
+		'This value is reserved for internal use.',
 		// * Technically only these NEED to be reserved, but better safe than sorry when it comes to internally meaningful strings imo
-	)
-	.describe(
-		'An animation\'s name serves as its \'ID\': an almost-unique, case-sensitive string to allow other options to reference it. This is notably important for named locations (set by crosshairs), `generic` animations, and payloads that `remove` others. It must unique across *all* named animations that might be executed in your world, so make sure it\'s reasonably distinguished!',
+		// ** Would be an illegal ID anyway, so doesn't require validation
 	);
 
 /**

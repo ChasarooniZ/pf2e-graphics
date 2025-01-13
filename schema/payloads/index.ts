@@ -28,7 +28,7 @@ export const effectOptions = z
 			.optional()
 			.describe('A human-readable name to display in Sequencer\'s Animations Manager.'),
 		syncGroup: ID.optional().describe(
-			'Assigns the payload set to a particular group. Payloads in a given group all start at the same time, which can be useful if you\'ve got duplicated effects.',
+			'Assigns the payload set to a particular group. Payloads in a given group all start at the same time, which can be useful if you\'ve got duplicated effects. Uniqueness is required only if the animation set contains persistent effects.',
 		),
 		// TODO: can this be done in the module?
 		// locally: z
@@ -133,6 +133,7 @@ export const effectOptions = z
 							.strict()
 							.refine(obj => obj.max > obj.min, '`max` must be greater than `min`.'),
 					)
+					.optional()
 					.describe(
 						'Sets a duration to delay between each repetition. The value can either be a number, in milliseconds, or an object with `min` and `max` durations, from which a random value is chosen.',
 					),
@@ -144,6 +145,7 @@ export const effectOptions = z
 					),
 			})
 			.strict()
+			.refine(obj => obj.async || obj.delay, 'At least one of `async` and `delay` must be defined.')
 			.optional()
 			.describe('Executes the graphic multiple times.'),
 		probability: z
