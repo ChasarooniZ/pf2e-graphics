@@ -8,14 +8,23 @@ import { executeCrosshair } from './crosshair.ts';
 import { executeGraphic } from './graphic.ts';
 import { executeSound } from './sound.ts';
 
-export interface GameData {
+/**
+ * An interface that describes the context in which an animation is being triggered.
+ * - `sources`: the source tokens
+ * - `targets`: the target tokens
+ * - `templates`: any attached templates
+ * - `user`: the triggering user
+ * - `currentIndex`: in a set of multiple payloads, this is the currently decoding index (starting from zero)
+ * - `item`: the item containing the roll option (if any)
+ */
+export interface ExecutionContext {
+	label?: string;
 	sources: TokenOrDoc[];
-	targets?: (TokenOrDoc | string | Point | MeasuredTemplateDocumentPF2e)[];
-	// animations: ExecutableAnimation[];
-	// queue: Sequence[];
+	targets: TokenOrDoc[];
+	templates: MeasuredTemplateDocument[];
+	user?: string;
 	currentIndex: number;
 	item?: ItemPF2e<any>;
-	user?: string;
 }
 
 /**
@@ -36,21 +45,20 @@ type DecodedPayload =
  *
  * This should probably either be `.play()`ed immediately or merged with another sequence using `.addSequence()`. Named locations must be directly registered with `.addNamedLocation()`, since you cannot `.addSequence()` a named location.
  */
-export async function decodePayload(payload: Payload, data: GameData): Promise<DecodedPayload> {
+export async function decodePayload(payload: Payload, context: ExecutionContext): Promise<DecodedPayload> {
 	if (!payload || !payload.type) throw ErrorMsg.send('pf2e-graphics.execute.common.error.missingPayload');
-
-	const context = prepareExecutionContext(data);
 
 	if (payload.type === 'graphic') return { type: 'sequence', data: executeGraphic(payload, context) };
 	if (payload.type === 'sound') return { type: 'sequence', data: executeSound(payload, context) };
 	if (payload.type === 'crosshair')
 		return { type: 'namedLocation', data: await executeCrosshair(payload, context) };
 	if (payload.type === 'animation') {
-		if (game.userId === data.user) return { type: 'sequence', data: await executeAnimation(payload, context) };
+		if (game.userId === context.user)
+			return { type: 'sequence', data: await executeAnimation(payload, context) };
 		return { type: 'null' };
 	}
 	if (payload.type === 'macro') {
-		if (payload.everyoneExecutes || game.userId === data.user) {
+		if (payload.everyoneExecutes || game.userId === context.user) {
 			return {
 				type: 'sequence',
 				data: new Sequence().macro(payload.document, { ...context, ...payload.options }),
@@ -63,38 +71,6 @@ export async function decodePayload(payload: Payload, data: GameData): Promise<D
 		payloadType: (payload as any).type.toString(),
 		property: 'type',
 	});
-}
-
-/**
- * A convenience interface that describes the context in which an animation is being triggered.
- * - `sources`: the source tokens
- * - `targets`: the target tokens
- * - `templates`: any attached templates
- * - `user`: the triggering user
- * - `currentIndex`: in a set of multiple payloads, this is the currently decoding index (starting from zero)
- * - `item`: the item containing the roll option (if any)
- */
-export interface ExecutionContext {
-	sources: TokenOrDoc[];
-	targets: TokenOrDoc[];
-	templates: MeasuredTemplateDocumentPF2e[];
-	user?: string;
-	currentIndex: number;
-	item?: ItemPF2e<any>;
-}
-
-/**
- * Converts `GameData` to `ExecutionContext`, notably by splitting out the former's `targets` to targetted tokens and templates.
- */
-function prepareExecutionContext(data: GameData): ExecutionContext {
-	return {
-		sources: data.sources ?? [],
-		targets: (data.targets ?? []).filter(target => target instanceof TokenDocument || target instanceof Token),
-		templates: (data.targets ?? []).filter(target => target instanceof MeasuredTemplateDocument),
-		user: data.user,
-		currentIndex: data.currentIndex,
-		item: data.item,
-	};
 }
 
 export function addCustomExecutionContext(

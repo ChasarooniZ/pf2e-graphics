@@ -12,20 +12,20 @@ import { ErrorMsg } from '../utils';
 
 export async function executeAnimation(
 	payload: Extract<Payload, { type: 'animation' }>,
-	data: ExecutionContext,
+	context: ExecutionContext,
 ): Promise<Sequence> {
 	const seq = new Sequence();
 
-	data = addCustomExecutionContext(payload.sources, payload.targets, data);
+	context = addCustomExecutionContext(payload.sources, payload.targets, context);
 
 	for (const subject of payload.subjects) {
 		if (subject === 'SOURCES') {
-			for (const source of data.sources) {
-				seq.addSequence(await processAnimation(source, payload, data));
+			for (const source of context.sources) {
+				seq.addSequence(await processAnimation(source, payload, context));
 			}
 		} else if (subject === 'TARGETS') {
-			for (const target of data.targets) {
-				seq.addSequence(await processAnimation(target, payload, data));
+			for (const target of context.targets) {
+				seq.addSequence(await processAnimation(target, payload, context));
 			}
 		} else {
 			throw ErrorMsg.send('pf2e-graphics.execute.common.error.unknownEnumArrayElement', {
@@ -41,7 +41,7 @@ export async function executeAnimation(
 async function processAnimation(
 	token: TokenOrDoc,
 	payload: Parameters<typeof executeAnimation>[0],
-	data: ExecutionContext,
+	context: ExecutionContext,
 ): Promise<AnimationSection> {
 	if (!token.actor) throw ErrorMsg.send('pf2e-graphics.execute.animation.error.noActor', { name: token.name });
 	if (!(await verifyPermissions(token.actor)))
@@ -83,7 +83,7 @@ async function processAnimation(
 				relativeToCenter: !payload.position.placeCorner,
 			};
 			// @ts-expect-error TODO: fix Sequencer type
-			seq.moveTowards(positionToArgument(payload.position.location, data), options);
+			seq.moveTowards(positionToArgument(payload.position.location, context), options);
 			if (payload.position.duration) seq.duration(payload.position.duration);
 			if (payload.position.speed) seq.moveSpeed(payload.position.speed);
 		} else if (payload.position.type === 'teleport') {
@@ -103,7 +103,7 @@ async function processAnimation(
 	}
 	if (payload.rotation) {
 		if (payload.rotation.type === 'directed') {
-			seq.rotateTowards(positionToArgument(payload.rotation.target, data), {
+			seq.rotateTowards(positionToArgument(payload.rotation.target, context), {
 				duration: payload.rotation.spin?.duration ?? 0,
 				ease: payload.rotation.spin?.ease ?? 'linear',
 				delay: payload.rotation.spin?.delay ?? 0,

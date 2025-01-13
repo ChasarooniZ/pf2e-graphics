@@ -5,10 +5,10 @@ import { devLog, ErrorMsg, getPlayerOwners, i18n } from '../utils';
 
 export async function executeCrosshair(
 	payload: Extract<Payload, { type: 'crosshair' }>,
-	data: ExecutionContext,
+	context: ExecutionContext,
 ): Promise<{ name: string; position: Vector2 }> {
 	if (!payload.name) throw ErrorMsg.send('pf2e-graphics.execute.crosshair.error.noName');
-	for (const token of data.sources) {
+	for (const token of context.sources) {
 		if (!token.actor) {
 			throw ErrorMsg.send('pf2e-graphics.execute.crosshair.error.noActor', {
 				token: token.name,
@@ -43,7 +43,7 @@ export async function executeCrosshair(
 
 			// Assume square token because *why* would you not do that in Pf2e 😡
 			const tokenGridSpaces
-				= (positionToArgument(payload.template.relativeTo, data) as Token).getSize().height
+				= (positionToArgument(payload.template.relativeTo, context) as Token).getSize().height
 				/ canvas.grid.size;
 
 			crosshair.distance = ((tokenGridSpaces + (payload.template.padding ?? 0)) * canvas.grid.distance) / 2;
@@ -81,7 +81,7 @@ export async function executeCrosshair(
 	}
 	if (payload.location) {
 		crosshair.location = {
-			obj: data.sources[0],
+			obj: context.sources[0],
 			limitMinRange: payload.location.limitRange?.min ?? null,
 			limitMaxRange: payload.location.limitRange?.max ?? null,
 			showRange: payload.location.lockToEdge ? false : !payload.location.hideRangeTooltip,
@@ -102,7 +102,9 @@ export async function executeCrosshair(
 	}
 	// #endregion
 
-	const users = data.user ? [game.users.get(data.user)!] : getPlayerOwners(data.sources[0].actor as ActorPF2e);
+	const users = context.user
+		? [game.users.get(context.user)!]
+		: getPlayerOwners(context.sources[0].actor as ActorPF2e);
 
 	const seq = new Sequence();
 

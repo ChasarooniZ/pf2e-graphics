@@ -11,13 +11,13 @@ import {
 import { AnimCore } from '../storage/AnimCore';
 import { type ArrayElement, ErrorMsg, getDefaultSize } from '../utils';
 
-export function executeGraphic(payload: Extract<Payload, { type: 'graphic' }>, data: ExecutionContext): Sequence {
+export function executeGraphic(payload: Extract<Payload, { type: 'graphic' }>, context: ExecutionContext): Sequence {
 	const seq = new Sequence();
 
-	data = addCustomExecutionContext(payload.sources, payload.targets, data);
+	context = addCustomExecutionContext(payload.sources, payload.targets, context);
 
 	for (const position of payload.position) {
-		seq.addSequence(processGraphic(payload, data, position));
+		seq.addSequence(processGraphic(payload, context, position));
 	}
 
 	return seq;
@@ -25,7 +25,7 @@ export function executeGraphic(payload: Extract<Payload, { type: 'graphic' }>, d
 
 function processGraphic(
 	payload: Parameters<typeof executeGraphic>[0],
-	data: ExecutionContext,
+	context: ExecutionContext,
 	position: ArrayElement<Parameters<typeof executeGraphic>[0]['position']>,
 ): EffectSection {
 	// TODO: Handling of `.copySprite()` and antialiasing
@@ -52,10 +52,10 @@ function processGraphic(
 		};
 		// #endregion
 		if (position.type === 'static') {
-			seq.atLocation(positionToArgument(position.location, data), options);
+			seq.atLocation(positionToArgument(position.location, context), options);
 			if (position.moveTowards) {
 				seq.moveTowards(
-					positionToArgument(position.moveTowards.target, data),
+					positionToArgument(position.moveTowards.target, context),
 					// @ts-expect-error TODO: Sequencer type should only have `ease`, no `target`
 					{ ease: position.moveTowards.ease ?? 'linear' },
 				);
@@ -70,7 +70,7 @@ function processGraphic(
 			options.bindRotation = !position.ignoreRotation;
 			options.bindScale = !position.unbindScale;
 			options.bindElevation = !position.unbindElevation;
-			seq.attachTo(positionToArgument(position.location, data), options);
+			seq.attachTo(positionToArgument(position.location, context), options);
 		} else {
 			throw ErrorMsg.send('pf2e-graphics.execute.common.error.unknownDiscriminatedUnionValue', {
 				payloadType: 'graphic',
@@ -94,7 +94,7 @@ function processGraphic(
 	if (payload.persistent)
 		seq.persist(!!payload.persistent, { persistTokenPrototype: payload.persistent === 'tokenPrototype' });
 
-	if (payload.tieToDocuments && data.item) seq.tieToDocuments(data.item);
+	if (payload.tieToDocuments && context.item) seq.tieToDocuments(context.item);
 
 	if (payload.waitUntilFinished) seq.waitUntilFinished(...parseMinMaxObject(payload.waitUntilFinished));
 
@@ -157,7 +157,7 @@ function processGraphic(
 				}
 			}
 		} else if (payload.rotation.type === 'relative') {
-			seq.rotateTowards(positionToArgument(payload.rotation.target, data), {
+			seq.rotateTowards(positionToArgument(payload.rotation.target, context), {
 				...payload.rotation,
 				attachTo: payload.rotation.attach ?? false,
 				offset: offsetToVector2(payload.rotation.offset ?? {}),
@@ -175,8 +175,8 @@ function processGraphic(
 		if (payload.visibility.ignoreTokenVision) seq.xray(payload.visibility.ignoreTokenVision);
 		if (payload.visibility.mask) {
 			const masking = payload.visibility.mask.map((x) => {
-				if (x === 'SOURCES') return data.sources;
-				if (x === 'TARGETS') return data.targets;
+				if (x === 'SOURCES') return context.sources;
+				if (x === 'TARGETS') return context.targets;
 				if (typeof x === 'string') return x;
 				throw ErrorMsg.send('pf2e-graphics.execute.common.error.unknownEnumArrayElement', {
 					payloadType: 'graphic',
@@ -222,7 +222,7 @@ function processGraphic(
 				options.gridUnits = payload.rotation.gridUnits;
 			}
 
-			seq.stretchTo(positionToArgument(payload.size.endpoint, data), options);
+			seq.stretchTo(positionToArgument(payload.size.endpoint, context), options);
 		} else {
 			// #region Common (`sizeBaseObject`) properties
 			if (payload.size.spriteScale) seq.spriteScale(...parseMinMaxObject(payload.size.spriteScale));
@@ -261,14 +261,14 @@ function processGraphic(
 				let placeable;
 				if (payload.size.relativeTo) {
 					// It might be defined explicitly
-					placeable = positionToArgument(payload.size.relativeTo, data);
+					placeable = positionToArgument(payload.size.relativeTo, context);
 				} else if (
 					// Else we use the position, if it has one
 					position.location === 'SOURCES'
 					|| position.location === 'TARGETS'
 					|| position.location === 'TEMPLATES'
 				) {
-					placeable = positionToArgument(position.location, data);
+					placeable = positionToArgument(position.location, context);
 				} else {
 					// Otherwise we try to get *any* placeable defined in the animation set
 					const firstPlaceable = getFirstPlaceable(payload.position);
@@ -277,7 +277,7 @@ function processGraphic(
 							'pf2e-graphics.execute.graphic.error.cantFindPlaceableForRelativeScaling',
 						);
 					}
-					placeable = positionToArgument(firstPlaceable, data);
+					placeable = positionToArgument(firstPlaceable, context);
 				}
 				if (
 					placeable instanceof CONFIG.Token.objectClass

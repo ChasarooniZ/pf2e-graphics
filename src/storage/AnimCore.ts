@@ -539,15 +539,17 @@ export let AnimCore = class AnimCore {
 
 			// Time to construct the sequence!
 			const sequence = new Sequence({ inModuleName: 'pf2e-graphics', softFail: !dev });
-			for (const [index, animation] of animationSet.entries()) {
-				const decodedPayload = await decodePayload(animation.execute, {
-					// queue: sequences,
-					currentIndex: index,
-					// animations: animationSet,
-					targets,
-					item,
+			for (const [index, set] of animationSet.entries()) {
+				const decodedPayload = await decodePayload(set.execute, {
+					label: set.label,
 					sources,
+					targets: (targets ?? []).filter(
+						target => target instanceof TokenDocument || target instanceof Token,
+					),
+					templates: (targets ?? []).filter(target => target instanceof MeasuredTemplateDocument),
 					user,
+					currentIndex: index,
+					item,
 				});
 				if (decodedPayload.type === 'sequence') {
 					sequence.addSequence(decodedPayload.data);
