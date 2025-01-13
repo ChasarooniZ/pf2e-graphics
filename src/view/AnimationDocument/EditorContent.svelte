@@ -18,37 +18,26 @@
 	let selection: keyof AnimationSetContentsItem = 'label';
 
 	// eslint-disable-next-line prefer-const
-	let upperAnimation = sectionArray.slice(1).slice(0, -1).reduce(
-		(object, index) => {
-			return ({ ...object, ...object.contents![index] });
-		},
-		animation.animationSets[sectionArray[0]] as AnimationSetContentsItem,
-	);
+	let upperAnimation = sectionArray
+		.slice(1)
+		.slice(0, -1)
+		.reduce((object, index) => {
+			return { ...object, ...object.contents![index] };
+		}, animation.animationSets[sectionArray[0]] as AnimationSetContentsItem);
 
 	$: log(upperAnimation);
 
 	function addSection() {
-		switch (selection) {
-			case 'name': {
-				data.name = 'animation-section';
-				break;
-			}
-			case 'triggers': {
-				data.triggers = [];
-				break;
-			}
-			case 'predicates': {
-				data.predicates = [];
-				break;
-			}
-			case 'removes': {
-				data.removes = [];
-				break;
-			}
-			case 'execute': {
-				data.execute = {};
-				break;
-			}
+		if (selection === 'label') {
+			data.label = 'animation-section';
+		} else if (selection === 'triggers') {
+			data.triggers = [];
+		} else if (selection === 'predicates') {
+			data.predicates = [];
+		} else if (selection === 'removes') {
+			data.removes = [];
+		} else if (selection === 'execute') {
+			data.execute = {};
 		}
 	}
 
@@ -65,7 +54,7 @@
 
 	function checkIfEmpty(object: object) {
 		const entries = Object.entries(object)
-			.filter(x => Array.isArray(x[1]) ? x[1].length > 0 : true)
+			.filter(x => (Array.isArray(x[1]) ? x[1].length > 0 : true))
 			.filter(x => x[0] !== 'type')
 			.filter(x => isTrueish(x[1]));
 		return entries.length === 0;
@@ -75,17 +64,11 @@
 <div class='flex flex-col gap-2 h-full py-1'>
 	{#if !readonly}
 		<header class='flex items-center grow-0'>
-			<button
-				class='w-min text-nowrap h-8'
-				on:click={addSection}
-			>
+			<button class='w-min text-nowrap h-8' on:click={addSection}>
 				<i class='fa fa-plus pr-1'></i>
 				Add
 			</button>
-			<select
-				class='grow h-8'
-				bind:value={selection}
-			>
+			<select class='grow h-8' bind:value={selection}>
 				{#each ['Execute', 'Label', 'Triggers', 'Predicates', 'Removes'].filter(x => !Object.keys(data).includes(x.toLowerCase())) as section}
 					<option value={section.toLowerCase()}>{section}</option>
 				{/each}
@@ -101,15 +84,13 @@
 					<i class='fa fa-info-circle pl-px'></i>
 				</span>
 				<div class='flex align-middle items-center col-span-2'>
-					<input
-						type='text'
-						bind:value={data.label}
-						{readonly}
-						disabled={readonly}
-					/>
+					<input type='text' bind:value={data.label} {readonly} disabled={readonly} />
 					<button
 						class='w-min ml-1'
-						on:click={() => { delete data.label; data = data; }}
+						on:click={() => {
+							delete data.label;
+							data = data;
+						}}
 						disabled={readonly}
 					>
 						<i class='fa fa-trash-can pl-0.5'></i>
@@ -125,10 +106,12 @@
 					Triggers
 					<i class='fa fa-info-circle pl-px'></i>
 				</span>
-				<div class='
-					flex align-middle items-center
-					col-span-2
-				'>
+				<div
+					class='
+						flex align-middle items-center
+						col-span-2
+					'
+				>
 					<Svelecte
 						options={[
 							'attack-roll',
@@ -157,7 +140,10 @@
 					/>
 					<button
 						class='w-min ml-1'
-						on:click={() => { delete data.triggers; data = data; }}
+						on:click={() => {
+							delete data.triggers;
+							data = data;
+						}}
 						disabled={readonly}
 					>
 						<i class='fa fa-trash-can pl-0.5'></i>
@@ -173,10 +159,12 @@
 					Predicates
 					<i class='fa fa-info-circle pl-px'></i>
 				</span>
-				<div class='
-					flex align-middle items-center
-					col-span-2
-				'>
+				<div
+					class='
+						flex align-middle items-center
+						col-span-2
+					'
+				>
 					<label
 						data-tooltip={data.predicates?.length ? 'Must empty out the Predicates (to [])' : ''}
 						class='flex align-middle items-center text-xs'
@@ -205,7 +193,11 @@
 					/>
 					<button
 						class='w-min ml-1'
-						on:click={() => { delete data.predicates; delete data.default; data = data; }}
+						on:click={() => {
+							delete data.predicates;
+							delete data.default;
+							data = data;
+						}}
 						disabled={readonly}
 					>
 						<i class='fa fa-trash-can pl-0.5'></i>
@@ -221,11 +213,13 @@
 					Removes
 					<i class='fa fa-info-circle pl-px'></i>
 				</span>
-				<div class='
-					flex align-middle items-center
-					col-span-2
-					[&_button]:w-min
-				'>
+				<div
+					class='
+						flex align-middle items-center
+						col-span-2
+						[&_button]:w-min
+					'
+				>
 					<input
 						type='text'
 						value={JSON.stringify(data.removes)}
@@ -239,7 +233,10 @@
 					/>
 					<button
 						class='w-min ml-1'
-						on:click={() => { delete data.removes; data = data; }}
+						on:click={() => {
+							delete data.removes;
+							data = data;
+						}}
 						disabled={readonly}
 					>
 						<i class='fa fa-trash-can pl-0.5'></i>
@@ -257,7 +254,8 @@
 				aria-label='Document drop target'
 				class='
 					border border-solid rounded-sm bg-slate-500/10
-				'>
+				'
+			>
 				<label class='p-0.5 pl-1 grid grid-cols-3 items-center'>
 					<span data-tooltip='TODO: Explain'>
 						Execute
@@ -269,7 +267,9 @@
 							bind:value={data.execute.type}
 							class:underline={!checkIfEmpty(data.execute)}
 							disabled={readonly || !checkIfEmpty(data.execute)}
-							data-tooltip={!checkIfEmpty(data.execute) ? 'In order to change the type of Execute payload, you have to remove the existing one first.' : ''}
+							data-tooltip={!checkIfEmpty(data.execute)
+								? 'In order to change the type of Execute payload, you have to remove the existing one first.'
+								: ''}
 						>
 							<option value='graphic'>Graphic</option>
 							<option value='sound'>Sound</option>
@@ -283,8 +283,12 @@
 								TJSDialog.confirm({
 									modal: true,
 									title: 'Confirm Deletion',
-									content: 'Are you sure you want to delete this Execute payload?<p/><b>All data will be lost.</b>',
-									onYes: () => { delete data.execute; data = data; },
+									content:
+										'Are you sure you want to delete this Execute payload?<p/><b>All data will be lost.</b>',
+									onYes: () => {
+										delete data.execute;
+										data = data;
+									},
 								});
 							}}
 							disabled={readonly}
@@ -298,23 +302,23 @@
 					<!--
 						The ts-ignores below are an absolute hack that should be
 						removed when Svelte 5 comes around with TS support in Svelte markup.
-					 	See https://github.com/sveltejs/language-tools/issues/1026
+						See https://github.com/sveltejs/language-tools/issues/1026
 					-->
 					{#if data.execute.type === 'graphic'}
 						{true && /* @ts-ignore */ ''}
-						<Graphic bind:data={data} {readonly} />
+						<Graphic bind:data {readonly} />
 					{:else if data.execute.type === 'animation'}
 						{true && /* @ts-ignore */ ''}
-						<Animation bind:data={data} {readonly} />
+						<Animation bind:data {readonly} />
 					{:else if data.execute.type === 'sound'}
 						{true && /* @ts-ignore */ ''}
-						<Sound bind:data={data} {readonly} />
+						<Sound bind:data {readonly} />
 					{:else if data.execute.type === 'crosshair'}
 						{true && /* @ts-ignore */ ''}
-						<Crosshair bind:data={data} {readonly} />
+						<Crosshair bind:data {readonly} />
 					{:else if data.execute.type === 'macro'}
 						{true && /* @ts-ignore */ ''}
-						<Macro bind:data={data} {readonly} />
+						<Macro bind:data {readonly} />
 					{/if}
 				</div>
 			</section>

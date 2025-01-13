@@ -267,7 +267,7 @@ export let AnimCore = class AnimCore {
 		// const actorKeys = actor?.getFlag('pf2e-graphics', 'animations') ?? [];
 		// const itemKeys = item?.getFlag('pf2e-graphics', 'animations') ?? [];
 
-		const disabledUser = game.user.getFlag('pf2e-graphics', 'disabledAnimations') as string[] ?? [];
+		const disabledUser = (game.user.getFlag('pf2e-graphics', 'disabledAnimations') as string[]) ?? [];
 		const disabledGlobal = window.pf2eGraphics.liveSettings.globalDisabledAnimations;
 		/**
 		 * Priority (highest to lowest):
@@ -280,7 +280,11 @@ export let AnimCore = class AnimCore {
 		 * External modules >
 		 * PF2e Graphics itself
 		 */
-		obj.animations = new Map([...this.animations, ...worldDocs, ...userDocs].filter(val => !disabledUser.includes(val[0]) || !disabledGlobal.includes(val[0])));
+		obj.animations = new Map(
+			[...this.animations, ...worldDocs, ...userDocs].filter(
+				val => !disabledUser.includes(val[0]) || !disabledGlobal.includes(val[0]),
+			),
+		);
 
 		/* Nobody cares for now
 		obj.sources = {
@@ -567,7 +571,12 @@ export let AnimCore = class AnimCore {
 export function convertDocumentsToMap(document: AnimationSetDocument[]): JSONMap {
 	const map = new Map<string, AnimationSetMetadataWrapper>();
 	for (const doc of document) {
-		map.set(doc.rollOption, new AnimationSetMetadataWrapper(doc.animationSets, { module: doc.source }));
+		map.set(
+			doc.rollOption,
+			new AnimationSetMetadataWrapper(doc.animationSets, {
+				module: doc.source === 'module' ? doc.module : `#${doc.source}`, // Guarantees uniqueness as `#` is forbidden in module IDs
+			}),
+		);
 	}
 	return map;
 }

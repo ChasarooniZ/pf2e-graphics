@@ -11,9 +11,13 @@
 			],
 			"contents": [
 				{
-					"predicates": ["origin-exists"],
-					"triggers": ["effect"],
 					"label": "sound-shields-shot",
+					"predicates": [
+						"origin-exists"
+					],
+					"triggers": [
+						"effect"
+					],
 					"execute": {
 						"type": "sound",
 						"sound": [
@@ -27,9 +31,13 @@
 					}
 				},
 				{
-					"predicates": ["origin-exists"],
-					"triggers": ["effect"],
 					"label": "graphic-shields-shot",
+					"predicates": [
+						"origin-exists"
+					],
+					"triggers": [
+						"effect"
+					],
 					"execute": {
 						"type": "graphic",
 						"graphic": [
@@ -97,8 +105,12 @@
 							]
 						},
 						{
-							"triggers": ["effect"],
-							"predicates": ["settings:persistent"],
+							"triggers": [
+								"effect"
+							],
+							"predicates": [
+								"settings:persistent"
+							],
 							"execute": {
 								"persistent": "tokenPrototype",
 								"tieToDocuments": true
@@ -107,9 +119,13 @@
 					]
 				},
 				{
-					"triggers": ["effect"],
-					"predicates": ["settings:persistent"],
 					"label": "sound-shields-down",
+					"triggers": [
+						"effect"
+					],
+					"predicates": [
+						"settings:persistent"
+					],
 					"execute": {
 						"type": "sound",
 						"sound": [
