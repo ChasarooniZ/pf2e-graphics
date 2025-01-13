@@ -131,6 +131,7 @@ const flatAnimation = z
 	.object({
 		label: ID.optional().describe(
 			'A `label` is an almost-unique, case-sensitive string that exists so that other entities can reference it, particularly when another payload `removes` it. There must be no unintentional collisions among every ID between *PF2e Graphics*, any extension modules you have enabled, and any custom animation sets in your world—make sure it\'s reasonably distinguished!',
+			// TODO: document ability to define named locations with effects' `.name()`, but only within that given sequence? Would require that only one `position` is defined. Might just delete `position[]` in favour of `position` anyway if there isn't a common use-case...
 		),
 		reference: rollOption
 			.optional()

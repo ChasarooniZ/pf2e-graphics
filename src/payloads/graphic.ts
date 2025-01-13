@@ -31,6 +31,8 @@ function processGraphic(
 	// TODO: Handling of `.copySprite()` and antialiasing
 	const seq = new Sequence().effect().file(AnimCore.parseFiles(payload.graphic));
 
+	if (context.label) seq.name(context.label);
+
 	if (position.type === 'screenSpace') {
 		seq.screenSpace();
 		if (position.aboveUI) seq.screenSpaceAboveUI();
@@ -78,8 +80,6 @@ function processGraphic(
 			});
 		}
 	}
-
-	if (payload.label) seq.name(payload.label);
 
 	if (payload.syncGroup) seq.syncGroup(payload.syncGroup);
 

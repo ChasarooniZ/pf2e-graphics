@@ -22,6 +22,8 @@ function processSound(
 ): SoundSection {
 	const seq = new Sequence().sound().file(AnimCore.parseFiles(payload.sound));
 
+	if (context.label) seq.name(context.label);
+
 	// TODO
 
 	return seq;
