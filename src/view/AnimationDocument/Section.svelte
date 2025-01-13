@@ -51,8 +51,8 @@
 	'>
 	<div class='flex'>
 		<span class='grow flex flex-col'>
-			{#if section?.name}
-				{section.name}
+			{#if section?.label}
+				{section.label}
 			{:else}
 				Section {globalIndex}
 			{/if}

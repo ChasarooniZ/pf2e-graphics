@@ -511,10 +511,10 @@ export let AnimCore = class AnimCore {
 		for (const animationSet of animationSets) {
 			// Generic animations need to be merged into their 'templates'.
 			for (const addOn of addOns) {
-				if (addOn.name) {
+				if (addOn.label) {
 					// If the add-on has a name ID, then look for a matching `slot` to fill.
 					const slotPosition = animationSet.findIndex(
-						animation => animation.generic?.type === 'slot' && animation.name === addOn.name,
+						animation => animation.generic?.type === 'slot' && animation.label === addOn.label,
 					);
 
 					// If slot can't be found (either it doesn't exist or it's been overridden), then just skip the add-on.

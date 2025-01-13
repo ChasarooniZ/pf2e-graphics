@@ -104,7 +104,7 @@ export function addCustomExecutionContext(
 ): ExecutionContext {
 	sources.forEach(async (uuid) => {
 		const doc = await fromUuid(uuid);
-		if (doc instanceof TokenDocument) {
+		if (doc instanceof TokenDocument || doc instanceof Token) {
 			data.sources.push(doc);
 		} else {
 			warn(`Could not find custom source token \`${uuid}\`.`);
@@ -112,7 +112,7 @@ export function addCustomExecutionContext(
 	});
 	targets.forEach(async (uuid) => {
 		const doc = await fromUuid(uuid);
-		if (doc instanceof TokenDocument) {
+		if (doc instanceof TokenDocument || doc instanceof Token) {
 			data.targets.push(doc);
 		} else {
 			warn(`Could not find custom target token \`${uuid}\`.`);

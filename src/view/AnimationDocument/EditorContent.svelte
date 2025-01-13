@@ -15,7 +15,7 @@
 
 	log(animation);
 
-	let selection: keyof AnimationSetContentsItem = 'name';
+	let selection: keyof AnimationSetContentsItem = 'label';
 
 	// eslint-disable-next-line prefer-const
 	let upperAnimation = sectionArray.slice(1).slice(0, -1).reduce(
@@ -86,30 +86,30 @@
 				class='grow h-8'
 				bind:value={selection}
 			>
-				{#each ['Execute', 'Name', 'Triggers', 'Predicates', 'Removes'].filter(x => !Object.keys(data).includes(x.toLowerCase())) as section}
+				{#each ['Execute', 'Label', 'Triggers', 'Predicates', 'Removes'].filter(x => !Object.keys(data).includes(x.toLowerCase())) as section}
 					<option value={section.toLowerCase()}>{section}</option>
 				{/each}
 			</select>
 		</header>
 	{/if}
 	<main class='p-0.5 grow space-y-1'>
-		<!-- #region Name -->
-		{#if 'name' in data}
+		<!-- #region Label -->
+		{#if 'label' in data}
 			<label class='p-0.5 grid grid-cols-3 items-center'>
 				<span data-tooltip='TODO: Explain'>
-					Name
+					Label
 					<i class='fa fa-info-circle pl-px'></i>
 				</span>
 				<div class='flex align-middle items-center col-span-2'>
 					<input
 						type='text'
-						bind:value={data.name}
+						bind:value={data.label}
 						{readonly}
 						disabled={readonly}
 					/>
 					<button
 						class='w-min ml-1'
-						on:click={() => { delete data.name; data = data; }}
+						on:click={() => { delete data.label; data = data; }}
 						disabled={readonly}
 					>
 						<i class='fa fa-trash-can pl-0.5'></i>

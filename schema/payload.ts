@@ -129,7 +129,9 @@ export type Payload = z.infer<typeof payload>;
  */
 const flatAnimation = z
 	.object({
-		name: ID.optional(),
+		label: ID.optional().describe(
+			'A `label` is an almost-unique, case-sensitive string that exists so that other entities can reference it, particularly when another payload `removes` it. There must be no unintentional collisions among every ID between *PF2e Graphics*, any extension modules you have enabled, and any custom animation sets in your world—make sure it\'s reasonably distinguished!',
+		),
 		reference: rollOption
 			.optional()
 			.describe(

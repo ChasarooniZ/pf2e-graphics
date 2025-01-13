@@ -79,7 +79,7 @@ function processGraphic(
 		}
 	}
 
-	if (payload.name) seq.name(payload.name);
+	if (payload.label) seq.name(payload.label);
 
 	if (payload.syncGroup) seq.syncGroup(payload.syncGroup);
 

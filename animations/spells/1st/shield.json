@@ -11,9 +11,9 @@
 			],
 			"contents": [
 				{
-					"name": "sound-shields-shot",
 					"predicates": ["origin-exists"],
 					"triggers": ["effect"],
+					"label": "sound-shields-shot",
 					"execute": {
 						"type": "sound",
 						"sound": [
@@ -27,9 +27,9 @@
 					}
 				},
 				{
-					"name": "graphic-shields-shot",
 					"predicates": ["origin-exists"],
 					"triggers": ["effect"],
+					"label": "graphic-shields-shot",
 					"execute": {
 						"type": "graphic",
 						"graphic": [
@@ -52,8 +52,10 @@
 					}
 				},
 				{
-					"name": "sound-shields-up",
-					"triggers": ["effect"],
+					"label": "sound-shields-up",
+					"triggers": [
+						"effect"
+					],
 					"execute": {
 						"type": "sound",
 						"sound": [
@@ -67,7 +69,7 @@
 					}
 				},
 				{
-					"name": "graphic-shields",
+					"label": "graphic-shields",
 					"execute": {
 						"type": "graphic",
 						"graphic": [
@@ -105,9 +107,9 @@
 					]
 				},
 				{
-					"name": "sound-shields-down",
 					"triggers": ["effect"],
 					"predicates": ["settings:persistent"],
+					"label": "sound-shields-down",
 					"execute": {
 						"type": "sound",
 						"sound": [

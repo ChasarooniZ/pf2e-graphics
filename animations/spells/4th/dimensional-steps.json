@@ -6,7 +6,7 @@
 			],
 			"contents": [
 				{
-					"name": "spell-dimensional-steps",
+					"label": "Spell: Dimensional Steps (Crosshair)",
 					"execute": {
 						"type": "crosshair",
 						"name": "spell-dimensional-steps",
@@ -17,6 +17,7 @@
 					}
 				},
 				{
+					"label": "Spell: Dimensional Steps (Blue Swirl)",
 					"execute": {
 						"type": "graphic",
 						"graphic": [

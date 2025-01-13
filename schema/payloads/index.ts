@@ -23,10 +23,10 @@ export type PayloadType = z.infer<typeof payloadTypes>;
  */
 export const effectOptions = z
 	.object({
-		name: z
-			.string()
-			.optional()
-			.describe('A human-readable name to display in Sequencer\'s Animations Manager.'),
+		label: ID.optional().describe(
+			'A `label` is an almost-unique, case-sensitive string that exists so that other entities can reference it, particularly when another payload `removes` it. There must be no unintentional collisions among every ID between *PF2e Graphics*, any extension modules you have enabled, and any custom animation sets in your world—make sure it\'s reasonably distinguished!',
+			// TODO: document ability to define named locations with effects' `.name()`, but only within that given sequence? Would require that only one `position` is defined. Might just delete `position[]` in favour of `position` anyway if there isn't a common use-case...
+		),
 		syncGroup: ID.optional().describe(
 			'Assigns the payload set to a particular group. Payloads in a given group all start at the same time, which can be useful if you\'ve got duplicated effects. Uniqueness is required only if the animation set contains persistent effects.',
 		),
