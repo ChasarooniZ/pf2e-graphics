@@ -14,13 +14,11 @@ const vector2Base = z
 	.object({
 		x: z
 			.number()
-			.transform(val => val !== 0 ? val : undefined)
 			.refine(...nonZero)
 			.optional()
 			.describe('Distance rightwards, in pixels.'),
 		y: z
 			.number()
-			.transform(val => val !== 0 ? val : undefined)
 			.refine(...nonZero)
 			.optional()
 			.describe('Distance downwards, in pixels.'),

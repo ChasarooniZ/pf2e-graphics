@@ -3,7 +3,7 @@ import { pluralise } from './utils';
 /**
  * Zod refinement to ensure a numeric value isn't zero.
  */
-export const nonZero: [(num: number | undefined) => boolean, string] = [
+export const nonZero: [(num: number) => boolean, string] = [
 	num => num !== 0,
 	'Number cannot be 0. If you want the value to be 0, simply leave the property undefined.',
 ];
