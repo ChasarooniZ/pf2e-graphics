@@ -4,12 +4,16 @@
 			"overrides": [
 				"item:group:club"
 			],
-			"triggers": ["attack-roll"],
+			"triggers": [
+				"attack-roll"
+			],
 			"contents": [
 				{
 					"execute": {
 						"type": "graphic",
-						"graphic": ["jb2a.quarterstaff.melee.01.white"],
+						"graphic": [
+							"jb2a.quarterstaff.melee.01.white"
+						],
 						"position": [
 							{
 								"type": "static",
@@ -36,7 +40,9 @@
 				{
 					"execute": {
 						"type": "sound",
-						"sound": ["graphics-sfx.generic.hit.blunt"],
+						"sound": [
+							"graphics-sfx.generic.hit.blunt"
+						],
 						"delay": 800,
 						"position": [
 							{

@@ -4,14 +4,22 @@
 			"generic": {
 				"type": "add-on"
 			},
-			"triggers": ["attack-roll"],
+			"triggers": [
+				"attack-roll"
+			],
 			"predicates": [
 				"action:strike"
 			],
 			"execute": {
 				"type": "sound",
-				"position": [{ "location": "SOURCES" }],
-				"sound": ["graphics-sfx.critical"]
+				"position": [
+					{
+						"location": "SOURCES"
+					}
+				],
+				"sound": [
+					"graphics-sfx.critical"
+				]
 			}
 		}
 	],
@@ -20,14 +28,22 @@
 			"generic": {
 				"type": "add-on"
 			},
-			"triggers": ["attack-roll"],
+			"triggers": [
+				"attack-roll"
+			],
 			"predicates": [
 				"action:strike"
 			],
 			"execute": {
 				"type": "sound",
-				"position": [{ "location": "SOURCES" }],
-				"sound": ["graphics-sfx.generic.miss"]
+				"position": [
+					{
+						"location": "SOURCES"
+					}
+				],
+				"sound": [
+					"graphics-sfx.generic.miss"
+				]
 			}
 		}
 	]
