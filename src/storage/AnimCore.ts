@@ -188,6 +188,7 @@ export let AnimCore = class AnimCore {
 	animate(
 		{
 			trigger,
+			context,
 			rollOptions,
 			item,
 			actor,
@@ -198,6 +199,7 @@ export let AnimCore = class AnimCore {
 		}: {
 			rollOptions: string[];
 			trigger: Trigger;
+			context: any;
 			actor: ActorPF2e | null;
 			sources: TokenOrDoc[];
 			item?: ItemPF2e | null;
@@ -216,20 +218,37 @@ export let AnimCore = class AnimCore {
 
 		const allAnimations = this.retrieve(rollOptions, item, actor).animations;
 		const foundAnimations = this.search(rollOptions, [trigger], allAnimations);
-		const appliedAnimations = Object.values(foundAnimations).map(x =>
+		const appliedAnimations: ExecutableAnimation[][] = Object.values(foundAnimations).map(x =>
 			x.map(x => mergeObjectsConcatArrays({ options: animationOptions } as any, x)),
 		);
+
+		const _item = nonNullable(item) ? item : undefined;
+		const misc = {
+			actor,
+			trigger,
+			context,
+			item: _item,
+			user,
+			play: true,
+		};
+
+		Hooks.call('pf2eGraphicsAnimate', rollOptions, appliedAnimations, misc);
+
+		if (!misc.play) {
+			log('Animation has been turned off by a third party.');
+			return;
+		}
 
 		AnimCore.createHistoryEntry({
 			rollOptions,
 			actor,
 			animations: appliedAnimations.flat(),
 			trigger,
-			item: nonNullable(item) ? item : undefined,
+			item: _item,
 			user: user ? { name: game.users.get(user)!.name, id: user } : undefined,
 		});
 
-		return this.play(appliedAnimations, sources, targets, nonNullable(item) ? item : undefined, user);
+		return this.play(appliedAnimations, sources, targets, _item, user);
 	}
 
 	/**

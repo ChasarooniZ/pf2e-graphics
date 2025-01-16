@@ -47,6 +47,7 @@ function trifectaFunc(
 	window.pf2eGraphics.AnimCore.animate({
 		rollOptions: [...item.actor.getRollOptions(), ...newOptions, `toggle:${action}`],
 		trigger: 'toggle' as const,
+		context: { item, action, newOptions },
 		actor: item.actor,
 		sources: item.actor.getActiveTokens(),
 		item,

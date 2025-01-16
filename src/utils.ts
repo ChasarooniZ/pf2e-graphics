@@ -71,7 +71,7 @@ export function devLog(...args: any) {
 	if (dev) console.log(`[%cPF2e Graphics%c %cDEV%c]`, 'color: yellow', '', 'color: #20C20E;', '', ...args);
 }
 
-/** Fires `console.log()` with some formatting sugar if and only if `dev` mode is enabled. */
+/** Fires `console.log()` with some formatting sugar TODO: NOT if and only if `dev` mode is enabled. */
 export function log(...args: any) {
 	if (dev) console.log(`[%cPF2e Graphics%c]`, 'color: yellow', '', ...args);
 }

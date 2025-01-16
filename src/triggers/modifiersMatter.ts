@@ -26,6 +26,7 @@ function handleModifiersMatter(options: modifiersMatterType, delayed = false) {
 		window.pf2eGraphics.AnimCore.animate({
 			rollOptions: rollOptions.concat(`significance:${modifier.significance.toLowerCase()}`),
 			trigger: 'modifiers-matter' as const,
+			context: options,
 			item: chatMessage.item,
 			sources: rollingActor.getActiveTokens(),
 			actor: rollingActor,

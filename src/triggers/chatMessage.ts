@@ -62,6 +62,7 @@ function handleChatMessage(message: ChatMessagePF2e, delayed = false) {
 	window.pf2eGraphics.AnimCore.animate({
 		rollOptions: rollOptions.concat(newOptions),
 		trigger,
+		context: message,
 		sources,
 		targets: targets.filter(nonNullable),
 		actor: message.actor,
@@ -113,6 +114,7 @@ const updateChatMessage = Hooks.on('updateChatMessage', (message: ChatMessagePF2
 			window.pf2eGraphics.AnimCore.animate({
 				rollOptions,
 				trigger,
+				context: message,
 				targets: [target],
 				sources: [message.token],
 				item: message.item,

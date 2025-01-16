@@ -25,6 +25,7 @@ function handleTemplate(template: MeasuredTemplateDocumentPF2e, delayed = false)
 			`template:${template.t}`,
 		] as const),
 		trigger: 'place-template' as const,
+		context: template,
 		targets: [template],
 		sources,
 		actor,

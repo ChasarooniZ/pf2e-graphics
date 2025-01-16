@@ -38,6 +38,7 @@ function handleEffect(item: ItemPF2e, delayed = false) {
 	window.pf2eGraphics.AnimCore.animate({
 		rollOptions,
 		trigger: 'effect' as const,
+		context: item,
 		item,
 		actor: item.actor,
 		sources,
