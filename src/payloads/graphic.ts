@@ -160,7 +160,7 @@ function processGraphic(
 			seq.rotateTowards(positionToArgument(payload.rotation.target, context), {
 				...payload.rotation,
 				attachTo: payload.rotation.attach ?? false,
-				offset: offsetToVector2(payload.rotation.offset ?? {}),
+				offset: offsetToVector2(payload.rotation.offset), // TODO: Wtf? This removes atLocation's offset.
 			});
 		} else {
 			throw ErrorMsg.send('pf2e-graphics.execute.common.error.unknownDiscriminatedUnionValue', {
