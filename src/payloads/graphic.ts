@@ -43,7 +43,7 @@ function processGraphic(
 		if (position.missed) seq.missed();
 		if (position.spriteOffset) {
 			seq.spriteOffset(offsetToVector2(position.spriteOffset), {
-				gridUnits: position.spriteOffset.gridUnits,
+				gridUnits: position.spriteOffset.gridUnits ?? false,
 			});
 		}
 		const options: Parameters<typeof seq.attachTo>[1] = {

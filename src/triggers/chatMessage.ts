@@ -1,4 +1,4 @@
-import type { ActorPF2e, ChatMessageFlagsPF2e, ChatMessagePF2e, CheckType, UserPF2e } from 'foundry-pf2e';
+import type { ActorPF2e, ChatMessageFlagsPF2e, ChatMessagePF2e, CheckType, TokenDocumentPF2e, UserPF2e } from 'foundry-pf2e';
 import type { Trigger } from '../../schema';
 import { devLog, log, nonNullable } from '../utils';
 
@@ -33,9 +33,10 @@ function handleChatMessage(message: ChatMessagePF2e, delayed = false) {
 
 	const missed = message.flags.pf2e.context?.outcome?.includes('ailure') ?? false;
 	const animationOptions = { missed };
-	// @ts-expect-error - Too lazy to properly define custom modules flags
-	const toolbeltTargets = message.flags?.['pf2e-toolbelt']?.targetHelper?.targets?.map(t => fromUuidSync(t)) as (TokenDocumentPF2e | null)[] | undefined;
-	const messageTargets = message.target?.token ? [message.target?.token] : Array.from((message.author as UserPF2e).targets);
+	const toolbeltTargets = message.flags?.['pf2e-toolbelt']?.targetHelper?.targets?.map(t => fromUuidSync(t) as TokenDocumentPF2e | null);
+	const messageTargets = message.target?.token
+		? [message.target?.token]
+		: Array.from((message.author as UserPF2e).targets);
 
 	const targets = toolbeltTargets ?? (messageTargets.length ? messageTargets : []);
 

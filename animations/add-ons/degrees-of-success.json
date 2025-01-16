@@ -1,0 +1,34 @@
+{
+	"check:outcome:critical-success": [
+		{
+			"generic": {
+				"type": "add-on"
+			},
+			"triggers": ["attack-roll"],
+			"predicates": [
+				"action:strike"
+			],
+			"execute": {
+				"type": "sound",
+				"position": [{ "location": "SOURCES" }],
+				"sound": ["graphics-sfx.critical"]
+			}
+		}
+	],
+	"check:outcome:critical-failure": [
+		{
+			"generic": {
+				"type": "add-on"
+			},
+			"triggers": ["attack-roll"],
+			"predicates": [
+				"action:strike"
+			],
+			"execute": {
+				"type": "sound",
+				"position": [{ "location": "SOURCES" }],
+				"sound": ["graphics-sfx.generic.miss"]
+			}
+		}
+	]
+}

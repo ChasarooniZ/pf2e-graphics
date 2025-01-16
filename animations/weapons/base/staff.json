@@ -1,0 +1,52 @@
+{
+	"item:base:staff": [
+		{
+			"overrides": [
+				"item:group:club"
+			],
+			"triggers": ["attack-roll"],
+			"contents": [
+				{
+					"execute": {
+						"type": "graphic",
+						"graphic": ["jb2a.quarterstaff.melee.01.white"],
+						"position": [
+							{
+								"type": "static",
+								"location": "SOURCES",
+								"spriteOffset": {
+									"x": -325
+								}
+							}
+						],
+						"reflection": {
+							"y": "random"
+						},
+						"size": {
+							"type": "relative",
+							"relativeTo": "SOURCES",
+							"scaling": 5
+						},
+						"rotation": {
+							"type": "relative",
+							"target": "TARGETS"
+						}
+					}
+				},
+				{
+					"execute": {
+						"type": "sound",
+						"sound": ["graphics-sfx.generic.hit.blunt"],
+						"delay": 800,
+						"position": [
+							{
+								"type": "static",
+								"location": "SOURCES"
+							}
+						]
+					}
+				}
+			]
+		}
+	]
+}
