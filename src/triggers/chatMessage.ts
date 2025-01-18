@@ -50,6 +50,11 @@ function handleChatMessage(message: ChatMessagePF2e, delayed = false) {
 
 	const outcome = message.flags.pf2e.context?.outcome;
 	if (outcome) newOptions.push(`check:outcome:${game.pf2e.system.sluggify(outcome)}`);
+	// TODO: Types, Eugh
+	const contextualRollOptions = (message.flags.pf2e.context as { contextualRollOptions?: { postRoll?: string[] } } | undefined)?.contextualRollOptions?.postRoll;
+	if (contextualRollOptions) {
+		newOptions.push(...contextualRollOptions);
+	}
 
 	if (trigger === 'saving-throw' || trigger === 'damage-taken') {
 		const options = message.token.actor?.getRollOptions().map(x => `target:${x}`);
@@ -130,10 +135,13 @@ const pf2etoolbeltRollSave = Hooks.on('pf2e-toolbelt.rollSave', (args: RollSaveH
 	if (!message.token) return log('The source token doesn\'t exist. Aborting.');
 
 	// We are mixing damage-roll and saving-throw roll options here... Hmm.
-	const rollOptions = message.flags.pf2e.context?.options ?? [];
+	// TODO: Fix when toolbelt provides options and contextualOptions
+	const rollOptions: string[] = /* message.flags.pf2e.context?.options ?? */ [];
 	const newOptions = [];
 	const options = target.actor?.getRollOptions().map(x => `target:${x}`);
 	if (options) newOptions.push(...options, 'target');
+
+	newOptions.push(`check:outcome:${success}`, `check:total:${roll.total}`);
 
 	window.pf2eGraphics.AnimCore.animate({
 		rollOptions: rollOptions.concat(newOptions),
@@ -149,14 +157,21 @@ const pf2etoolbeltRollSave = Hooks.on('pf2e-toolbelt.rollSave', (args: RollSaveH
 });
 
 const pf2etoolbeltRerollSave = Hooks.on('pf2e-toolbelt.rerollSave', (args: RerollSaveHook) => {
-	const { message, target, keptRoll, data: { success } } = args;
+	const { message, target, keptRoll, oldRoll, data: { success } } = args;
 	if (!message.token) return log('The source token doesn\'t exist. Aborting.');
 
 	// We are mixing damage-roll and saving-throw roll options here... Hmm.
-	const rollOptions = message.flags.pf2e.context?.options ?? [];
+	// TODO: Fix when toolbelt provides options and contextualOptions
+	const rollOptions: string[] = /* message.flags.pf2e.context?.options ?? */ [];
 	const newOptions = [];
 	const options = target.actor?.getRollOptions().map(x => `target:${x}`);
 	if (options) newOptions.push(...options, 'target');
+
+	newOptions.push(
+		`check:outcome:${success}`,
+		`check:total:${keptRoll.total}`,
+		`check:oldTotal:${oldRoll.total}`,
+	);
 
 	window.pf2eGraphics.AnimCore.animate({
 		rollOptions: rollOptions.concat(newOptions),
