@@ -43,6 +43,7 @@
 							bg-gray-400/25
 							hover:shadow-inner
 							hover:bg-gray-500/25
+							hover:cursor-pointer
 						'
 						role='button'
 						tabindex='0'
@@ -78,53 +79,54 @@
 				<i class='text-gray-500 opacity-50 text-center my-auto'>No animations.</i>
 			{/if}
 		</aside>
-		<main class='w-2/3 flex overflow-hidden'>
+		<main class='w-2/3 flex'>
 			{#if selected}
-				{#key selected}
-					<div class='w-2/3'>
-						<div class='flex flex-row gap-1 border border-solid rounded-md'>
-							<div class='self-center text-lg leading-3 pl-1'>
-								{i18n('pf2e-graphics.history.window.search')}
-							</div>
-							<input type='text' bind:value={search} />
+				<div class='w-2/3'>
+					<div class='flex flex-row gap-1 border border-solid rounded-md'>
+						<div class='self-center text-lg leading-3 pl-1'>
+							{i18n('pf2e-graphics.history.window.search')}
 						</div>
-						<ul
-							class='overflow-y-scroll px-1 list-none text-ellipsis overflow-x-hidden leading-5 h-full text-nowrap'
-						>
-							{#each selected.rollOptions.filter(option => option
-								.toLowerCase()
-								.includes(search.toLowerCase())) as option}
-								<li class='even:bg-black/10 px-2 -mx-2 select-text'>
-									{option}
-								</li>
-							{/each}
-						</ul>
+						<input type='text' bind:value={search} />
 					</div>
-					<div class='w-1/3 p-2 [&>section]:pb-2'>
-						<section>
-							<h4 class='text-lg bold w-full border-0 border-b border-solid'>
-								{i18n('pf2e-graphics.history.window.data.actor.header')}
-							</h4>
-							{selected.actor.name}
-						</section>
-						<section>
-							<h4 class='text-lg bold w-full border-0 border-b border-solid'>
-								{i18n('pf2e-graphics.history.window.data.trigger.header')}
-							</h4>
-							<code>{selected.trigger}</code>
-						</section>
-						<section>
-							<h4 class='text-lg bold w-full border-0 border-b border-solid'>
-								{i18n('pf2e-graphics.history.window.data.user.header')}
-							</h4>
-							{#if selected.user?.name}
-								{selected.user.name}
-							{:else}
-								<i>{i18n('pf2e-graphics.history.window.data.user.unknown')}</i>
-							{/if}
-						</section>
-					</div>
-				{/key}
+					<ul class='
+						px-1 h-[calc(100%-2rem)]
+						overflow-y-scroll overflow-x-hidden
+						list-none text-ellipsis
+						leading-5 text-nowrap
+					'>
+						{#each selected.rollOptions.filter(option => option
+							.toLowerCase()
+							.includes(search.toLowerCase())) as option}
+							<li class='even:bg-black/10 px-2 -mx-2 select-text'>
+								{option}
+							</li>
+						{/each}
+					</ul>
+				</div>
+				<div class='w-1/3 p-2 [&>section]:pb-2'>
+					<section>
+						<h4 class='text-lg bold w-full border-0 border-b border-solid'>
+							{i18n('pf2e-graphics.history.window.data.actor.header')}
+						</h4>
+						{selected.actor.name}
+					</section>
+					<section>
+						<h4 class='text-lg bold w-full border-0 border-b border-solid'>
+							{i18n('pf2e-graphics.history.window.data.trigger.header')}
+						</h4>
+						<code>{selected.trigger}</code>
+					</section>
+					<section>
+						<h4 class='text-lg bold w-full border-0 border-b border-solid'>
+							{i18n('pf2e-graphics.history.window.data.user.header')}
+						</h4>
+						{#if selected.user?.name}
+							{selected.user.name}
+						{:else}
+							<i>{i18n('pf2e-graphics.history.window.data.user.unknown')}</i>
+						{/if}
+					</section>
+				</div>
 			{/if}
 		</main>
 	</div>
