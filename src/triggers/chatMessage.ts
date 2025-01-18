@@ -1,4 +1,4 @@
-import type { ActorPF2e, ChatMessageFlagsPF2e, ChatMessagePF2e, CheckType, TokenDocumentPF2e, UserPF2e } from 'foundry-pf2e';
+import type { ActorPF2e, ChatMessagePF2e, CheckRoll, CheckType, DegreeAdjustmentsRecord, DegreeOfSuccessString, RollNoteSource, TokenDocumentPF2e, UserPF2e } from 'foundry-pf2e';
 import type { Trigger } from '../../schema';
 import { devLog, log, nonNullable } from '../utils';
 
@@ -95,35 +95,80 @@ const createChatMessage = Hooks.on('createChatMessage', (msg: ChatMessagePF2e) =
 		handleChatMessage(msg);
 });
 
-const updateChatMessage = Hooks.on('updateChatMessage', (message: ChatMessagePF2e, { flags }: { flags: ChatMessageFlagsPF2e }) => {
-	if (!flags) return;
-	if (flags['pf2e-toolbelt']?.targetHelper?.saves) {
-		for (const targetId in flags['pf2e-toolbelt'].targetHelper.saves) {
-			const roll = flags['pf2e-toolbelt']?.targetHelper?.saves[targetId];
-			const target = canvas.tokens.get(targetId);
-			const rollData: Roll = JSON.parse(roll.roll);
+interface RollSaveHook {
+	roll: Rolled<CheckRoll>;
+	message: ChatMessagePF2e;
+	target: TokenDocumentPF2e;
+	data: MessageTargetSave;
+}
 
-			devLog('Target Helper saving throw update', { roll, target });
+interface RerollSaveHook {
+	oldRoll: Rolled<CheckRoll>;
+	newRoll: Rolled<CheckRoll>;
+	keptRoll: Rolled<CheckRoll>;
+	message: ChatMessagePF2e;
+	target: TokenDocumentPF2e;
+	data: MessageTargetSave;
+}
 
-			if (!target) return log('The target token no longer exists?? Aborting.');
-			if (!message.token) return log('The source token no longer exists?? Aborting.');
+interface MessageTargetSave {
+	private: boolean;
+	value: number;
+	die: number;
+	success: DegreeOfSuccessString;
+	roll: string;
+	notes: RollNoteSource[];
+	dosAdjustments: DegreeAdjustmentsRecord | undefined;
+	unadjustedOutcome?: DegreeOfSuccessString | null;
+	modifiers: { label: string; modifier: number }[];
+	significantModifiers: any;
+	rerolled?: 'hero' | 'new' | 'lower' | 'higher';
+}
 
-			const rollOptions = message.flags.pf2e.context?.options ?? [];
-			const trigger = rollData.options.type as Trigger;
-			const animationOptions = { missed: roll?.success.includes('ailure') ?? false };
+const pf2etoolbeltRollSave = Hooks.on('pf2e-toolbelt.rollSave', (args: RollSaveHook) => {
+	const { message, target, roll, data: { success } } = args;
+	if (!message.token) return log('The source token doesn\'t exist. Aborting.');
 
-			window.pf2eGraphics.AnimCore.animate({
-				rollOptions,
-				trigger,
-				context: message,
-				targets: [target],
-				sources: [message.token],
-				item: message.item,
-				actor: message.actor,
-				animationOptions,
-			}, 'Target Helper Hook');
-		}
-	}
+	// We are mixing damage-roll and saving-throw roll options here... Hmm.
+	const rollOptions = message.flags.pf2e.context?.options ?? [];
+	const newOptions = [];
+	const options = target.actor?.getRollOptions().map(x => `target:${x}`);
+	if (options) newOptions.push(...options, 'target');
+
+	window.pf2eGraphics.AnimCore.animate({
+		rollOptions: rollOptions.concat(newOptions),
+		trigger: 'saving-throw' as const,
+		context: args,
+		targets: [target],
+		sources: [message.token],
+		item: message.item,
+		actor: target.actor,
+		animationOptions: { missed: success.includes('ailure') },
+		user: roll.options.rollerId,
+	}, 'Target Helper Saving Throw');
+});
+
+const pf2etoolbeltRerollSave = Hooks.on('pf2e-toolbelt.rerollSave', (args: RerollSaveHook) => {
+	const { message, target, keptRoll, data: { success } } = args;
+	if (!message.token) return log('The source token doesn\'t exist. Aborting.');
+
+	// We are mixing damage-roll and saving-throw roll options here... Hmm.
+	const rollOptions = message.flags.pf2e.context?.options ?? [];
+	const newOptions = [];
+	const options = target.actor?.getRollOptions().map(x => `target:${x}`);
+	if (options) newOptions.push(...options, 'target');
+
+	window.pf2eGraphics.AnimCore.animate({
+		rollOptions: rollOptions.concat(newOptions),
+		trigger: 'saving-throw' as const,
+		context: args,
+		targets: [target],
+		sources: [message.token],
+		item: message.item,
+		actor: target.actor,
+		animationOptions: { missed: success.includes('ailure') },
+		user: keptRoll.options.rollerId,
+	}, 'Target Helper Saving Throw Reroll');
 });
 
 if (import.meta.hot) {
@@ -133,6 +178,7 @@ if (import.meta.hot) {
 	import.meta.hot.dispose(() => {
 		Hooks.off('diceSoNiceRollComplete', diceSoNiceRollComplete);
 		Hooks.off('createChatMessage', createChatMessage);
-		Hooks.off('updateChatMessage', updateChatMessage);
+		Hooks.off('pf2e-toolbelt.rollSave', pf2etoolbeltRollSave);
+		Hooks.off('pf2e-toolbelt.rerollSave', pf2etoolbeltRerollSave);
 	});
 }
