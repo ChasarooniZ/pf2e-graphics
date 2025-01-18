@@ -41,10 +41,11 @@
 							flex p-1
 							border border-solid border-gray-500 rounded-sm
 							bg-gray-400/25
-							hover:shadow-inner
 							hover:bg-gray-500/25
 							hover:cursor-pointer
+							shadow-slate-600
 						'
+						class:shadow-inner={selected === entry}
 						role='button'
 						tabindex='0'
 						on:click={() => (selected = entry)}
