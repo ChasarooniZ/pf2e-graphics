@@ -58,6 +58,12 @@ function handleChatMessage(message: ChatMessagePF2e, delayed = false) {
 		newOptions.push(...message.item?.getRollOptions() ?? []);
 	}
 
+	// showHiddenRolls negates message.blind
+	if (!window.pf2eGraphics.liveSettings.showHiddenRolls && message.blind) {
+		log('Discarded Animation due to the triggering message being blind.');
+		return;
+	}
+
 	window.pf2eGraphics.AnimCore.animate({
 		rollOptions: rollOptions.concat(newOptions),
 		trigger,

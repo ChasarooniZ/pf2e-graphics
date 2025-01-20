@@ -17,6 +17,7 @@ let settings: TJSLiveGameSettings & {
 	jb2aMode: 'patreon' | 'free';
 	history: boolean;
 	cardsGone: true;
+	showHiddenRolls: boolean;
 };
 export type liveSettings = typeof settings;
 
@@ -45,19 +46,6 @@ const settingsData = [
 			config: false,
 			type: Array,
 			default: [],
-		},
-	},
-	{
-		namespace: 'pf2e-graphics',
-		key: 'history',
-		folder: 'PF2e Graphics',
-		options: {
-			name: 'pf2e-graphics.settings.history.name',
-			hint: 'pf2e-graphics.settings.history.hint',
-			scope: 'world',
-			config: true,
-			type: Boolean,
-			default: false,
 		},
 	},
 	{
@@ -172,9 +160,35 @@ const settingsData = [
 			default: false,
 		},
 	},
+	{
+		namespace: 'pf2e-graphics',
+		key: 'history',
+		folder: 'PF2e Graphics',
+		options: {
+			name: 'pf2e-graphics.settings.history.name',
+			hint: 'pf2e-graphics.settings.history.hint',
+			scope: 'world',
+			config: true,
+			type: Boolean,
+			default: false,
+		},
+	},
+	{
+		namespace: 'pf2e-graphics',
+		key: 'showHiddenRolls',
+		folder: 'PF2e Graphics',
+		options: {
+			name: 'pf2e-graphics.settings.showHiddenRolls.name',
+			hint: 'pf2e-graphics.settings.showHiddenRolls.hint',
+			scope: 'world',
+			config: true,
+			type: Boolean,
+			default: false,
+		},
+	},
 ] as const;
 
-function devSettings() {
+function conditionalSettings() {
 	return [
 		{
 			namespace: 'pf2e-graphics',
@@ -211,7 +225,7 @@ function devSettings() {
 
 export function initSettings() {
 	storeSettings.registerAll(settingsData, true);
-	storeSettings.registerAll(devSettings(), true);
+	storeSettings.registerAll(conditionalSettings(), true);
 
 	settings = new TJSLiveGameSettings(storeSettings) as typeof settings;
 
