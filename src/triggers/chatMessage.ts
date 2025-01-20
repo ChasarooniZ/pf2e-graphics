@@ -1,6 +1,6 @@
 import type { ActorPF2e, ChatMessagePF2e, CheckRoll, CheckType, DegreeAdjustmentsRecord, DegreeOfSuccessString, RollNoteSource, TokenDocumentPF2e, UserPF2e } from 'foundry-pf2e';
 import type { Trigger } from '../../schema';
-import { devLog, log, nonNullable } from '../utils';
+import { log, nonNullable } from '../utils';
 
 function handleChatMessage(message: ChatMessagePF2e, delayed = false) {
 	if (window.pf2eGraphics.liveSettings.delay && !delayed) {
