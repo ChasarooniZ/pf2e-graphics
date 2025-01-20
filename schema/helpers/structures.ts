@@ -95,7 +95,15 @@ export const positionBaseObject = z.object({
 		.optional()
 		.describe(
 			'Causes the graphic to be localised near the target/anchor, but not actually centred directly on it. This is applied automatically when the triggering message includes an attack roll that failed; you can use `false` to override this and always cause the graphic to be properly located.',
+		),
+	anchor: vector2
 		.optional()
 		.describe(
+			'Positions the \'anchor\' of the graphic\'s container (the point actually corresponding to `location`), specified as a proportion rightwards and downwards from the graphic\'s top-left corner (default: centred; `{ "x": 0.5, "y": 0.5 }`).\n\nThis value also serves as the fixed point or pivot for all rotations, reflections, and scaling.',
+		),
+	spriteAnchor: vector2
+		.optional()
+		.describe(
+			'Positions the graphic\'s \'anchor\' within its container, specified as a proportion rightwards and downwards from the graphic\'s top-left corner (default: centred; `{ "x": 0.5, "y": 0.5 }`).\n\nThis value also serves as the fixed point or pivot for all sprite-rotations, -reflections, and -scaling.',
 		),
 });

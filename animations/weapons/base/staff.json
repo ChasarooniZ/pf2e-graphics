@@ -2,7 +2,7 @@
 	"item:base:staff": [
 		{
 			"overrides": [
-				"item:group:club"
+				"item:group"
 			],
 			"triggers": [
 				"attack-roll"
@@ -18,8 +18,9 @@
 							{
 								"type": "static",
 								"location": "SOURCES",
-								"spriteOffset": {
-									"x": -300
+								"anchor": {
+									"x": 0.38,
+									"y": 0.5
 								}
 							}
 						],

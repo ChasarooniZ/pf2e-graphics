@@ -57,6 +57,8 @@ function processGraphic(
 				gridUnits: position.spriteOffset.gridUnits ?? false,
 			});
 		}
+		if (position.anchor) seq.anchor(offsetToVector2(position.anchor));
+		if (position.spriteAnchor) seq.spriteAnchor(offsetToVector2(position.spriteAnchor));
 		const options: Parameters<typeof seq.attachTo>[1] = {
 			randomOffset: position.randomOffset ?? 0,
 			offset: offsetToVector2(position.offset),

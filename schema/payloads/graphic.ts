@@ -216,7 +216,7 @@ const shapeOptions = z
 		offset: vector2WithGridUnits
 			.optional()
 			.describe('A 2D offset, accepting either single- or range-values for either axis.'),
-		// anchor: vector2.optional().describe(''), TODO: does this actually do anything different from `offset`?
+		// anchor: vector2.optional().describe(''), // TODO: I don't think this is necessary here?
 		isMask: z
 			.literal(true)
 			.optional()
