@@ -110,6 +110,42 @@ export function makeAnimation(name: string, type: animationPresetType, location:
 			break;
 		}
 
+		case 'melee': {
+			preset.push({
+				label: `${name} (Melee)`,
+				triggers: ['attack-roll'],
+				predicates: ['melee'],
+				execute: {
+					type: 'graphic',
+					graphic: [
+						'jb2a.melee_attack.02.handaxe.01',
+					],
+					position: [
+						{
+							type: 'static',
+							location: 'SOURCES',
+							anchor: {
+								x: 0.4,
+							},
+						},
+					],
+					reflection: {
+						y: 'random',
+					},
+					size: {
+						type: 'relative',
+						relativeTo: 'SOURCES',
+						scaling: 5,
+					},
+					rotation: {
+						type: 'relative',
+						location: 'TARGETS',
+					},
+				},
+			});
+			break;
+		}
+
 		case 'custom': break;
 		default: log('Unknown preset type!');
 	}
