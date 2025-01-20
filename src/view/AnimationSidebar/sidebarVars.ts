@@ -5,6 +5,17 @@ import { deslugify } from 'src/utils';
 import { derived } from 'svelte/store';
 
 const ignoredWords = ['item:slug:'];
+const replacedWords = [
+	[/Item: Base:(.*)/g, '$1 (Base Weapon)'],
+	[/Item: Group:(.*)/g, '$1 (Item Group)'],
+] as const;
+
+function moduleAnimationName(name: string): string {
+	for (const [regex, replacement] of replacedWords) {
+		name = name.replace(regex, replacement);
+	}
+	return name.trim();
+}
 
 export function initVariables(): {
 	animations: Readable<AnimationSetDocument[]>;
@@ -31,7 +42,7 @@ export function initVariables(): {
 			Array.from($animations.entries()).map(([rollOption, data]) => ({
 				source: 'module' as const,
 				module: data.module,
-				name: deslugify(rollOption.replace(new RegExp(ignoredWords.join('|'), 'g'), '')),
+				name: moduleAnimationName(deslugify(rollOption.replace(new RegExp(ignoredWords.join('|'), 'g'), ''))),
 				rollOption,
 				animationSets: data.animationSets,
 			})),

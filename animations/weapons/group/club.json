@@ -1,0 +1,43 @@
+{
+	"item:group:club": [
+		{
+			"triggers": ["attack-roll"],
+			"contents": [
+				{
+					"execute": {
+						"type": "graphic",
+						"graphic": ["jb2a.melee_attack.02.club"],
+						"position": [
+							{
+								"type": "static",
+								"location": "SOURCES",
+								"spriteOffset": {
+									"x": -300
+								}
+							}
+						],
+						"reflection": {
+							"y": "random"
+						},
+						"size": {
+							"type": "relative",
+							"relativeTo": "SOURCES",
+							"scaling": 5
+						},
+						"rotation": {
+							"type": "relative",
+							"target": "TARGETS"
+						}
+					}
+				},
+				{
+					"execute": {
+						"type": "sound",
+						"sound": ["graphics-sfx.generic.hit.blunt"],
+						"delay": 500
+					}
+				}
+			]
+		}
+	]
+}
