@@ -127,6 +127,24 @@
 							<i>{i18n('pf2e-graphics.history.window.data.user.unknown')}</i>
 						{/if}
 					</section>
+					{#if selected.triggerContext}
+						<section>
+							<h4 class='text-lg bold w-full border-0 border-b border-solid'>
+								{i18n('pf2e-graphics.history.window.data.triggerContext.header')}
+							</h4>
+							{#each Object.keys(selected.triggerContext) as key}
+								<b><code>{key}</code>:</b>
+								<code
+								>{JSON.stringify(
+									// @ts-ignore-error Can't easily index objects
+									selected.triggerContext[key],
+									undefined,
+									'\t',
+								)}</code
+								>
+							{/each}
+						</section>
+					{/if}
 				</div>
 			{/if}
 		</main>

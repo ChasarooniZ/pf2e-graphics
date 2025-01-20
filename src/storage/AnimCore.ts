@@ -2,7 +2,7 @@ import type { ActorPF2e, ItemPF2e, PredicateStatement } from 'foundry-pf2e';
 import type { AnimationSet, TokenImage, Trigger } from '../../schema';
 import type { AnimationSetDocument, TokenOrDoc, UserAnimationSetDocument } from '../extensions';
 import { derived } from 'svelte/store';
-import { decodePayload } from '../payloads/index.ts';
+import { decodePayload, type TriggerContext } from '../payloads/index.ts';
 import {
 	dedupeStrings,
 	dev,
@@ -58,6 +58,7 @@ export interface AnimationHistoryObject {
 	actor: { name: string; uuid: string };
 	item?: { name: string; uuid: string };
 	user?: { name: string; id: string };
+	triggerContext?: TriggerContext;
 }
 
 export let AnimCore = class AnimCore {
@@ -194,7 +195,7 @@ export let AnimCore = class AnimCore {
 			actor,
 			targets,
 			sources,
-			animationOptions = {},
+			triggerContext,
 			user,
 		}: {
 			rollOptions: string[];
@@ -203,7 +204,7 @@ export let AnimCore = class AnimCore {
 			actor: ActorPF2e | null;
 			sources: TokenOrDoc[];
 			item?: ItemPF2e | null;
-			animationOptions?: object;
+			triggerContext?: TriggerContext;
 			targets?: (TokenOrDoc | string | Point)[];
 			user?: string;
 		},
@@ -218,16 +219,15 @@ export let AnimCore = class AnimCore {
 
 		const allAnimations = this.retrieve(rollOptions, item, actor).animations;
 		const foundAnimations = this.search(rollOptions, [trigger], allAnimations);
-		const appliedAnimations: ExecutableAnimation[][] = Object.values(foundAnimations).map(x =>
-			x.map(x => mergeObjectsConcatArrays({ options: animationOptions } as any, x)),
-		);
+		const appliedAnimations = Object.values(foundAnimations);
 
-		const _item = nonNullable(item) ? item : undefined;
+		const sanitisedItem = nonNullable(item) ? item : undefined;
 		const misc = {
 			actor,
 			trigger,
 			context,
-			item: _item,
+			item: sanitisedItem,
+			triggerContext,
 			user,
 			play: true,
 		};
@@ -244,11 +244,12 @@ export let AnimCore = class AnimCore {
 			actor,
 			animations: appliedAnimations.flat(),
 			trigger,
-			item: _item,
+			item: sanitisedItem,
 			user: user ? { name: game.users.get(user)!.name, id: user } : undefined,
+			triggerContext,
 		});
 
-		return this.play(appliedAnimations, sources, targets, _item, user);
+		return this.play(appliedAnimations, { sources, targets, item: sanitisedItem, user, trigger, triggerContext });
 	}
 
 	/**
@@ -508,10 +509,14 @@ export let AnimCore = class AnimCore {
 	 */
 	async play(
 		rawAnimationSets: ExecutableAnimation[][],
-		sources: TokenOrDoc[],
-		targets?: (TokenOrDoc | string | Point)[],
-		item?: ItemPF2e<any>,
-		user?: string,
+		data: {
+			sources: TokenOrDoc[];
+			targets?: (TokenOrDoc | string | Point)[];
+			item?: ItemPF2e<any>;
+			user?: string;
+			trigger: Trigger;
+			triggerContext?: TriggerContext;
+		},
 	) {
 		const sequences: Sequence[] = [];
 
@@ -561,14 +566,16 @@ export let AnimCore = class AnimCore {
 			for (const [index, set] of animationSet.entries()) {
 				const decodedPayload = await decodePayload(set.execute, {
 					label: set.label,
-					sources,
-					targets: (targets ?? []).filter(
+					currentIndex: index,
+					sources: data.sources,
+					targets: (data.targets ?? []).filter(
 						target => target instanceof TokenDocument || target instanceof Token,
 					),
-					templates: (targets ?? []).filter(target => target instanceof MeasuredTemplateDocument),
-					user,
-					currentIndex: index,
-					item,
+					templates: (data.targets ?? []).filter(target => target instanceof MeasuredTemplateDocument),
+					item: data.item,
+					user: data.user,
+					trigger: data.trigger,
+					triggerContext: data.triggerContext ?? {},
 				});
 				if (decodedPayload.type === 'sequence') {
 					sequence.addSequence(decodedPayload.data);

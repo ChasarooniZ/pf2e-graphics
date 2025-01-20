@@ -1,12 +1,18 @@
-import type { ItemPF2e, MeasuredTemplateDocumentPF2e, TokenPF2e } from 'foundry-pf2e';
-import type { Payload } from '../../schema';
+import type { DegreeOfSuccessString, ItemPF2e, MeasuredTemplateDocumentPF2e, TokenPF2e } from 'foundry-pf2e';
+import type { Payload, Trigger } from '../../schema';
 import type { TokenOrDoc } from '../extensions';
-// import type { ExecutableAnimation } from '../storage/AnimCore.ts';
 import { ErrorMsg, warn } from '../utils.ts';
 import { executeAnimation } from './animation.ts';
 import { executeCrosshair } from './crosshair.ts';
 import { executeGraphic } from './graphic.ts';
 import { executeSound } from './sound.ts';
+
+/**
+ * Describes the context for animation-triggers, particularly those which might affect execution.
+ */
+export interface TriggerContext {
+	outcome?: DegreeOfSuccessString;
+}
 
 /**
  * An interface that describes the context in which an animation is being triggered.
@@ -16,6 +22,8 @@ import { executeSound } from './sound.ts';
  * - `user`: the triggering user
  * - `currentIndex`: in a set of multiple payloads, this is the currently decoding index (starting from zero)
  * - `item`: the item containing the roll option (if any)
+ * - `trigger`: the type of trigger itself
+ * - `triggerContext`: some information about the triggering event
  */
 export interface ExecutionContext {
 	label?: string;
@@ -23,8 +31,10 @@ export interface ExecutionContext {
 	targets: TokenOrDoc[];
 	templates: MeasuredTemplateDocument[];
 	user?: string;
-	currentIndex: number;
 	item?: ItemPF2e<any>;
+	currentIndex: number;
+	trigger: Trigger;
+	triggerContext: TriggerContext;
 }
 
 /**

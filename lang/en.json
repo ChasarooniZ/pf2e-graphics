@@ -122,6 +122,9 @@
 					"user": {
 						"header": "User",
 						"unknown": "Unknown"
+					},
+					"triggerContext": {
+						"header": "Context"
 					}
 				},
 				"clear": "Clear"

@@ -11,7 +11,10 @@ import {
 import { AnimCore } from '../storage/AnimCore';
 import { type ArrayElement, ErrorMsg, getDefaultSize } from '../utils';
 
-export function executeGraphic(payload: Extract<Payload, { type: 'graphic' }>, context: ExecutionContext): Sequence {
+export function executeGraphic(
+	payload: Extract<Payload, { type: 'graphic' }>,
+	context: ExecutionContext,
+): Sequence {
 	const seq = new Sequence();
 
 	context = addCustomExecutionContext(payload.sources, payload.targets, context);
@@ -40,7 +43,15 @@ function processGraphic(
 		if (position.offset) seq.screenSpacePosition(offsetToVector2(position.offset));
 	} else {
 		// #region Common (`positionBaseObject`) properties
-		if (position.missed) seq.missed();
+		if (
+			position.missed
+			|| (position.missed !== false
+				&& context.trigger === 'attack-roll'
+				&& (context.triggerContext.outcome === 'failure'
+					|| context.triggerContext.outcome === 'criticalFailure'))
+		) {
+			seq.missed();
+		}
 		if (position.spriteOffset) {
 			seq.spriteOffset(offsetToVector2(position.spriteOffset), {
 				gridUnits: position.spriteOffset.gridUnits ?? false,

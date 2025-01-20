@@ -31,8 +31,6 @@ function handleChatMessage(message: ChatMessagePF2e, delayed = false) {
 		}
 	}
 
-	const missed = message.flags.pf2e.context?.outcome?.includes('ailure') ?? false;
-	const animationOptions = { missed };
 	const toolbeltTargets = message.flags?.['pf2e-toolbelt']?.targetHelper?.targets?.map(t => fromUuidSync(t) as TokenDocumentPF2e | null);
 	const messageTargets = message.target?.token
 		? [message.target?.token]
@@ -68,7 +66,9 @@ function handleChatMessage(message: ChatMessagePF2e, delayed = false) {
 		targets: targets.filter(nonNullable),
 		actor: message.actor,
 		item: message.item,
-		animationOptions,
+		triggerContext: {
+			outcome: outcome ?? undefined,
+		},
 		user: message.author?.id,
 	}, 'Message Animation Data');
 }
@@ -139,7 +139,7 @@ const pf2etoolbeltRollSave = Hooks.on('pf2e-toolbelt.rollSave', (args: RollSaveH
 		sources: [rollMessage.token!],
 		item: rollMessage.item,
 		actor: target.actor,
-		animationOptions: { missed: success.includes('ailure') },
+		triggerContext: { outcome: outcome ?? success },
 		user: roll.options.rollerId,
 	}, 'Target Helper Saving Throw');
 });
@@ -179,7 +179,7 @@ const pf2etoolbeltRerollSave = Hooks.on('pf2e-toolbelt.rerollSave', (args: Rerol
 		sources: [message.token],
 		item: message.item,
 		actor: target.actor,
-		animationOptions: { missed: success.includes('ailure') },
+		triggerContext: { outcome: success ?? undefined },
 		user: keptRoll.options.rollerId,
 	}, 'Target Helper Saving Throw Reroll');
 }); */

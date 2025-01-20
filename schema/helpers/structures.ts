@@ -90,10 +90,12 @@ export const positionBaseObject = z.object({
 		.literal(true)
 		.optional()
 		.describe('Causes the `offset` to be local (that is, applied before the effect\'s rotation).'),
-	missed: z // TODO: superrefine to require `anchor`, `atLocation`, `stretchTo`, or `rotateTowards`.
-		.literal(true)
+	missed: z // TODO: superrefine to require `atLocation`, `stretchTo`, or `rotateTowards`.
+		.boolean()
 		.optional()
 		.describe(
-			'Causes the graphic to be localised near the target/anchor, but not actually centred directly on it.',
+			'Causes the graphic to be localised near the target/anchor, but not actually centred directly on it. This is applied automatically when the triggering message includes an attack roll that failed; you can use `false` to override this and always cause the graphic to be properly located.',
+		.optional()
+		.describe(
 		),
 });
