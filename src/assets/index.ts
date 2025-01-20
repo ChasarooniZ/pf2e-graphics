@@ -10,6 +10,8 @@ if (import.meta.hot) {
 	// Prevents reloads
 	import.meta.hot.accept();
 
-	Sequencer.Database.registerEntries(soundDbPrefix, soundDb);
-	Sequencer.Database.registerEntries(assetDbPrefix, videoDb);
+	// @ts-expect-error https://github.com/fantasycalendar/FoundryVTT-Sequencer/pull/384
+	Sequencer.Database.registerEntries(soundDbPrefix, soundDb, false, true);
+	// @ts-expect-error https://github.com/fantasycalendar/FoundryVTT-Sequencer/pull/384
+	Sequencer.Database.registerEntries(assetDbPrefix, videoDb, false, true);
 }
