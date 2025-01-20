@@ -1,0 +1,60 @@
+{
+	"item:slug:fists": "item:slug:fist",
+	"item:slug:basic-unarmed": "item:slug:fist",
+	"item:slug:fist": [
+		{
+			"predicates": [
+				"melee"
+			],
+			"triggers": [
+				"attack-roll"
+			],
+			"contents": [
+				{
+					"execute": {
+						"type": "graphic",
+						"graphic": [
+							"jb2a.unarmed_strike.physical.01.blue"
+						],
+						"position": [
+							{
+								"type": "static",
+								"location": "SOURCES",
+								"anchor": {
+									"x": 0.4
+								}
+							}
+						],
+						"reflection": {
+							"y": "random"
+						},
+						"size": {
+							"type": "relative",
+							"relativeTo": "SOURCES",
+							"scaling": 5
+						},
+						"rotation": {
+							"type": "relative",
+							"location": "TARGETS"
+						},
+						"waitUntilFinished": -500
+					}
+				},
+				{
+					"execute": {
+						"type": "sound",
+						"sound": [
+							"graphics-sfx.unarmed"
+						],
+						"position": [
+							{
+								"type": "static",
+								"location": "TARGETS"
+							}
+						]
+					}
+				}
+			]
+		}
+	]
+}

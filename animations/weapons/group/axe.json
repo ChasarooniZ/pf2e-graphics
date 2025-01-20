@@ -7,75 +7,93 @@
 			"predicates": [
 				"melee"
 			],
-			"execute": {
-				"type": "graphic",
-				"position": [
-					{
-						"type": "static",
-						"location": "SOURCES",
-						"anchor": {
-							"x": 0.4
-						}
-					}
-				],
-				"reflection": {
-					"y": "random"
-				},
-				"size": {
-					"type": "relative",
-					"relativeTo": "SOURCES",
-					"scaling": 4.5
-				},
-				"rotation": {
-					"type": "relative",
-					"location": "TARGETS"
-				}
-			},
 			"contents": [
 				{
-					"default": true,
 					"execute": {
 						"type": "graphic",
-						"graphic": [
-							"jb2a.melee_attack.02.handaxe.01"
-						]
-					}
-				},
-				{
-					"predicates": [
+						"position": [
+							{
+								"type": "static",
+								"location": "SOURCES",
+								"anchor": {
+									"x": 0.4
+								}
+							}
+						],
+						"reflection": {
+							"y": "random"
+						},
+						"size": {
+							"type": "relative",
+							"relativeTo": "SOURCES",
+							"scaling": 4.5
+						},
+						"rotation": {
+							"type": "relative",
+							"location": "TARGETS"
+						}
+					},
+					"contents": [
 						{
-							"gte": [
-								"item:damage:die:faces",
-								8
-							]
+							"default": true,
+							"execute": {
+								"type": "graphic",
+								"graphic": [
+									"jb2a.melee_attack.02.handaxe.01"
+								]
+							}
 						},
 						{
-							"lt": [
-								"item:damage:die:faces",
-								12
-							]
+							"predicates": [
+								{
+									"gte": [
+										"item:damage:die:faces",
+										8
+									]
+								},
+								{
+									"lt": [
+										"item:damage:die:faces",
+										12
+									]
+								}
+							],
+							"execute": {
+								"type": "graphic",
+								"graphic": [
+									"jb2a.melee_attack.02.battleaxe.01"
+								]
+							}
+						},
+						{
+							"predicates": [
+								{
+									"gte": [
+										"item:damage:die:faces",
+										12
+									]
+								}
+							],
+							"execute": {
+								"type": "graphic",
+								"graphic": [
+									"jb2a.melee_attack.03.greataxe.01"
+								]
+							}
 						}
-					],
-					"execute": {
-						"type": "graphic",
-						"graphic": [
-							"jb2a.melee_attack.02.battleaxe.01"
-						]
-					}
+					]
 				},
 				{
-					"predicates": [
-						{
-							"gte": [
-								"item:damage:die:faces",
-								12
-							]
-						}
-					],
 					"execute": {
-						"type": "graphic",
-						"graphic": [
-							"jb2a.melee_attack.03.greataxe.01"
+						"type": "sound",
+						"sound": [
+							"graphics-sfx.axe.slash"
+						],
+						"position": [
+							{
+								"type": "static",
+								"location": "TARGETS"
+							}
 						]
 					}
 				}
