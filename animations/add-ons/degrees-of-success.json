@@ -10,17 +10,40 @@
 			"predicates": [
 				"action:strike"
 			],
-			"execute": {
-				"type": "sound",
-				"position": [
-					{
-						"location": "SOURCES"
+			"contents": [
+				{
+					"execute": {
+						"type": "sound",
+						"position": [
+							{
+								"location": "SOURCES"
+							}
+						],
+						"sound": [
+							"graphics-sfx.critical"
+						]
 					}
-				],
-				"sound": [
-					"graphics-sfx.critical"
-				]
-			}
+				},
+				{
+					"execute": {
+						"type": "graphic",
+						"graphic": [
+							"jb2a.ui.critical.red.2"
+						],
+						"position": [
+							{
+								"type": "static",
+								"location": "TARGETS"
+							}
+						],
+						"size": {
+							"type": "relative",
+							"relativeTo": "TARGETS",
+							"scaling": 1.5
+						}
+					}
+				}
+			]
 		}
 	],
 	"check:outcome:critical-failure": [
@@ -34,17 +57,41 @@
 			"predicates": [
 				"action:strike"
 			],
-			"execute": {
-				"type": "sound",
-				"position": [
-					{
-						"location": "SOURCES"
+			"contents": [
+				{
+					"execute": {
+						"type": "sound",
+						"position": [
+							{
+								"location": "SOURCES"
+							}
+						],
+						"sound": [
+							"graphics-sfx.generic.miss"
+						]
 					}
-				],
-				"sound": [
-					"graphics-sfx.generic.miss"
-				]
-			}
+				},
+				{
+					"execute": {
+						"type": "graphic",
+						"graphic": [
+							"jb2a.ui.critical_miss.red.2"
+						],
+						"position": [
+							{
+								"type": "static",
+								"location": "TARGETS",
+								"missed": false
+							}
+						],
+						"size": {
+							"type": "relative",
+							"relativeTo": "TARGETS",
+							"scaling": 1.25
+						}
+					}
+				}
+			]
 		}
 	]
 }
