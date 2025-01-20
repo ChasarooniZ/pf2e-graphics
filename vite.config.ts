@@ -190,7 +190,7 @@ function getAnimationsPlugin(): PluginOption {
 					const result = testAndMergeAnimations('./animations');
 
 					if (result.success) {
-						Log.info(p.green('[Animations] All files passing.'));
+						Log.info(p.green('\n[Animations] All files passing.'));
 					} else {
 						reportIssues(result.issues);
 					}
@@ -212,7 +212,7 @@ function getAnimationsPlugin(): PluginOption {
 				const result = testAndMergeAnimations('./animations');
 
 				if (result.success) {
-					Log.info(p.green('[Animations] All files passing.'));
+					Log.info(p.green('\n[Animations] All files passing.'));
 				} else {
 					reportIssues(result.issues);
 				}

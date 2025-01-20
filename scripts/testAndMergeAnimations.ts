@@ -94,9 +94,19 @@ export function testAndMergeAnimations(
 
 	const issues = results.filter(result => !result.success);
 
+	/*
+		Strings that can trip up the checker but are nonetheless valid,
+		most often becuase they are most of, but not the entire, roll option for
+		catching more cases. I.e. item:group: catching all base weapon groups
+
+		TODO: @Spappz Move this elsewhere or tell me if you think making an uglify function
+		for the mergedAnimations.keys() is preferable, i.e. ['item:group:club'] -> ['item:group', 'item:group:club']
+	*/
+	const validExclusions = ['item:group'];
+
 	// Test references
 	referenceTracker.forEach((files, rollOption) => {
-		if (!mergedAnimations.has(rollOption)) {
+		if (!mergedAnimations.has(rollOption) && !validExclusions.includes(rollOption)) {
 			files.forEach(file =>
 				issues.push({
 					file,
