@@ -142,12 +142,13 @@ export async function verifyPermissions(actor: Actor): Promise<boolean> {
 /**
  * Converts the ubiquitous `offset` schema (`{x?: number, y?: number}` with default values of 0) into the Sequencer-desired full form, where both properties are necessarily defined.
  * @param offset The object as permitted by the schema
+ * @param [assumed] The default value of each coordinate.
  * @returns A `Vector2` object satisfying `{x: number, y: number}`.
  */
-export function offsetToVector2(offset: Partial<Vector2> | undefined): Vector2 {
+export function offsetToVector2(offset: Partial<Vector2> | undefined, assumed: number = 0): Vector2 {
 	return {
-		x: offset?.x ?? 0,
-		y: offset?.y ?? 0,
+		x: offset?.x ?? assumed,
+		y: offset?.y ?? assumed,
 	};
 }
 

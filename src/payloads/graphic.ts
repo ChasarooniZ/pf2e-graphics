@@ -39,7 +39,7 @@ function processGraphic(
 	if (position.type === 'screenSpace') {
 		seq.screenSpace();
 		if (position.aboveUI) seq.screenSpaceAboveUI();
-		if (position.anchor) seq.screenSpaceAnchor(offsetToVector2(position.anchor));
+		if (position.anchor) seq.screenSpaceAnchor(offsetToVector2(position.anchor, 0.5));
 		if (position.offset) seq.screenSpacePosition(offsetToVector2(position.offset));
 	} else {
 		// #region Common (`positionBaseObject`) properties
@@ -57,8 +57,8 @@ function processGraphic(
 				gridUnits: position.spriteOffset.gridUnits ?? false,
 			});
 		}
-		if (position.anchor) seq.anchor(offsetToVector2(position.anchor));
-		if (position.spriteAnchor) seq.spriteAnchor(offsetToVector2(position.spriteAnchor));
+		if (position.anchor) seq.anchor(offsetToVector2(position.anchor, 0.5));
+		if (position.spriteAnchor) seq.spriteAnchor(offsetToVector2(position.spriteAnchor, 0.5));
 		const options: Parameters<typeof seq.attachTo>[1] = {
 			randomOffset: position.randomOffset ?? 0,
 			offset: offsetToVector2(position.offset),
