@@ -33,7 +33,7 @@
 						},
 						"rotation": {
 							"type": "relative",
-							"target": "TARGETS"
+							"location": "TARGETS"
 						}
 					}
 				},

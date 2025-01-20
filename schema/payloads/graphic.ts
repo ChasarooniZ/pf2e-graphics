@@ -352,20 +352,16 @@ export const graphicPayload = effectOptions
 									)
 									.optional()
 									.describe('Locks the graphic to some point on the screen (default: centre).'),
-								offset: vector2.optional().describe('Offsets the graphic from its `anchor`.'),
+								offset: vector2
+									.optional()
+									.describe('Offsets the graphic from its `anchor` by some number of pixels.'),
 							})
 							.strict(),
 					])
 					.superRefine((obj, ctx) => {
 						if (obj.type === 'screenSpace') return;
 						if (!obj.offset) {
-							if (obj.type === 'dynamic' && obj.edge) {
-								ctx.addIssue({
-									code: z.ZodIssueCode.custom,
-									message: '`edge` requires `offset`.',
-								});
-							}
-							const keysNeedingOffset = (['randomOffset', 'local', 'gridUnits'] as const).filter(
+							const keysNeedingOffset = (['randomOffset', 'local', 'gridUnits', 'edge'] as const).filter(
 								key => key in obj,
 							);
 							if (keysNeedingOffset.length) {
@@ -638,7 +634,7 @@ export const graphicPayload = effectOptions
 				rotationBaseObject
 					.extend({
 						type: z.literal('relative'),
-						target: vector2
+						location: vector2
 							.or(z.enum(['SOURCES', 'TARGETS', 'TEMPLATES']))
 							.or(ID)
 							.describe(

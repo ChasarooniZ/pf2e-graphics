@@ -168,7 +168,7 @@ function processGraphic(
 				}
 			}
 		} else if (payload.rotation.type === 'relative') {
-			seq.rotateTowards(positionToArgument(payload.rotation.target, context), {
+			seq.rotateTowards(positionToArgument(payload.rotation.location, context), {
 				...payload.rotation,
 				attachTo: payload.rotation.attach ?? false,
 				offset: offsetToVector2(payload.rotation.offset), // TODO: Wtf? This removes atLocation's offset.

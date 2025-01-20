@@ -70,7 +70,7 @@ export const easingOptions = z
  * Zod schema for the shared properties of a `position` object (except for `screenSpace`).
  */
 export const positionBaseObject = z.object({
-	offset: vector2.optional().describe('Offsets the graphic\'s anchor.'),
+	offset: vector2.optional().describe('Offsets the graphic by a set number of pixels.'),
 	spriteOffset: vector2WithGridUnits
 		.optional()
 		.describe(
@@ -85,11 +85,11 @@ export const positionBaseObject = z.object({
 	gridUnits: z
 		.literal(true)
 		.optional()
-		.describe('Causes the `offset` to be measured in the scene\'s grid units.'),
+		.describe('Causes the `offset` to be measured in the scene\'s grid units, instead of the default pixel quantity.'),
 	local: z
 		.literal(true)
 		.optional()
-		.describe('Causes the `offset` to be local (that is, applied before the effect\'s rotation).'),
+		.describe('Causes the `offset` to be local (that is, applied before the effect\'s `rotation`).'),
 	missed: z // TODO: superrefine to require `atLocation`, `stretchTo`, or `rotateTowards`.
 		.boolean()
 		.optional()
