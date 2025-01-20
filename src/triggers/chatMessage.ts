@@ -73,15 +73,7 @@ function handleChatMessage(message: ChatMessagePF2e, delayed = false) {
 	}, 'Message Animation Data');
 }
 
-const diceSoNiceRollComplete = Hooks.on('diceSoNiceRollComplete', (id: string) => {
-	const message = game.messages.get(id);
-	if (message) {
-		devLog('Dice So Nice Proxy Triggered');
-		handleChatMessage(message);
-	};
-});
-
-Hooks.on('diceSoNiceMessageProcessed', async (messageId: string, willTrigger3DRoll: boolean) => {
+const diceSoNiceMessageProcessed = Hooks.on('diceSoNiceMessageProcessed', async (messageId: string, willTrigger3DRoll: boolean) => {
 	if (willTrigger3DRoll) {
 		// @ts-expect-error TODO: Dice So Nice types
 		await game.dice3d!.waitFor3DAnimationByMessageID(messageId);
@@ -91,8 +83,7 @@ Hooks.on('diceSoNiceMessageProcessed', async (messageId: string, willTrigger3DRo
 });
 
 const createChatMessage = Hooks.on('createChatMessage', (msg: ChatMessagePF2e) => {
-	if (!game.modules.get('dice-so-nice')?.active)
-		handleChatMessage(msg);
+	if (!game.modules.get('dice-so-nice')?.active) handleChatMessage(msg);
 });
 
 interface MessageTargetSave {
@@ -189,7 +180,7 @@ if (import.meta.hot) {
 	import.meta.hot.accept();
 	// Disposes the previous hook
 	import.meta.hot.dispose(() => {
-		Hooks.off('diceSoNiceRollComplete', diceSoNiceRollComplete);
+		Hooks.off('diceSoNiceMessageProcessed', diceSoNiceMessageProcessed);
 		Hooks.off('createChatMessage', createChatMessage);
 		Hooks.off('pf2e-toolbelt.rollSave', pf2etoolbeltRollSave);
 		// Hooks.off('pf2e-toolbelt.rerollSave', pf2etoolbeltRerollSave);
