@@ -1,6 +1,6 @@
 import type { Payload } from '../../schema';
 import type { ArrayElement } from '../utils';
-import { addCustomExecutionContext, type ExecutionContext } from '.';
+import { addCustomExecutionContext, type ExecutionContext, parseMinMaxObject } from '.';
 import { AnimCore } from '../storage/AnimCore';
 
 export function executeSound(payload: Extract<Payload, { type: 'sound' }>, context: ExecutionContext): Sequence {
@@ -23,6 +23,7 @@ function processSound(
 	const seq = new Sequence().sound().file(AnimCore.parseFiles(payload.sound));
 
 	if (context.label) seq.name(context.label);
+	if (payload.delay) seq.delay(...parseMinMaxObject(payload.delay));
 
 	// TODO
 

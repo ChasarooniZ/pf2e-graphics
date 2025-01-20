@@ -107,7 +107,6 @@ export function addCustomExecutionContext(
 	return data;
 }
 
-// TODO: be smart enough to select a particular element in the `data.<...>` array (e.g. for ranged bounce)
 /**
  * Converts a schema-compliant position to something Sequencer can actually handle. Notably, this means:
  * - Converting implicit (0-default) X-Y coordinates to an explicit coordinate-object;
@@ -116,6 +115,7 @@ export function addCustomExecutionContext(
  * @param position The target position.
  * @param context The execution context.
  * @returns Something that can go into Sequencer's positional methods, such as effects' `.atLocation()` and animations' `teleportTo()`.
+// TODO: be smart enough to select a particular element in the `data.<...>` array (e.g. for ranged bounce)
  */
 export function positionToArgument(
 	position: string | Partial<Vector2>,

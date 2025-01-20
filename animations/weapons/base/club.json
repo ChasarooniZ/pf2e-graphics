@@ -1,8 +1,8 @@
 {
-	"item:base:staff": [
+	"item:group:club": [
 		{
-			"overrides": [
-				"item:group"
+			"predicates": [
+				"melee"
 			],
 			"triggers": [
 				"attack-roll"
@@ -12,7 +12,7 @@
 					"execute": {
 						"type": "graphic",
 						"graphic": [
-							"jb2a.quarterstaff.melee.01.white"
+							"jb2a.melee_attack.02.club"
 						],
 						"position": [
 							{
@@ -43,11 +43,11 @@
 						"sound": [
 							"graphics-sfx.generic.hit.blunt"
 						],
-						"delay": 1000,
+						"delay": 500,
 						"position": [
 							{
 								"type": "static",
-								"location": "SOURCES"
+								"location": "TARGETS"
 							}
 						]
 					}
