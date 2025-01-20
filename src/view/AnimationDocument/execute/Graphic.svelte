@@ -271,6 +271,38 @@
 								</label>
 							{/if}
 
+							{#if !position.anchor}
+								<!-- If wrong, don't! -->
+								{(position.anchor = { x: 0, y: 0 }) && ''}
+							{:else}
+								<label class='grid grid-cols-3 items-center'>
+									<span data-tooltip='TODO: Explain'>
+										Anchor
+										<i class='fa fa-info-circle pl-px'></i>
+									</span>
+									<div class='grid grid-cols-2 gap-4 items-stretch col-span-2'>
+										<label class='flex items-center gap-2'>
+											X
+											<input
+												type='text'
+												bind:value={position.anchor.x}
+												{readonly}
+												disabled={readonly}
+											/>
+										</label>
+										<label class='flex items-center gap-2'>
+											Y
+											<input
+												type='text'
+												bind:value={position.anchor.y}
+												{readonly}
+												disabled={readonly}
+											/>
+										</label>
+									</div>
+								</label>
+							{/if}
+
 							{#if position.type !== 'screenSpace'}
 								<!-- Random Offset -->
 								<label class='grid grid-cols-3 items-center'>
