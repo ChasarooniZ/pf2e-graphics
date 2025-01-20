@@ -11,9 +11,6 @@
 				{
 					"execute": {
 						"type": "graphic",
-						"graphic": [
-							"jb2a.quarterstaff.melee.01.white"
-						],
 						"position": [
 							{
 								"type": "static",
@@ -29,13 +26,35 @@
 						"size": {
 							"type": "relative",
 							"relativeTo": "SOURCES",
-							"scaling": 5
+							"scaling": 4.5
 						},
 						"rotation": {
 							"type": "relative",
 							"location": "TARGETS"
 						}
-					}
+					},
+					"contents": [
+						{
+							"default": true,
+							"execute": {
+								"type": "graphic",
+								"graphic": [
+									"jb2a.quarterstaff.melee.01.white"
+								]
+							}
+						},
+						{
+							"predicates": [
+								"item:trait:staff"
+							],
+							"execute": {
+								"type": "graphic",
+								"graphic": [
+									"jb2a.quarterstaff.melee.03"
+								]
+							}
+						}
+					]
 				},
 				{
 					"execute": {
