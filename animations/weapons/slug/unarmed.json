@@ -35,7 +35,8 @@
 						},
 						"rotation": {
 							"type": "relative",
-							"location": "TARGETS"
+							"location": "TARGETS",
+							"randomOffset": 0.4
 						},
 						"waitUntilFinished": -500
 					}
