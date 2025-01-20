@@ -1,18 +1,25 @@
 {
 	"item:group:club": [
 		{
-			"triggers": ["attack-roll"],
+			"predicates": [
+				"melee"
+			],
+			"triggers": [
+				"attack-roll"
+			],
 			"contents": [
 				{
 					"execute": {
 						"type": "graphic",
-						"graphic": ["jb2a.melee_attack.02.club"],
+						"graphic": [
+							"jb2a.melee_attack.02.club"
+						],
 						"position": [
 							{
 								"type": "static",
 								"location": "SOURCES",
-								"spriteOffset": {
-									"x": -300
+								"anchor": {
+									"x": 0.4
 								}
 							}
 						],
@@ -26,15 +33,23 @@
 						},
 						"rotation": {
 							"type": "relative",
-							"target": "TARGETS"
+							"location": "TARGETS"
 						}
 					}
 				},
 				{
 					"execute": {
 						"type": "sound",
-						"sound": ["graphics-sfx.generic.hit.blunt"],
-						"delay": 500
+						"sound": [
+							"graphics-sfx.generic.hit.blunt"
+						],
+						"delay": 500,
+						"position": [
+							{
+								"type": "static",
+								"location": "TARGETS"
+							}
+						]
 					}
 				}
 			]
