@@ -23,9 +23,8 @@ const cssId = 'pf2e-g';
 const skippedFiles = [`${moduleJSON.id}.css`].map(f => `dist/${f}`).join('|');
 
 function plugins(mode: string): PluginOption[] {
-	const compilerOptions = mode === 'production'
-		? { cssHash: ({ hash, css }) => `svelte-${cssId}-${hash(css)}` }
-		: {};
+	const compilerOptions
+		= mode === 'production' ? { cssHash: ({ hash, css }) => `svelte-${cssId}-${hash(css)}` } : {};
 
 	return [
 		checker({ typescript: true, enableBuild: true }),
@@ -129,9 +128,7 @@ export default defineConfig(({ mode }) => ({
 		rollupOptions: {
 			output: {
 				assetFileNames: assetInfo =>
-					assetInfo.name === 'style.css'
-						? `${moduleJSON.id}.css`
-						: (assetInfo.name as string),
+					assetInfo.name === 'style.css' ? `${moduleJSON.id}.css` : (assetInfo.name as string),
 			},
 		},
 	},

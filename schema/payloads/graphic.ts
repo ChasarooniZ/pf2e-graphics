@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { effectOptions } from '.';
 import { angle, easing, hexColour, ID, UUID } from '../helpers/atoms';
-import { minimumProperties, nonEmpty, nonZero, uniqueItems } from '../helpers/refinements';
+import { minimumProperties, minimumUniqueItems, nonEmpty, nonZero, propertyDependencies, uniqueItems } from '../helpers/refinements';
 import {
 	easingOptions,
 	playableFile,
@@ -9,7 +9,6 @@ import {
 	vector2,
 	vector2WithGridUnits,
 } from '../helpers/structures';
-import { pluralise } from '../helpers/utils';
 
 /**
  * Zod schema for the shared properties of a `rotation` object.
@@ -156,10 +155,7 @@ const varyPropertiesObject = z
 					.describe('The number of loops to execute (default: infinite).'),
 				values: z
 					.array(z.number())
-					.refine(
-						arr => new Set(arr.map(e => JSON.stringify(e))).size > 1,
-						'Provide at least 2 unique values.',
-					)
+					.refine(...minimumUniqueItems(2))
 					.optional(),
 				pingPong: z.literal(true).optional(),
 			})
@@ -359,17 +355,15 @@ export const graphicPayload = effectOptions
 							.strict(),
 					])
 					.superRefine((obj, ctx) => {
-						if (obj.type === 'screenSpace') return;
-						if (!obj.offset) {
-							const keysNeedingOffset = (['randomOffset', 'local', 'gridUnits', 'edge'] as const).filter(
-								key => key in obj,
+						if (obj.type !== 'screenSpace') {
+							const issueAccumulator = [];
+							issueAccumulator.push(propertyDependencies(['gridUnits'], ['offset'], obj));
+							issueAccumulator.push(
+								propertyDependencies(['local'], ['offset', 'randomOffset'], obj),
 							);
-							if (keysNeedingOffset.length) {
-								return ctx.addIssue({
-									code: z.ZodIssueCode.unrecognized_keys,
-									keys: keysNeedingOffset,
-									message: `\`offset\` is required for the following ${pluralise('key', keysNeedingOffset.length)}: \`${keysNeedingOffset.join('`, `')}\``,
-								});
+
+							for (const issue of issueAccumulator.filter(issue => issue !== undefined)) {
+								ctx.addIssue(issue);
 							}
 						}
 					})
@@ -597,7 +591,7 @@ export const graphicPayload = effectOptions
 			})
 			.optional()
 			.describe(
-				'Controls how large the graphic should be.\n- `"type": "absolute"`: scales the graphic to a fixed size.\n- `"type": "relative"`: scales the graphic relative to a particular placeable.\n- `"type": "directed"`: scales or stretches the graphic so that it spans from its `position` to the `endpoint`. This also rotates the graphic appropriately—use `rotation` to modify it.\n- `"type": "screenSpace"`: controls the graphic\'s size when it\'s been configured to play in screen space (see `position` for more information).',
+				'Controls how large the graphic should be.\n- `"type": "absolute"`: scales the graphic to a fixed size.\n- `"type": "relative"`: scales the graphic relative to a particular placeable.\n- `"type": "directed"`: scales or stretches the graphic so that it spans from its `position` to the `endpoint`. This also rotates the graphic appropriately—use `rotation` to modify it.\n- `"type": "screenSpace"`: controls the graphic\'s size when it\'s been configured to play in screen space (see `position` for more information).\n\nBy default, the graphic is displayed at its natural dimensions.',
 			),
 		reflection: z
 			.object({
@@ -685,20 +679,19 @@ export const graphicPayload = effectOptions
 			])
 			.refine(...minimumProperties(2))
 			.superRefine((obj, ctx) => {
-				if (obj.type === 'relative' && obj.offset) {
-					const keysNeedingOffset = ['randomOffset', 'local', 'gridUnits'].filter(key => key in obj);
-					if (keysNeedingOffset.length) {
-						return ctx.addIssue({
-							code: z.ZodIssueCode.unrecognized_keys,
-							keys: keysNeedingOffset,
-							message: `\`offset\` is required for the following ${pluralise('key', keysNeedingOffset.length)}: \`${keysNeedingOffset.join('`, `')}\``,
-						});
+				if (obj.type !== 'absolute') {
+					const issueAccumulator = [];
+					issueAccumulator.push(propertyDependencies(['gridUnits'], ['offset'], obj));
+					issueAccumulator.push(propertyDependencies(['local'], ['offset', 'randomOffset'], obj));
+
+					for (const issue of issueAccumulator.filter(issue => issue !== undefined)) {
+						ctx.addIssue(issue);
 					}
 				}
 			})
 			.optional()
 			.describe(
-				'Controls the rotation of the graphic. You can either define a rotation independent of the canvas state (`"type": "absolute"`), or rotate the graphic relative to a point or placeable (`"type": "relative"`). If you\'ve set `"type": "directed"` in `size`, you can fine-tune the rotation here using the same `type`.',
+				'Controls the rotation of the graphic. You can either define a rotation independent of the canvas state (`"type": "absolute"`), or rotate the graphic relative to a point or placeable (`"type": "relative"`). If you\'ve set `"type": "directed"` in `size`, you can fine-tune the rotation here using the same `type`.\n\nBy default, the graphic is not rotated.',
 			),
 		visibility: z
 			.object({
@@ -720,7 +713,8 @@ export const graphicPayload = effectOptions
 			})
 			.strict()
 			.refine(...nonEmpty)
-			.optional(),
+			.optional()
+			.describe('Controls the visibility of the graphic.'),
 		elevation: z
 			.object({
 				altitude: z
