@@ -757,6 +757,12 @@ export const graphicPayload = effectOptions
 			.describe(
 				'Causes the graphic to become permanent. Unless the graphic uses either `name` (so another effect can `remove` it) or `tieToDocuments`, a persistent graphic can only be removed manually via the Effect Manager.\n- `"canvas"`: persists the graphic on the canvas.\n- `"tokenPrototype"`: if the graphic is linked to a token, the graphic becomes persistent on that token\'s prototype data.',
 			),
+		tieToDocuments: z
+			.literal(true)
+			.optional()
+			.describe(
+				'Links the graphic to the document that created it. If the document is deleted, the graphic is interrupted and deleted as well.',
+			),
 		varyProperties: z
 			.array(
 				z

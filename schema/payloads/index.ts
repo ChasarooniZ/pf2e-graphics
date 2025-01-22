@@ -52,12 +52,6 @@ export const effectOptions = z
 			.describe(
 				'A list of UUID strings representing one or more targets for the payload. These targets are always used, in addition to any targetted placeables when the payload is executed. The UUIDs should be for some sort of placeable—tokens, templates, etc.\nThis should not be used outside custom payloads for specific scenes.',
 			),
-		tieToDocuments: z
-			.literal(true)
-			.optional()
-			.describe(
-				'Links the payload to the document that created it. If the document is deleted, the payload is interrupted and deleted as well.',
-			),
 		fadeIn: easingOptions
 			.extend({
 				duration: z.number().positive().describe('The duration over which the fade occurs.'),
