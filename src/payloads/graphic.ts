@@ -31,8 +31,18 @@ function processGraphic(
 	context: ExecutionContext,
 	position: ArrayElement<Parameters<typeof executeGraphic>[0]['position']>,
 ): EffectSection {
-	// TODO: Handling of `.copySprite()` and antialiasing
-	const seq = new Sequence().effect().file(AnimCore.parseFiles(payload.graphic));
+	// TODO: antialiasing
+	const seq = new Sequence().effect();
+
+	// TODO: rearrange processing above to create a new Sequence for each `position`ed source/target/template
+	const graphic = AnimCore.parseFiles(payload.graphic);
+	if (graphic === 'SOURCES') {
+		seq.copySprite(context.sources[0]);
+	} else if (graphic === 'TARGETS') {
+		seq.copySprite(context.targets[0]);
+	} else {
+		seq.file(graphic);
+	}
 
 	if (context.label) seq.name(context.label);
 
