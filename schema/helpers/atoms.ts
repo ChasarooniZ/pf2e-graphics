@@ -29,6 +29,7 @@ export const ID = z
 				'TEMPLATES', // *
 				// 'ALL_ON_SOURCES', // **
 				// 'ALL_ON_TARGETS', // **
+				// 'ALL_ON_TEMPLATES', // **
 			].includes(str),
 		'This value is reserved for internal use.',
 		// * Technically only these NEED to be reserved, but better safe than sorry when it comes to internally meaningful strings imo

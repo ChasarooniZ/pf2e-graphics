@@ -249,7 +249,14 @@ export let AnimCore = class AnimCore {
 			triggerContext,
 		});
 
-		return this.play(appliedAnimations, { sources, targets, item: sanitisedItem, user, trigger, triggerContext });
+		return this.play(appliedAnimations, {
+			sources,
+			targets,
+			item: sanitisedItem,
+			user,
+			trigger,
+			triggerContext,
+		});
 	}
 
 	/**
@@ -564,19 +571,46 @@ export let AnimCore = class AnimCore {
 			// Time to construct the sequence!
 			const sequence = new Sequence({ inModuleName: 'pf2e-graphics', softFail: !dev });
 			for (const [index, set] of animationSet.entries()) {
+				const targets = (data.targets ?? []).filter(
+					target => target instanceof TokenDocument || target instanceof Token,
+				);
+				const templates = (data.targets ?? []).filter(
+					target => target instanceof MeasuredTemplateDocument,
+				);
 				const decodedPayload = await decodePayload(set.execute, {
 					label: set.label,
 					currentIndex: index,
 					sources: data.sources,
-					targets: (data.targets ?? []).filter(
-						target => target instanceof TokenDocument || target instanceof Token,
-					),
-					templates: (data.targets ?? []).filter(target => target instanceof MeasuredTemplateDocument),
+					targets,
+					templates,
 					item: data.item,
 					user: data.user,
 					trigger: data.trigger,
 					triggerContext: data.triggerContext ?? {},
 				});
+
+				// Handle `removes`
+				for (const ID of set.removes ?? []) {
+					if (ID === 'ALL_ON_SOURCES') {
+						for (const source of data.sources) {
+							Sequencer.EffectManager.endEffects({ object: source });
+						}
+					} else if (ID === 'ALL_ON_TARGETS') {
+						for (const target of targets) {
+							Sequencer.EffectManager.endEffects({ object: target });
+						}
+					} else if (ID === 'ALL_ON_TEMPLATES') {
+						for (const template of templates) {
+							Sequencer.EffectManager.endEffects({ object: template });
+						}
+					} else if (typeof ID === 'string') {
+						Sequencer.EffectManager.endEffects({ name: ID });
+					} else {
+						throw ErrorMsg.send('pf2e-graphics.execute.common.error.schema');
+					}
+				}
+
+				// Handle decoded payload itself
 				if (decodedPayload.type === 'sequence') {
 					sequence.addSequence(decodedPayload.data);
 				} else if (decodedPayload.type === 'namedLocation') {

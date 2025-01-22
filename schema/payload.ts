@@ -155,12 +155,12 @@ const flatAnimation = z
 				'An array of strings, where each element is a roll option which *PF2e Graphics* should ignore when this animation set executes. Partial roll options are permitted to override entire categories of roll option (e.g. the `item:base:rapier` set overriding `item:group` to prevent any sword-related set from being executed).',
 			),
 		removes: z
-			.array(ID.or(z.enum(['ALL_ON_SOURCES', 'ALL_ON_TARGETS'])))
+			.array(ID.or(z.enum(['ALL_ON_SOURCES', 'ALL_ON_TARGETS', 'ALL_ON_TEMPLATES'])))
 			.min(1)
 			.refine(...uniqueItems)
 			.optional()
 			.describe(
-				'An array of strings, where each element is the `label` of an animation set. When this set is executed, each `graphic` and `sound` payload in the labelled sets are interrupted and removed.\nIn addition to using a regular `label`, you can also use the fixed strings `"ALL_ON_SOURCES"` and `"ALL_ON_TARGETS"`, which removes all ongoing effects on the source or target tokens respectively.',
+				'An array of strings, where each element is the `label` of an animation set. When this set is executed, each `graphic` and `sound` payload in the labelled sets are interrupted and removed.\nIn addition to using a regular `label`, you can also use the fixed strings `"ALL_ON_SOURCES"`, `"ALL_ON_TARGETS"`, and `"ALL_ON_TEMPLATES"`, which removes all ongoing effects on the source or target tokens respectively.',
 			),
 		predicates: z
 			.array(predicate)
