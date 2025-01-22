@@ -1,4 +1,4 @@
-import type { ModuleDataObject } from '../schema/index.ts';
+import type { ModuleDataMap } from '../schema/index.ts';
 import type { AnimationSet, AnimationSetsObject } from '../schema/payload.ts';
 import type { FileValidationFailure } from './helpers.ts';
 import * as fs from 'node:fs';
@@ -6,7 +6,72 @@ import { validateAnimationData } from '../schema/validation/index.ts';
 import { pluralise, safeJSONParse, testFilesRecursively } from './helpers.ts';
 
 /**
- * Tests animation JSONs, and then returns a merged object along with any valiation errors encountered.
+ * A utility class that handles the merging of new animation-set data files and tracking the references therein.
+ */
+class DataMergeManager {
+	/** A tracker for roll options that have been referenced by animation sets. It is represented by a `Map` of roll options (`string`) to a `Set` of filenames (`string`) that reference that roll option. */
+	referencedRollOptions: Map<string, Set<string>>;
+
+	/** A tracker for roll options that have data attached, including their partial forms (e.g. `item` and `item:group` from `item:group:sword`) */
+	existentRollOptions: Set<string>;
+
+	/** A buildable `Map` representing the module's data, as it would be encoded in JSON. */
+	mergedModuleDataMap: ModuleDataMap;
+
+	constructor() {
+		this.referencedRollOptions = new Map();
+		this.existentRollOptions = new Set();
+		this.mergedModuleDataMap = new Map();
+	}
+
+	private getRollOptionFamily(rollOption: string): string[] {
+		const slugs = rollOption.split(':');
+		const rollOptionFamily = [];
+		for (let i = 1; i <= slugs.length; i++) {
+			rollOptionFamily.push(slugs.slice(0, i).join(':'));
+		}
+		return rollOptionFamily;
+	}
+
+	private addReferencedRollOption(rollOption: string, file: string): void {
+		if (this.referencedRollOptions.has(rollOption)) {
+			this.referencedRollOptions.get(rollOption)!.add(file);
+		} else {
+			this.referencedRollOptions.set(rollOption, new Set([file]));
+		}
+	}
+
+	/**
+	 * Merges a roll option and its associated animation sets/reference into the data-merge manager. References and roll options are noted appropriately for later inspection.
+	 * @param file The data file being merged (for issue-tracking).
+	 * @param rollOption The roll option associated with the animation sets.
+	 * @param animationSets The animation sets (or reference to another roll option) to be merged.
+	 */
+	mergeAnimationSets(file: string, rollOption: string, animationSets: string | AnimationSet[]): void {
+		// Do the merge
+		this.mergedModuleDataMap.set(rollOption, animationSets);
+
+		// Note each 'family member' of the roll option (e.g. `"item:group"` within `"item:group:sword"`)
+		for (const rollOptionFamilyMember of this.getRollOptionFamily(rollOption)) {
+			this.existentRollOptions.add(rollOptionFamilyMember);
+		}
+
+		// Populate references
+		if (typeof animationSets === 'string') {
+			this.addReferencedRollOption(rollOption, file);
+		} else {
+			for (const animationSet of animationSets) {
+				if (animationSet.reference) this.addReferencedRollOption(animationSet.reference, file);
+				for (const override of animationSet.overrides ?? []) {
+					this.addReferencedRollOption(override, file);
+				}
+			}
+		}
+	}
+}
+
+/**
+ * Tests animation JSONs, and then returns a merged object along with any validation errors encountered.
  *
  * @param targetPath - The path of the animation JSON(s). If the path is a directory, all files within it recursively are tested and merged.
  * @returns An object.
@@ -14,43 +79,22 @@ import { pluralise, safeJSONParse, testFilesRecursively } from './helpers.ts';
 export function testAndMergeAnimations(
 	targetPath: string,
 ):
-	| { success: true; data: ModuleDataObject }
-	| { success: false; data?: ModuleDataObject; issues: FileValidationFailure[] } {
-	const referenceTracker = new (class ReferenceTracker extends Map<string, Set<string>> {
-		constructor() {
-			super();
-		}
-
-		private addPending(rollOption: string, file: string): void {
-			if (this.has(rollOption)) {
-				this.get(rollOption)!.add(file);
-			} else {
-				this.set(rollOption, new Set([file]));
-			}
-		}
-
-		populate(file: string, value: string | AnimationSet[]): void {
-			if (typeof value === 'string') {
-				this.addPending(value, file);
-			} else {
-				for (const obj of value) {
-					if (obj.reference) this.addPending(obj.reference, file);
-					for (const override of obj.overrides ?? []) {
-						this.addPending(override, file);
-					}
-				}
-			}
-		}
-	})();
-	const mergedAnimations: Map<keyof ModuleDataObject, ValueOf<ModuleDataObject>> = new Map();
+	| { success: true; data?: ModuleDataMap }
+	| { success: false; data?: ModuleDataMap; issues: FileValidationFailure[] } {
+	const dataMergeManager = new DataMergeManager();
 
 	const results = testFilesRecursively(
 		targetPath,
 		{
 			'.json': (file) => {
 				// Test filename
-				if (!file.match(/animations[\\/](([a-z0-9-]+[\\/])+[a-z0-9]+(?:-[a-z0-9]+)*|tokenImages)\.json$/))
+				if (
+					!file.match(
+						/animations[\\/](?:(?:[a-z0-9-]+[\\/])+[a-z0-9]+(?:-[a-z0-9]+)*|tokenImages)\.json$/,
+					)
+				) {
 					return { file, success: false, message: 'Invalid filename.' };
+				}
 
 				// Test readability
 				const json = safeJSONParse(fs.readFileSync(file, { encoding: 'utf8' }));
@@ -59,23 +103,21 @@ export function testAndMergeAnimations(
 				// Validate schema
 				const schemaResult = validateAnimationData(json.data);
 
+				// We don't return early on validation-failure, because we still want to bundle bad data for testing!
+
 				// Test whether the data is an object and is therefore mergeable
 				if (typeof json.data === 'object' && json.data !== null && !Array.isArray(json.data)) {
-					const animations = json.data as AnimationSetsObject;
-					for (const key in animations) {
+					const animationSetsObject = json.data as AnimationSetsObject;
+					for (const rollOption in animationSetsObject) {
 						// Test for duplicate keys
-						if (mergedAnimations.has(key)) {
+						if (dataMergeManager.mergedModuleDataMap.has(rollOption)) {
 							return {
 								file,
 								success: false,
-								message: `Animation assigned elsewhere to roll option ${key}`,
+								message: `Animation set assigned to roll option \`${rollOption}\` elsewhere.`,
 							};
-						} else {
-							mergedAnimations.set(key, animations[key]);
 						}
-
-						// Populate referenced rollOptions for validation afterwards
-						referenceTracker.populate(file, animations[key]);
+						dataMergeManager.mergeAnimationSets(file, rollOption, animationSetsObject[rollOption]);
 					}
 				}
 
@@ -83,7 +125,7 @@ export function testAndMergeAnimations(
 				return {
 					file,
 					success: false,
-					message: `${schemaResult.error.issues.length} schema ${pluralise('issue', schemaResult.error.issues.length)}`,
+					message: `${schemaResult.error.issues.length} schema ${pluralise('issue', schemaResult.error.issues.length)}.`,
 					issues: schemaResult.error.issues,
 				};
 			},
@@ -94,31 +136,20 @@ export function testAndMergeAnimations(
 
 	const issues = results.filter(result => !result.success);
 
-	/*
-		Strings that can trip up the checker but are nonetheless valid,
-		most often becuase they are most of, but not the entire, roll option for
-		catching more cases. I.e. item:group: catching all base weapon groups
-
-		TODO: @Spappz Move this elsewhere or tell me if you think making an uglify function
-		for the mergedAnimations.keys() is preferable, i.e. ['item:group:club'] -> ['item:group', 'item:group:club']
-	*/
-	const validExclusions = ['item:group'];
-
 	// Test references
-	referenceTracker.forEach((files, rollOption) => {
-		if (!mergedAnimations.has(rollOption) && !validExclusions.includes(rollOption)) {
-			files.forEach(file =>
+	dataMergeManager.referencedRollOptions.forEach((files, rollOption) => {
+		if (!dataMergeManager.existentRollOptions.has(rollOption)) {
+			for (const file of files) {
 				issues.push({
 					file,
 					success: false,
-					message: `Could not find referenced roll option ${rollOption}`,
-				}),
-			);
+					message: `Couldn't find referenced roll option \`${rollOption}\`.`,
+				});
+			}
 		}
 	});
 
-	const data = mergedAnimations.size ? Object.fromEntries(mergedAnimations) : undefined;
+	if (issues.length) return { success: false, data: dataMergeManager.mergedModuleDataMap, issues };
 
-	if (issues.length) return { success: false, data, issues };
-	return { success: true, data: data! };
+	return { success: true, data: dataMergeManager.mergedModuleDataMap };
 }

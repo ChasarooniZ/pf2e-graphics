@@ -176,7 +176,7 @@ function getAnimationsPlugin(): PluginOption {
 
 						if (!result.success) reportIssues(result.issues, server);
 
-						return res.end(JSON.stringify(result.data ?? {}));
+						return res.end(JSON.stringify(Object.fromEntries(result.data ?? new Map())));
 					} else {
 						next();
 					}
@@ -196,7 +196,7 @@ function getAnimationsPlugin(): PluginOption {
 						server.ws.send({
 							event: 'updateAnims',
 							type: 'custom',
-							data: JSON.stringify(result.data),
+							data: JSON.stringify(Object.fromEntries(result.data)),
 						});
 					}
 				}
@@ -217,7 +217,7 @@ function getAnimationsPlugin(): PluginOption {
 				this.emitFile({
 					type: 'asset',
 					fileName: 'animations.json',
-					source: JSON.stringify(result.data ?? {}),
+					source: JSON.stringify(Object.fromEntries(result.data ?? new Map())),
 				});
 			},
 		},

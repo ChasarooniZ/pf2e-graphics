@@ -6,6 +6,11 @@ import type { TokenImagesObject } from './tokenImages';
  */
 export type ModuleDataObject = AnimationSetsObject & TokenImagesObject;
 
+/**
+ * The complete, merged `animations/` data available to *PF2e Graphics*, as encoded in JSON, but represented as a `Map`. This includes both animation sets and token-image data.
+ */
+export type ModuleDataMap = Map<keyof AnimationSetsObject, ValueOf<AnimationSetsObject>> & Map<keyof TokenImagesObject, ValueOf<TokenImagesObject>>;
+
 // #region Relayed exports
 export {
 	type AnimationSet,
