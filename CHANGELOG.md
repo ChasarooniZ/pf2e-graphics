@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.0-alpha.1] - 2025-01-25
+
+### Added
+
+- Explanations for some Animation Editor options.
+
+### Changed
+
+- Minimum Sequencer version to 3.4.8.
+- Crosshairs to now create a popup window letting the user to choose when to place the crosshair.
+
 ### Fixed
 
 - The sidebar not being able to scroll.
@@ -476,7 +487,8 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 - Moved internal structure
 - Pre-release versions to be semver compliant
 
-[Unreleased]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha...HEAD
+[Unreleased]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.1...HEAD
+[1.0.0-alpha.1]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha...v1.0.0-alpha.1
 [1.0.0-alpha]: https://github.com/MrVauxs/pf2e-graphics/compare/v0.9.4...v1.0.0-alpha
 [0.9.4]: https://github.com/MrVauxs/pf2e-graphics/compare/v0.9.3...v0.9.4
 [0.9.3]: https://github.com/MrVauxs/pf2e-graphics/compare/v0.9.2...v0.9.3
