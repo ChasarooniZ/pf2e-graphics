@@ -1,8 +1,9 @@
 <script lang='ts'>
+	import type { Payload } from 'schema';
 	import { onMount } from 'svelte';
 	import { tweened } from 'svelte/motion';
 
-	export let name: string;
+	export let payload: Extract<Payload, { type: 'crosshair' }>;
 	export let close: () => void;
 
 	const seconds = 60_000; // 1 minute
@@ -16,7 +17,15 @@
 
 <div class='pf2e-g' style:position='relative'>
 	<main class='text-center p-1'>
-		Pick a location for <code>{name}</code> animation!
+		{#if payload.prompt?.text}
+			{#await window.TextEditor.enrichHTML(payload.prompt.text) then text}
+				{@html text}
+			{:catch error}
+				{error}
+			{/await}
+		{:else}
+			Pick a location for the <code>{payload.name}</code> animation!
+		{/if}
 		<p class='text-xs'>The selection times out after {seconds / 1000} seconds.</p>
 	</main>
 	<div class='w-full bg-gray-200 rounded-full dark:bg-gray-700'>

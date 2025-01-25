@@ -44,6 +44,13 @@ export const crosshairPayload = z
 		name: ID.describe(
 			'Identifies the crosshair\'s selected position so that it can be used elsewhere (for instance, in the `atLocation` property of another animation). The value is a case-sensitive string that must be unique among every `name` between *PF2e Graphics*, any extension modules you have enabled, and any named locations in your world. Make sure it\'s reasonably distinguished!',
 		),
+		prompt: z
+			.object({
+				text: z.string().min(1).describe('The text to display.'),
+			})
+			.strict()
+			.optional()
+			.describe('A prompt to display to the user while they are selecting a location.'),
 		label: z
 			.object({
 				text: z.string().min(1).describe('The text to display.'),

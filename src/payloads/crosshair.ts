@@ -117,7 +117,7 @@ export async function executeCrosshair(
 				content: {
 					class: Pick,
 					props: {
-						name: payload.name,
+						payload,
 						close: () => dialog.close(),
 					},
 				},
@@ -128,7 +128,7 @@ export async function executeCrosshair(
 						onPress: () => {
 							ui.notifications.info(i18n('pf2e-graphics.execute.crosshair.notifications.pickALocation'));
 							Sequencer.Crosshair.show(crosshair).then((template) => {
-								if (!template) throw ErrorMsg.send('pf2e-graphics.execute.crosshair.notifications.interrupted');
+								if (!template) return;
 								window.pf2eGraphics.socket.executeForOthers(
 									'remoteLocation',
 									payload.name,
@@ -145,7 +145,7 @@ export async function executeCrosshair(
 					},
 				},
 			}, {
-				headerIcon: 'modules/pf2e-graphics/assets/module/Vauxs_by_Bishop.png',
+				headerIcon: payload.icon?.texture ?? 'modules/pf2e-graphics/assets/module/Vauxs_by_Bishop.png',
 				top: 50,
 			}).render(true);
 		} else {

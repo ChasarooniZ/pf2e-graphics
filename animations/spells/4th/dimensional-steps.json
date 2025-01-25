@@ -9,6 +9,9 @@
 					"label": "Spell: Dimensional Steps (Crosshair)",
 					"execute": {
 						"type": "crosshair",
+						"prompt": {
+							"text": "Pick a location for the @UUID[Compendium.pf2e.spells-srd.Item.zjG6NncHyAKqSF7m] teleport!"
+						},
 						"name": "spell-dimensional-steps",
 						"template": {
 							"type": "token",
