@@ -1,5 +1,7 @@
 import type { ActorPF2e } from 'foundry-pf2e';
 import type { Payload } from '../../schema';
+import { TJSDialog } from '#runtime/svelte/application';
+import Pick from 'src/view/CrosshairPickALocation/Pick.svelte';
 import { type ExecutionContext, offsetToVector2, positionToArgument } from '.';
 import { devLog, ErrorMsg, getPlayerOwners, i18n } from '../utils';
 
@@ -110,17 +112,42 @@ export async function executeCrosshair(
 
 	const position = await new Promise((resolve) => {
 		if (users.find(user => user.id === game.userId)) {
-			ui.notifications.info(i18n('pf2e-graphics.execute.crosshair.notifications.pickALocation'));
-			Sequencer.Crosshair.show(crosshair).then((template) => {
-				if (!template) throw ErrorMsg.send('pf2e-graphics.execute.crosshair.notifications.interrupted');
-				window.pf2eGraphics.socket.executeForOthers(
-					'remoteLocation',
-					payload.name,
-					// @ts-expect-error TODO: Sequencer Types (add Document class...)
-					template.getOrientation(),
-				);
-				resolve(template);
-			});
+			const dialog = new TJSDialog({
+				title: 'Pick a Location',
+				content: {
+					class: Pick,
+					props: {
+						name: payload.name,
+						close: () => dialog.close(),
+					},
+				},
+				buttons: {
+					confirm: {
+						autoClose: false,
+						label: 'Pick',
+						onPress: () => {
+							ui.notifications.info(i18n('pf2e-graphics.execute.crosshair.notifications.pickALocation'));
+							Sequencer.Crosshair.show(crosshair).then((template) => {
+								if (!template) throw ErrorMsg.send('pf2e-graphics.execute.crosshair.notifications.interrupted');
+								window.pf2eGraphics.socket.executeForOthers(
+									'remoteLocation',
+									payload.name,
+									// @ts-expect-error TODO: Sequencer Types (add Document class...)
+									template.getOrientation(),
+								);
+								resolve(template);
+								dialog.close();
+							});
+						},
+					},
+					cancel: {
+						label: 'Cancel',
+					},
+				},
+			}, {
+				headerIcon: 'modules/pf2e-graphics/assets/module/Vauxs_by_Bishop.png',
+				top: 50,
+			}).render(true);
 		} else {
 			// Writable store that stores the location from above removeLocation socket
 			const unsub = window.pf2eGraphics.locations.subscribe((array) => {
