@@ -1,9 +1,12 @@
 <script lang='ts'>
+	import type { ActorPF2e, EnrichmentOptionsPF2e } from 'foundry-pf2e';
 	import type { Payload } from 'schema';
+	import type { ExecutionContext } from 'src/payloads';
 	import { onMount } from 'svelte';
 	import { tweened } from 'svelte/motion';
 
 	export let payload: Extract<Payload, { type: 'crosshair' }>;
+	export let context: ExecutionContext;
 	export let close: () => void;
 
 	const seconds = 60_000; // 1 minute
@@ -13,12 +16,18 @@
 	onMount(() => tween.set(0));
 
 	$: if ($tween <= 0) setTimeout(() => close(), 750);
+
+	const enrich = window.game.pf2e.TextEditor.enrichHTML;
+	const rollData: EnrichmentOptionsPF2e['rollData'] = {
+		actor: context.sources[0].actor as ActorPF2e,
+		item: context.item,
+	};
 </script>
 
 <div class='pf2e-g' style:position='relative'>
 	<main class='text-center p-1'>
 		{#if payload.prompt?.text}
-			{#await window.TextEditor.enrichHTML(payload.prompt.text) then text}
+			{#await enrich(payload.prompt.text, { rollData }) then text}
 				{@html text}
 			{:catch error}
 				{error}

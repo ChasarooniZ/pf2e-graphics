@@ -117,6 +117,7 @@ export async function executeCrosshair(
 					class: Pick,
 					props: {
 						payload,
+						context,
 						close: () => dialog.close(),
 					},
 				},
