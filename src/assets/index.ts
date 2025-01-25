@@ -11,9 +11,7 @@ if (import.meta.hot) {
 	import.meta.hot.accept();
 
 	if (window.Sequencer) {
-		// @ts-expect-error https://github.com/fantasycalendar/FoundryVTT-Sequencer/pull/384
 		Sequencer.Database.registerEntries(soundDbPrefix, soundDb, false, true);
-		// @ts-expect-error https://github.com/fantasycalendar/FoundryVTT-Sequencer/pull/384
 		Sequencer.Database.registerEntries(assetDbPrefix, videoDb, false, true);
 	}
 }

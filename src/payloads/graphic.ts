@@ -420,7 +420,6 @@ function processGraphic(
 						property: 'elevation.sortLayer',
 					});
 				}
-				// @ts-expect-error TODO: Sequencer add `.sortLayer()`
 				seq.sortLayer(payload.elevation.sortLayer);
 			}
 		}

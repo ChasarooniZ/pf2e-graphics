@@ -57,7 +57,6 @@ export async function executeCrosshair(
 			crosshair.snap = {
 				position: snappingCode,
 				size: snappingCode,
-				// @ts-expect-error pending https://github.com/fantasycalendar/FoundryVTT-Sequencer/pull/379
 				resolution: tokenGridSpaces === 0.5 ? 2 : 1, // Tiny snaps within each square
 				direction: 0,
 			};
