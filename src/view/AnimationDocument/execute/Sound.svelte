@@ -11,9 +11,9 @@
 {:else}
 	<div class='space-y-2'>
 		<label class='grid grid-cols-3 items-center'>
-			<span data-tooltip='TODO: Explain'>
+			<span class='flex items-center' data-tooltip='TODO: Explain'>
 				Text Text
-				<i class='fa fa-info-circle pl-px'></i>
+				<i class='fa fa-info-circle px-2 ml-auto'></i>
 			</span>
 			<div class='flex align-middle items-center col-span-2'>
 				<input

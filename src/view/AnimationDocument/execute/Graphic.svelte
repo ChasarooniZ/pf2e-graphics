@@ -1,5 +1,6 @@
 <script lang='ts'>
 	import type { AnimationSetContentsItem } from 'schema/payload';
+	import FadedWrapper from 'src/view/_components/FadedWrapper.svelte';
 
 	export let data: AnimationSetContentsItem<'graphic'>;
 	export let readonly: boolean;
@@ -29,9 +30,9 @@
 			{(data.execute.graphic = []) && ''}
 		{:else}
 			<label class='grid grid-cols-3 items-center'>
-				<span data-tooltip='TODO: Explain'>
+				<span class='flex items-center' data-tooltip='TODO: Explain'>
 					Graphic
-					<i class='fa fa-info-circle pl-px'></i>
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div class='flex align-middle items-center col-span-2'>
 					<datalist id='graphic'>
@@ -59,9 +60,9 @@
 		{/if}
 		<!-- #region Persistent -->
 		<label class='grid grid-cols-3 items-center'>
-			<span data-tooltip='TODO: Explain'>
+			<span class='flex items-center' data-tooltip='TODO: Explain'>
 				Persistent
-				<i class='fa fa-info-circle pl-px'></i>
+				<i class='fa fa-info-circle px-2 ml-auto'></i>
 			</span>
 			<div class='flex align-middle items-center col-span-2'>
 				<input
@@ -92,9 +93,9 @@
 		<!-- #endregion -->
 		<!-- #region Tie To Documents -->
 		<label class='grid grid-cols-3 items-center'>
-			<span data-tooltip='TODO: Explain'>
+			<span class='flex items-center' data-tooltip='TODO: Explain'>
 				Tie To Documents
-				<i class='fa fa-info-circle pl-px'></i>
+				<i class='fa fa-info-circle px-2 ml-auto'></i>
 			</span>
 			<div class='flex align-middle items-center col-span-2'>
 				<input
@@ -110,14 +111,11 @@
 			<!-- If wrong, don't! -->
 			{(data.execute.position = []) && ''}
 		{:else}
-			<div class='
-				flex flex-col gap-2 p-1
-				border border-solid rounded-sm bg-slate-600/15
-			'>
+			<FadedWrapper>
 				<label class='grid grid-cols-3 items-center'>
-					<span data-tooltip='TODO: Explain'>
+					<span class='flex items-center' data-tooltip='TODO: Explain'>
 						Starting Position
-						<i class='fa fa-info-circle pl-px'></i>
+						<i class='fa fa-info-circle px-2 ml-auto'></i>
 					</span>
 					<div class='flex align-middle items-center col-span-2'>
 						<select disabled={readonly} bind:value={positionType} class='grow h-8 capitalize'>
@@ -144,10 +142,7 @@
 				</label>
 				{#each data.execute.position as position, index}
 					{@const hidden = collapsed.includes(index)}
-					<div class='
-						flex flex-col gap-2 p-1
-						border border-solid rounded-sm bg-slate-400/10
-					'>
+					<FadedWrapper>
 						<header class='
 							flex items-center gap-2
 							border-solid border-0 {hidden ? '' : 'border-b pb-1'}
@@ -180,9 +175,9 @@
 						{#if !hidden}
 							{#if position.type !== 'screenSpace'}
 								<label class='grid grid-cols-3 items-center'>
-									<span data-tooltip='TODO: Explain'>
+									<span class='flex items-center' data-tooltip='TODO: Explain'>
 										Location
-										<i class='fa fa-info-circle pl-px'></i>
+										<i class='fa fa-info-circle px-2 ml-auto'></i>
 									</span>
 									<datalist id='location'>
 										<option>SOURCES</option>
@@ -202,9 +197,9 @@
 							<!-- #region Static -->
 							{#if position.type === 'static'}
 								<label class='grid grid-cols-3 items-center'>
-									<span data-tooltip='TODO: Explain'>
+									<span class='flex items-center' data-tooltip='TODO: Explain'>
 										Move Towards
-										<i class='fa fa-info-circle pl-px'></i>
+										<i class='fa fa-info-circle px-2 ml-auto'></i>
 									</span>
 									<div class='flex items-center gap-2 h-7 col-span-2'>
 										<input
@@ -244,9 +239,9 @@
 								{(position.offset = { x: 0, y: 0 }) && ''}
 							{:else}
 								<label class='grid grid-cols-3 items-center'>
-									<span data-tooltip='TODO: Explain'>
+									<span class='flex items-center' data-tooltip='TODO: Explain'>
 										Offset
-										<i class='fa fa-info-circle pl-px'></i>
+										<i class='fa fa-info-circle px-2 ml-auto'></i>
 									</span>
 									<div class='grid grid-cols-2 gap-4 items-stretch col-span-2'>
 										<label class='flex items-center gap-2'>
@@ -276,9 +271,9 @@
 								{(position.anchor = { x: 0, y: 0 }) && ''}
 							{:else}
 								<label class='grid grid-cols-3 items-center'>
-									<span data-tooltip='TODO: Explain'>
+									<span class='flex items-center' data-tooltip='TODO: Explain'>
 										Anchor
-										<i class='fa fa-info-circle pl-px'></i>
+										<i class='fa fa-info-circle px-2 ml-auto'></i>
 									</span>
 									<div class='grid grid-cols-2 gap-4 items-stretch col-span-2'>
 										<label class='flex items-center gap-2'>
@@ -306,9 +301,9 @@
 							{#if position.type !== 'screenSpace'}
 								<!-- Random Offset -->
 								<label class='grid grid-cols-3 items-center'>
-									<span data-tooltip='TODO: Explain'>
+									<span class='flex items-center' data-tooltip='TODO: Explain'>
 										Random Offset
-										<i class='fa fa-info-circle pl-px'></i>
+										<i class='fa fa-info-circle px-2 ml-auto'></i>
 									</span>
 									<div class='flex align-middle items-center col-span-2'>
 										<input
@@ -321,9 +316,9 @@
 								</label>
 								<!-- Grid Units -->
 								<label class='grid grid-cols-3 items-center'>
-									<span data-tooltip='TODO: Explain'>
+									<span class='flex items-center' data-tooltip='TODO: Explain'>
 										Grid Units
-										<i class='fa fa-info-circle pl-px'></i>
+										<i class='fa fa-info-circle px-2 ml-auto'></i>
 									</span>
 									<div class='flex align-middle items-center col-span-2'>
 										<input
@@ -336,9 +331,9 @@
 								</label>
 								<!-- Local -->
 								<label class='grid grid-cols-3 items-center'>
-									<span data-tooltip='TODO: Explain'>
+									<span class='flex items-center' data-tooltip='TODO: Explain'>
 										Local
-										<i class='fa fa-info-circle pl-px'></i>
+										<i class='fa fa-info-circle px-2 ml-auto'></i>
 									</span>
 									<div class='flex align-middle items-center col-span-2'>
 										<input
@@ -351,9 +346,9 @@
 								</label>
 								<!-- Missed -->
 								<label class='grid grid-cols-3 items-center'>
-									<span data-tooltip='TODO: Explain'>
+									<span class='flex items-center' data-tooltip='TODO: Explain'>
 										Missed
-										<i class='fa fa-info-circle pl-px'></i>
+										<i class='fa fa-info-circle px-2 ml-auto'></i>
 									</span>
 									<div class='flex align-middle items-center col-span-2'>
 										<input
@@ -366,18 +361,15 @@
 								</label>
 							{/if}
 						{/if}
-					</div>
+					</FadedWrapper>
 				{/each}
-			</div>
+			</FadedWrapper>
 		{/if}
-		<div class='
-			flex flex-col gap-2 p-1
-			border border-solid rounded-sm bg-slate-600/15
-		'>
+		<FadedWrapper>
 			<label class='grid grid-cols-3 items-center'>
-				<span data-tooltip='TODO: Explain'>
+				<span class='flex items-center' data-tooltip='TODO: Explain'>
 					Size / Direction
-					<i class='fa fa-info-circle pl-px'></i>
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div class='flex align-middle items-center col-span-2'>
 					<select
@@ -411,9 +403,9 @@
 			</label>
 			{#if data.execute?.size?.type === 'relative'}
 				<label class='grid grid-cols-3 items-center'>
-					<span data-tooltip='TODO: Explain'>
+					<span class='flex items-center' data-tooltip='TODO: Explain'>
 						Relative To
-						<i class='fa fa-info-circle pl-px'></i>
+						<i class='fa fa-info-circle px-2 ml-auto'></i>
 					</span>
 					<div class='flex align-middle items-center col-span-2'>
 						<select
@@ -428,9 +420,9 @@
 					</div>
 				</label>
 				<label class='grid grid-cols-3 items-center'>
-					<span data-tooltip='TODO: Explain'>
+					<span class='flex items-center' data-tooltip='TODO: Explain'>
 						Scaling
-						<i class='fa fa-info-circle pl-px'></i>
+						<i class='fa fa-info-circle px-2 ml-auto'></i>
 					</span>
 					<div class='flex align-middle items-center col-span-2'>
 						<input
@@ -453,6 +445,6 @@
 					</div>
 				</label>
 			{/if}
-		</div>
+		</FadedWrapper>
 	</div>
 {/if}

@@ -23,9 +23,9 @@
 	<div class='space-y-2'>
 		<!-- #region Name -->
 		<label class='grid grid-cols-3 items-center'>
-			<span data-tooltip='TODO: Explain'>
+			<span class='flex items-center' data-tooltip='TODO: Explain'>
 				Name
-				<i class='fa fa-info-circle pl-px'></i>
+				<i class='fa fa-info-circle px-2 ml-auto'></i>
 			</span>
 			<div class='flex align-middle items-center col-span-2'>
 				<input
@@ -39,9 +39,9 @@
 		<!-- #endregion -->
 		<!-- #region Label -->
 		<label class='grid grid-cols-3 items-center'>
-			<span data-tooltip='TODO: Explain'>
+			<span class='flex items-center' data-tooltip='TODO: Explain'>
 				Label
-				<i class='fa fa-info-circle pl-px'></i>
+				<i class='fa fa-info-circle px-2 ml-auto'></i>
 			</span>
 			<div class='flex align-middle items-center col-span-2'>
 				<input
@@ -55,9 +55,9 @@
 		<!-- #endregion -->
 		<!-- #region Template -->
 		<label class='grid grid-cols-3 items-center'>
-			<span data-tooltip='TODO: Explain'>
+			<span class='flex items-center' data-tooltip='TODO: Explain'>
 				Template
-				<i class='fa fa-info-circle pl-px'></i>
+				<i class='fa fa-info-circle px-2 ml-auto'></i>
 			</span>
 			<div class='flex align-middle items-center col-span-2'>
 				{#if data.execute.template}
@@ -79,9 +79,9 @@
 		</label>
 		{#if data.execute.template && data.execute.template.type === 'token'}
 			<label class='grid grid-cols-3 items-center'>
-				<span data-tooltip='TODO: Explain'>
+				<span class='flex items-center' data-tooltip='TODO: Explain'>
 					Relative To
-					<i class='fa fa-info-circle pl-px'></i>
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div class='col-span-2 grid grid-cols-2 justify-items-center'>
 					<label>
@@ -107,9 +107,9 @@
 				</div>
 			</label>
 			<label class='grid grid-cols-3 items-center'>
-				<span data-tooltip='TODO: Explain'>
+				<span class='flex items-center' data-tooltip='TODO: Explain'>
 					Padding
-					<i class='fa fa-info-circle pl-px'></i>
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div class='flex align-middle items-center col-span-2'>
 					<input
@@ -127,9 +127,9 @@
 				{(data.execute.template.size = { default: 5 }) && ''}
 			{:else}
 				<label class='grid grid-cols-3 items-center'>
-					<span data-tooltip='TODO: Explain'>
+					<span class='flex items-center' data-tooltip='TODO: Explain'>
 						Default Size
-						<i class='fa fa-info-circle pl-px'></i>
+						<i class='fa fa-info-circle px-2 ml-auto'></i>
 					</span>
 					<div class='flex align-middle items-center col-span-2'>
 						<input
@@ -141,9 +141,9 @@
 					</div>
 				</label>
 				<label class='grid grid-cols-3 items-center'>
-					<span data-tooltip='TODO: Explain'>
+					<span class='flex items-center' data-tooltip='TODO: Explain'>
 						Min Size
-						<i class='fa fa-info-circle pl-px'></i>
+						<i class='fa fa-info-circle px-2 ml-auto'></i>
 					</span>
 					<div class='items-center col-span-2 grid grid-cols-3 gap-2'>
 						<input
@@ -155,9 +155,9 @@
 						/>
 
 						<label class='grid grid-cols-3 items-center col-span-2 gap-2'>
-							<span data-tooltip='TODO: Explain'>
+							<span class='flex items-center' data-tooltip='TODO: Explain'>
 								Max Size
-								<i class='fa fa-info-circle pl-px'></i>
+								<i class='fa fa-info-circle px-2 ml-auto'></i>
 							</span>
 							<div class='flex align-middle items-center col-span-2'>
 								<input
@@ -175,9 +175,9 @@
 		{/if}
 		{#if data.execute.template && data.execute.template.type === 'CONE'}
 			<label class='grid grid-cols-3 items-center'>
-				<span data-tooltip='TODO: Explain'>
+				<span class='flex items-center' data-tooltip='TODO: Explain'>
 					Angle
-					<i class='fa fa-info-circle pl-px'></i>
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div class='flex align-middle items-center col-span-2'>
 					<input
@@ -189,9 +189,9 @@
 				</div>
 			</label>
 			<label class='grid grid-cols-3 items-center'>
-				<span data-tooltip='TODO: Explain'>
+				<span class='flex items-center' data-tooltip='TODO: Explain'>
 					Direction
-					<i class='fa fa-info-circle pl-px'></i>
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div class='flex align-middle items-center col-span-2'>
 					<input
@@ -205,9 +205,9 @@
 		{/if}
 		{#if data.execute.template && data.execute.template.type === 'RAY'}
 			<label class='grid grid-cols-3 items-center'>
-				<span data-tooltip='TODO: Explain'>
+				<span class='flex items-center' data-tooltip='TODO: Explain'>
 					Width
-					<i class='fa fa-info-circle pl-px'></i>
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div class='flex align-middle items-center col-span-2'>
 					<input
@@ -219,9 +219,9 @@
 				</div>
 			</label>
 			<label class='grid grid-cols-3 items-center'>
-				<span data-tooltip='TODO: Explain'>
+				<span class='flex items-center' data-tooltip='TODO: Explain'>
 					Direction
-					<i class='fa fa-info-circle pl-px'></i>
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div class='flex align-middle items-center col-span-2'>
 					<input
@@ -241,9 +241,9 @@
 		{:else}
 			<!-- svelte-ignore a11y-label-has-associated-control -->
 			<label class='grid grid-cols-3 items-center'>
-				<span data-tooltip='TODO: Explain'>
+				<span class='flex items-center' data-tooltip='TODO: Explain'>
 					Snap Location
-					<i class='fa fa-info-circle pl-px'></i>
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div class='flex align middle items-center col-span-2'>
 					<Svelecte
@@ -274,9 +274,9 @@
 				</div>
 			</label>
 			<label class='grid grid-cols-3 items-center'>
-				<span data-tooltip='TODO: Explain'>
+				<span class='flex items-center' data-tooltip='TODO: Explain'>
 					Snap Direction
-					<i class='fa fa-info-circle pl-px'></i>
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div class='flex align-middle items-center col-span-2'>
 					<input
@@ -291,9 +291,9 @@
 		<!-- #endregion -->
 		<!-- #region Lock Drag -->
 		<label class='grid grid-cols-3 items-center'>
-			<span data-tooltip='TODO: Explain'>
+			<span class='flex items-center' data-tooltip='TODO: Explain'>
 				Lock Drag
-				<i class='fa fa-info-circle pl-px'></i>
+				<i class='fa fa-info-circle px-2 ml-auto'></i>
 			</span>
 			<div class='flex items-center col-span-2'>
 				<input
@@ -306,9 +306,9 @@
 		<!-- #endregion -->
 		<!-- #region Lock Rotation -->
 		<label class='grid grid-cols-3 items-center'>
-			<span data-tooltip='TODO: Explain'>
+			<span class='flex items-center' data-tooltip='TODO: Explain'>
 				Lock Rotation
-				<i class='fa fa-info-circle pl-px'></i>
+				<i class='fa fa-info-circle px-2 ml-auto'></i>
 			</span>
 			<div class='flex align-middle items-center col-span-2'>
 				<input
@@ -321,9 +321,9 @@
 		<!-- #endregion -->
 		<!-- #region No Grid Highlight -->
 		<label class='grid grid-cols-3 items-center'>
-			<span data-tooltip='TODO: Explain'>
+			<span class='flex items-center' data-tooltip='TODO: Explain'>
 				No Grid Highlight
-				<i class='fa fa-info-circle pl-px'></i>
+				<i class='fa fa-info-circle px-2 ml-auto'></i>
 			</span>
 			<div class='flex align-middle items-center col-span-2'>
 				<input

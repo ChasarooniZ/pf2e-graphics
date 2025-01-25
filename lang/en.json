@@ -240,6 +240,13 @@
 				"name": "Effective Size",
 				"tooltip": "If your token is an unusual size (e.g. a Medium token that is 1.2 grid-squares wide), set how many grid-squares its ring covers. See the <i>PF2e Graphics</i> wiki for more information."
 			}
+		},
+		"explanations": {
+			"primary-predicate": "An unique identifier for the entire animation set tree and the main predicate for whether this animation should be executed. <p/> The roll option should be explicitly related to the thing you are animating, e.g. `item:base:rapier` or `item:group:sword`.",
+			"triggers": "A list of triggers that will cause this animation to be executed. See specifics in the <a href='https://github.com/MrVauxs/pf2e-graphics/wiki/Triggers'>PF2e Graphics</a> wiki.",
+			"overrides": "An list of roll options, with each roll option corresponding to an animation's primary predicate. If two animations are triggered by the same trigger and one of them overrides the other, the overridden animation will not be executed.",
+			"predicates": "A list of predicates as per the pf2e system. The animation will only be executed if the predicates apply. See specifics in the <a href='https://github.com/foundryvtt/pf2e/wiki/Quickstart-guide-for-rule-elements#predicates'>PF2e System</a> wiki."
 		}
 	}
 }
+

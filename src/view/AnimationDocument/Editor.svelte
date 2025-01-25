@@ -139,9 +139,9 @@
 					/>
 				</label>
 				<label class='grid grid-cols-2 items-center'>
-					<span>
+					<span class='flex items-center' data-tooltip='pf2e-graphics.explanations.primary-predicate'>
 						Primary Predicate
-						<i class='fa fa-info-circle pl-px' data-tooltip='TODO: Explain'></i>
+						<i class='fa fa-info-circle px-2 ml-auto'></i>
 					</span>
 					<input
 						type='text'

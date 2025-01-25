@@ -79,9 +79,9 @@
 		<!-- #region Label -->
 		{#if 'label' in data}
 			<label class='p-0.5 grid grid-cols-3 items-center'>
-				<span data-tooltip='TODO: Explain'>
+				<span class='flex items-center' data-tooltip='TODO: Explain'>
 					Label
-					<i class='fa fa-info-circle pl-px'></i>
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div class='flex align-middle items-center col-span-2'>
 					<input type='text' bind:value={data.label} {readonly} disabled={readonly} />
@@ -102,9 +102,9 @@
 		<!-- #region Triggers -->
 		{#if 'triggers' in data}
 			<label class='p-0.5 grid grid-cols-3 items-center'>
-				<span data-tooltip='TODO: Explain'>
+				<span class='flex items-center' data-tooltip='pf2e-graphics.explanations.triggers'>
 					Triggers
-					<i class='fa fa-info-circle pl-px'></i>
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div
 					class='
@@ -155,9 +155,9 @@
 		<!-- #region Predicates -->
 		{#if 'predicates' in data || 'default' in data}
 			<label class='p-0.5 grid grid-cols-3 items-center' for='predicates'>
-				<span data-tooltip='TODO: Add link to pf2e wiki about roll options'>
+				<span class='flex items-center' data-tooltip='pf2e-graphics.explanations.predicates'>
 					Predicates
-					<i class='fa fa-info-circle pl-px'></i>
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div
 					class='
@@ -209,9 +209,9 @@
 		<!-- #region Removes -->
 		{#if 'removes' in data}
 			<label class='p-0.5 grid grid-cols-3 items-center'>
-				<span data-tooltip='TODO: Explain'>
+				<span class='flex items-center' data-tooltip='TODO: Explain'>
 					Removes
-					<i class='fa fa-info-circle pl-px'></i>
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div
 					class='
@@ -252,14 +252,12 @@
 				on:dragover|preventDefault
 				aria-dropeffect='none'
 				aria-label='Document drop target'
-				class='
-					border border-solid rounded-sm bg-slate-500/10
-				'
+				class='border border-solid rounded-sm bg-slate-600/15'
 			>
 				<label class='p-0.5 pl-1 grid grid-cols-3 items-center'>
-					<span data-tooltip='TODO: Explain'>
+					<span class='flex items-center' data-tooltip='TODO: Explain'>
 						Execute
-						<i class='fa fa-info-circle pl-px'></i>
+						<i class='fa fa-info-circle px-2 ml-auto' style='margin-right: var(--icon-offset)'></i>
 					</span>
 					<div class='flex align-middle items-center col-span-2'>
 						<select

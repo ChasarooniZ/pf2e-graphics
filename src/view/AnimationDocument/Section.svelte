@@ -44,7 +44,7 @@
 	on:click|stopPropagation={() => selection = globalIndex}
 	class:shadow-inner={selection === globalIndex}
 	class='
-		hover:bg-slate-600/20
+		hover:bg-slate-600/15
 		border-0 border-b border-solid [&_&]:border-l
 		p-1 [&_&]:px-0 [&_&]:pl-1
 		shadow-slate-600
