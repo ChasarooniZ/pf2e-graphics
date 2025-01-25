@@ -820,7 +820,7 @@ export const graphicPayload = effectOptions
 						for (const key in obj) {
 							const recognised
 								= key in varyPropertiesBaseObject.shape
-								|| ['type', 'absolute', 'fromEnd', 'loops', 'values', 'pingPong'].includes(key);
+									|| ['type', 'absolute', 'fromEnd', 'loops', 'values', 'pingPong'].includes(key);
 							if (recognised) unrecognisedKeys.push(key);
 						}
 						if (unrecognisedKeys.length) {

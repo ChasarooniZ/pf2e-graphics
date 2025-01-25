@@ -44,7 +44,7 @@ export async function executeCrosshair(
 			// Assume square token because *why* would you not do that in Pf2e 😡
 			const tokenGridSpaces
 				= (positionToArgument(payload.template.relativeTo, context) as Token).getSize().height
-				/ canvas.grid.size;
+					/ canvas.grid.size;
 
 			crosshair.distance = ((tokenGridSpaces + (payload.template.padding ?? 0)) * canvas.grid.distance) / 2;
 
