@@ -53,7 +53,7 @@ jobs:
 
       - name: Build
         run: |
-          npm ci
+          npm ci --legacy-peer-deps
           npm run build
 
       # Create a folder containing all the module stuff and zip it for the release

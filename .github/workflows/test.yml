@@ -35,7 +35,7 @@ jobs:
 
       - name: Install NPM dependencies
         if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Vite build
         id: build
@@ -74,7 +74,7 @@ jobs:
 
       - name: Install NPM dependencies
         if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Test ESLint
         run: npm run lint
@@ -112,7 +112,7 @@ jobs:
 
       - name: Install NPM dependencies
         if: steps.changed-animations.outputs.any_changed == 'true'&& steps.cache-npm.outputs.cache-hit != 'true'
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Test animation files
         if: steps.changed-animations.outputs.any_changed == 'true'
@@ -154,7 +154,7 @@ jobs:
 
       - name: Install NPM dependencies
         if: steps.changed-assets.outputs.any_changed == 'true' && steps.cache-npm.outputs.cache-hit != 'true'
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Test Sequencer DB
         if: steps.changed-assets.outputs.any_changed == 'true'
