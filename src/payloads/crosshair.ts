@@ -78,6 +78,7 @@ export async function executeCrosshair(
 			position: snappingCode,
 			size: snappingCode,
 			direction: payload.snap.direction ?? 0,
+			resolution: 1, // TODO: @Spappz
 		};
 	}
 	if (payload.location) {

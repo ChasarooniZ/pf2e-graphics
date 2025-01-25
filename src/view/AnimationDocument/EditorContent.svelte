@@ -257,7 +257,7 @@
 				<label class='p-0.5 pl-1 grid grid-cols-3 items-center'>
 					<span class='flex items-center' data-tooltip='TODO: Explain'>
 						Execute
-						<i class='fa fa-info-circle px-2 ml-auto' style='margin-right: var(--icon-offset)'></i>
+						<i class='fa fa-info-circle px-2 ml-auto'></i>
 					</span>
 					<div class='flex align-middle items-center col-span-2'>
 						<select
