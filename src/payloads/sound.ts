@@ -32,7 +32,7 @@ function processSound(
 
 	seq.atLocation(positionToArgument(position.location, context), {
 		offset: offsetToVector2(position.offset),
-		randomOffset: position.randomOffset,
+		randomOffset: position.randomOffset ?? 0,
 		gridUnits: position.gridUnits,
 	});
 

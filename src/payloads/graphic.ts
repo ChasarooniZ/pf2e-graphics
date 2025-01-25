@@ -240,7 +240,7 @@ function processGraphic(
 					});
 				}
 				options.offset = offsetToVector2(payload.rotation.offset);
-				options.randomOffset = payload.rotation.randomOffset;
+				options.randomOffset = payload.rotation.randomOffset ?? 0;
 				options.local = payload.rotation.local;
 				options.gridUnits = payload.rotation.gridUnits;
 			}
