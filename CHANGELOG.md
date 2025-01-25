@@ -7,45 +7,11 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
-### Added
-
-- **`crosshair` and `animation` presets, allowing for usage of their respective Sequencer sections.**
-- Dynamic Tokens data for Token Image import packs.
-- Polish translation (thank you @Lioheart!)
-- Combining Multiple Animations ([#49](<https://github.com/MrVauxs/pf2e-graphics/issues/49>))
-- Wildcard `overrides` ([#202](<https://github.com/MrVauxs/pf2e-graphics/issues/202>))
-- Usage of `name`d effects as a target through `options.preset.targets` ([#147](<https://github.com/MrVauxs/pf2e-graphics/issues/147>))
-- Sound Preset ([#146](<https://github.com/MrVauxs/pf2e-graphics/issues/146>))
-- **New Animations**
-  - Added sounds to Breathe Fire (@MrVauxs)
-  - Generic Casting Animation, Critical Success and Failure SFX for Strikes and Casting a Spell (@MrVauxs)
-  - Treat Wounds/Battle Medicine (using Workbench), Dirty Trick, Grapple, Trip (@Aziareel)
-  - Champion's Resistance, Devise a Stratagem, Strategic Strike, Surgical Shock, Cyclonic Ascent, Sneak Attack, Exploit Vulnerability (using  PF2e Exploit Vulnerability Module), Healer's Gloves, Extract Elements (@Aziareel)
-  - Dueling Dance, Dueling Parry, Twin Parry & Twin Defense now share the Raise a Shield animation (@Aziareel)
-  - Cornucopia, Crushing Ground, Guidance, Heal Animal, Lose the Path, Mushroom Patch, Needle Darts, Tempest Surge, Wildfire, Darkvision, Grease, Harmonize Self, Revealing Light, See the Unseen, Combustion, Holy Light, Magnetic Acceleration, Vision of Death, Howling Blizzard/Cone of Cold (+ Oscillating Wave), Disintegrate, Spirit Blast, Faerie Dust, Figment, Imaginary Weapon, Lay on Hands, Blazing Bolt, Blood Vendetta, Bloodspray Curse, Cleanse Affliction, Clear Mind, Sound Body, Darkness, False Vitality, Floating Flame, Heat Metal (+ Oscillating Wave), Paranoia, Powerful Inhalation, Translate, Water Breathing, Worm's Repast, Earthbind, Heroism, Cinder Swarm, Ymeri's Mark, Breath of Life, Flammable Fumes, Toxic Cloud, Flame Vortex (+ Oscillating Wave), Read Aura, Schadenfreude, Sigil, Laughing Fit, Sand Form, Confusion, Fire Shield (+ Oscillating Wave), Entwined Roots, Flames of Ego, Impaling Spike, Pressure Zone, Fiery Body (+ Oscillating Wave), Polar Ray (+ Oscillating Wave), Falling Stars (@Aziareel)
-  - Persistent Damage (On Apply Damage Effects Only) (@ChasarooniZ)
-  - Creature Abilities; Urevian - Diabolic Quill (@ChasarooniZ)
+## [1.0.0-alpha] - 2025-01-25
 
 ### Changed
 
-- Significantly rewrote the animation backend to be more efficient and less error-prone
-  - You can now chain references, ex. `custom-lightning-spell` leading to `chain-lightning` leading to `electric-arc` (up to 10 recursions)
-- Updated validation scripts to provide more meaningful error messages in nicer formatting (@Spappz)
-- `options.filter` now allows arrays ([#201](<https://github.com/MrVauxs/pf2e-graphics/issues/201>))
-- `options.sound` has been deprecated.
-- `offset.flipX/Y` has been deprecated.
-- Token Image Manager now unlinks the feat its managing instead of deleting it.
-- Blazing Wave now uses the Breathe Fire animation.
-- Spear Group Attacks now work with JB2A Free version
-- Oscillating Wave's Breathe Fire/Fireball now have an additional animation
-- Kinetic Aura added for other Gates (@ChasarooniZ)
-
-### Fixed
-
-- Vitality Lash should now work again (@Aziareel)
-- Shield (Cantrip) should now work again (@Aziareel)
-- Validation error when `preset.options.blur` was used (@Spappz)
-- NPCs with no owners breaking animations. ([#258](<https://github.com/MrVauxs/pf2e-graphics/issues/258>))
+- The entire animation system.
 
 ## [0.9.4] - 2024-11-22
 
@@ -506,7 +472,8 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 - Moved internal structure
 - Pre-release versions to be semver compliant
 
-[Unreleased]: https://github.com/MrVauxs/pf2e-graphics/compare/v0.9.4...HEAD
+[Unreleased]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha...HEAD
+[1.0.0-alpha]: https://github.com/MrVauxs/pf2e-graphics/compare/v0.9.4...v1.0.0-alpha
 [0.9.4]: https://github.com/MrVauxs/pf2e-graphics/compare/v0.9.3...v0.9.4
 [0.9.3]: https://github.com/MrVauxs/pf2e-graphics/compare/v0.9.2...v0.9.3
 [0.9.2]: https://github.com/MrVauxs/pf2e-graphics/compare/v0.9.1...v0.9.2
