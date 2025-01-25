@@ -84,7 +84,7 @@
 		<header
 			role='tree'
 			tabindex='0'
-			class='p-2 leading-6 bg-red-900'
+			class='p-2 leading-6 bg-red-900 h-10'
 			on:click={() => (showModuleAnimations = !showModuleAnimations)}
 			on:keypress={() => (showModuleAnimations = !showModuleAnimations)}
 		>
@@ -93,7 +93,7 @@
 		</header>
 		<li class='
 			[&>li]:pl-2 [&>li]:border-l-4 [&>li]:border-solid [&>li]:border-l-red-900
-			list-none overflow-x-hidden overflow-y-auto
+			list-none overflow-x-hidden overflow-y-auto h-[calc(100%-2.5rem)]
 		'>
 			{#if showModuleAnimations}
 				{#each $list.filter(x => x.source === 'module') as item, index}

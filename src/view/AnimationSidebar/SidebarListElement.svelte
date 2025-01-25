@@ -167,7 +167,7 @@
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <li
-	transition:slide|global={{ duration: 500, delay: Math.max(0, 50 * Math.min(index, 10)) }}
+	transition:slide|global={{ duration: 500, delay: Math.max(0, 50 * Math.min(index, 10)), axis: 'y' }}
 	id='pf2e-g-{item.source}-{item.rollOption}'
 	tabindex='-1'
 	on:click={() => openAnimation(item)}
@@ -213,7 +213,11 @@
 		{/if}
 	</aside>
 
-	<header class='leading-[3rem]'>
+	<header class='
+		leading-[3rem]
+		text-nowrap whitespace-nowrap
+		text-ellipsis overflow-hidden max-w-[calc(100%-2rem)]
+	'>
 		{item.name}
 		<span class='text-xs align-sub'>
 			{#if !item.animationSets || !item.animationSets.length}

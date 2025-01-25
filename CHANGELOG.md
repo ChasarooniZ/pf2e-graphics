@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+### Fixed
+
+- The sidebar not being able to scroll.
+
 ## [1.0.0-alpha] - 2025-01-25
 
 ### Changed

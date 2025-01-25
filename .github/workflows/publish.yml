@@ -65,7 +65,6 @@ jobs:
         uses: release-flow/keep-a-changelog-action@v3
         with:
           command: query
-          # Effectively an if else statement: https://docs.github.com/en/actions/learn-github-actions/expressions#example
           version: ${{ steps.get-version.outputs.version-without-v }}
 
       - name: Update Release with Files
