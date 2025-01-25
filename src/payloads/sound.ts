@@ -33,7 +33,7 @@ function processSound(
 	seq.atLocation(positionToArgument(position.location, context), {
 		offset: offsetToVector2(position.offset),
 		randomOffset: position.randomOffset ?? 0,
-		gridUnits: position.gridUnits,
+		gridUnits: position.gridUnits ?? false,
 	});
 
 	// @ts-expect-error TODO: Sequencer types
