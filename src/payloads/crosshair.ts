@@ -1,4 +1,5 @@
 import type { ActorPF2e } from 'foundry-pf2e';
+import type { TokenOrDoc } from 'src/extensions';
 import type { ExecutionContext } from '.';
 import type { Payload } from '../../schema';
 import { TJSDialog } from '#runtime/svelte/application';
@@ -19,91 +20,7 @@ export async function executeCrosshair(
 		}
 	}
 
-	// #region Transform `payload` into Sequencer's `CrosshairData`
-	const crosshair: NonNullable<Parameters<typeof Sequencer.Crosshair.show>[0]> = {
-		gridHighlight: !payload.noGridHighlight,
-		lockDrag: payload.lockDrag,
-		lockManualRotation: payload.lockManualRotation,
-		borderColor: payload.borderColor,
-		fillColor: payload.fillColor,
-	};
-	if (payload.label) {
-		crosshair.label = {
-			text: payload.label.text,
-			dx: payload.label.dx ?? 0,
-			dy: payload.label.dy ?? 0,
-		};
-	}
-	if (payload.icon) {
-		crosshair.icon = {
-			texture: payload.icon.texture,
-			borderVisible: payload.icon.borderVisible ?? false,
-		};
-	}
-	if (payload.template) {
-		if (payload.template.type === 'token') {
-			crosshair.t = CONST.MEASURED_TEMPLATE_TYPES.CIRCLE;
-
-			// Assume square token because *why* would you not do that in Pf2e 😡
-			const tokenGridSpaces
-				= (positionToArgument(payload.template.relativeTo, context) as Token).getSize().height
-					/ canvas.grid.size;
-
-			crosshair.distance = ((tokenGridSpaces + (payload.template.padding ?? 0)) * canvas.grid.distance) / 2;
-
-			const snappingCode
-				= tokenGridSpaces % 2 === 1
-					? getGridSnappingCode(['CENTER']) // Small, Medium, and Huge (plus larger odd-sized tokens)
-					: getGridSnappingCode(['CORNER']); // Tiny, Large, and Gargantuan (plus larger even-sized tokens)
-			crosshair.snap = {
-				position: snappingCode,
-				size: snappingCode,
-				resolution: tokenGridSpaces === 0.5 ? 2 : 1, // Tiny snaps within each square
-				direction: 0,
-			};
-		} else {
-			crosshair.t = CONST.MEASURED_TEMPLATE_TYPES[payload.template.type];
-			crosshair.distance = payload.template.size.default;
-			crosshair.distanceMin = payload.template.size.min; // Can be nullish
-			crosshair.distanceMax = payload.template.size.max; // Can be nullish
-			if ('angle' in payload.template) crosshair.angle = payload.template.angle ?? 90; // Sequencer default doesn't align with PF2e
-			if (payload.template.type === 'RAY' && crosshair.width) crosshair.width = payload.template.width;
-			if ('direction' in payload.template) crosshair.direction = payload.template.direction;
-		}
-		// TODO: is there a way to cause persistence with `Sequencer.Crosshair.show()`?
-		// if (payload.template.persist) crosshair.persist = true;
-	}
-	if (payload.snap) {
-		const snappingCode = getGridSnappingCode(payload.snap.position);
-		crosshair.snap = {
-			position: snappingCode,
-			size: snappingCode,
-			direction: payload.snap.direction ?? 0,
-			resolution: 1, // TODO: @Spappz
-		};
-	}
-	if (payload.location) {
-		crosshair.location = {
-			obj: context.sources[0],
-			limitMinRange: payload.location.limitRange?.min ?? null,
-			limitMaxRange: payload.location.limitRange?.max ?? null,
-			showRange: payload.location.lockToEdge ? false : !payload.location.hideRangeTooltip,
-			lockToEdge: payload.location.lockToEdge ?? false,
-			lockToEdgeDirection: payload.location.lockToEdgeDirection ?? false,
-			offset: offsetToVector2(payload.location.offset),
-			wallBehavior: Sequencer.Crosshair.PLACEMENT_RESTRICTIONS[payload.location.wallBehavior ?? 'ANYWHERE'],
-			displayRangePoly: !!payload.location.limitRange?.invisible,
-			rangePolyFillColor: Number(
-				`0x${(payload.location.limitRange?.fill?.color ?? '#66AA66').substring(1)}`,
-			),
-			rangePolyFillAlpha: payload.location.limitRange?.fill?.alpha ?? 0.25,
-			rangePolyLineColor: Number(
-				`0x${(payload.location.limitRange?.line?.color ?? '#228822').substring(1)}`,
-			),
-			rangePolyLineAlpha: payload.location.limitRange?.line?.alpha ?? 0.5,
-		};
-	}
-	// #endregion
+	const crosshair = transformCrosshairPayload(payload, context);
 
 	const users = context.user
 		? [game.users.get(context.user)!]
@@ -177,6 +94,102 @@ export async function executeCrosshair(
 		name: payload.name,
 		position: position as Vector2,
 	};
+}
+
+function transformCrosshairPayload(
+	payload: Extract<Payload, { type: 'crosshair' }>,
+	context: { sources: TokenOrDoc[]; targets: TokenOrDoc[]; templates: MeasuredTemplateDocument[] },
+): NonNullable<Parameters<typeof Sequencer.Crosshair.show>[0]> {
+	const crosshair: NonNullable<Parameters<typeof Sequencer.Crosshair.show>[0]> = {
+		gridHighlight: !payload.noGridHighlight,
+		lockDrag: payload.lockDrag,
+		lockManualRotation: payload.lockManualRotation,
+		borderColor: payload.borderColor,
+		fillColor: payload.fillColor,
+	};
+	if (payload.label) {
+		crosshair.label = {
+			text: payload.label.text,
+			dx: payload.label.dx ?? 0,
+			dy: payload.label.dy ?? 0,
+		};
+	}
+	if (payload.icon) {
+		crosshair.icon = {
+			texture: payload.icon.texture,
+			borderVisible: payload.icon.borderVisible ?? false,
+		};
+	}
+	if (payload.template) {
+		if (payload.template.type === 'token') {
+			crosshair.t = CONST.MEASURED_TEMPLATE_TYPES.CIRCLE;
+
+			const tokenOrDoc = positionToArgument(payload.template.relativeTo, context) as TokenOrDoc;
+			const tokenObj = tokenOrDoc instanceof TokenDocument ? tokenOrDoc.object : tokenOrDoc;
+			if (!tokenObj) {
+				throw ErrorMsg.send('pf2e-graphics.execute.crosshair.error.noToken', {
+					token: tokenOrDoc.toString(),
+				});
+			}
+
+			// Assume square token because *why* would you not do that in Pf2e 😡
+			const tokenGridSpaces = tokenObj.getSize().height / canvas.grid.size;
+
+			crosshair.distance = ((tokenGridSpaces + (payload.template.padding ?? 0)) * canvas.grid.distance) / 2;
+
+			const snappingCode
+			= tokenGridSpaces % 2 === 1
+				? getGridSnappingCode(['CENTER']) // Small, Medium, and Huge (plus larger odd-sized tokens)
+				: getGridSnappingCode(['CORNER']); // Tiny, Large, and Gargantuan (plus larger even-sized tokens)
+			crosshair.snap = {
+				position: snappingCode,
+				size: snappingCode,
+				resolution: tokenGridSpaces === 0.5 ? 2 : 1, // Tiny snaps within each square
+				direction: 0,
+			};
+		} else {
+			crosshair.t = CONST.MEASURED_TEMPLATE_TYPES[payload.template.type];
+			crosshair.distance = payload.template.size.default;
+			crosshair.distanceMin = payload.template.size.min; // Can be nullish
+			crosshair.distanceMax = payload.template.size.max; // Can be nullish
+			if ('angle' in payload.template) crosshair.angle = payload.template.angle ?? 90; // Sequencer default doesn't align with PF2e
+			if (payload.template.type === 'RAY' && crosshair.width) crosshair.width = payload.template.width;
+			if ('direction' in payload.template) crosshair.direction = payload.template.direction;
+		}
+	// TODO: is there a way to cause persistence with `Sequencer.Crosshair.show()`?
+	// if (payload.template.persist) crosshair.persist = true;
+	}
+	if (payload.snap) {
+		const snappingCode = getGridSnappingCode(payload.snap.position);
+		crosshair.snap = {
+			position: snappingCode,
+			size: snappingCode,
+			direction: payload.snap.direction ?? 0,
+			resolution: 1, // TODO: @Spappz
+		};
+	}
+	if (payload.location) {
+		crosshair.location = {
+			obj: context.sources[0],
+			limitMinRange: payload.location.limitRange?.min ?? null,
+			limitMaxRange: payload.location.limitRange?.max ?? null,
+			showRange: payload.location.lockToEdge ? false : !payload.location.hideRangeTooltip,
+			lockToEdge: payload.location.lockToEdge ?? false,
+			lockToEdgeDirection: payload.location.lockToEdgeDirection ?? false,
+			offset: offsetToVector2(payload.location.offset),
+			wallBehavior: Sequencer.Crosshair.PLACEMENT_RESTRICTIONS[payload.location.wallBehavior ?? 'ANYWHERE'],
+			displayRangePoly: !!payload.location.limitRange?.invisible,
+			rangePolyFillColor: Number(
+				`0x${(payload.location.limitRange?.fill?.color ?? '#66AA66').substring(1)}`,
+			),
+			rangePolyFillAlpha: payload.location.limitRange?.fill?.alpha ?? 0.25,
+			rangePolyLineColor: Number(
+				`0x${(payload.location.limitRange?.line?.color ?? '#228822').substring(1)}`,
+			),
+			rangePolyLineAlpha: payload.location.limitRange?.line?.alpha ?? 0.5,
+		};
+	}
+	return crosshair;
 }
 
 /**
