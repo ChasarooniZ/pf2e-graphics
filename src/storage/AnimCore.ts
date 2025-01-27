@@ -223,22 +223,16 @@ export let AnimCore = class AnimCore {
 		const appliedAnimations = Object.values(foundAnimations);
 
 		const sanitisedItem = nonNullable(item) ? item : undefined;
-		const misc = {
-			actor,
-			trigger,
-			context,
-			item: sanitisedItem,
-			triggerContext,
-			user,
-			play: true,
-		};
+		const playData = { sources, targets, item: sanitisedItem, user, trigger, triggerContext };
 
+		// #region Hook
+		const misc = { actor, trigger, context, item: sanitisedItem, triggerContext, user, play: true };
 		Hooks.call('pf2eGraphicsAnimate', rollOptions, appliedAnimations, misc);
-
 		if (!misc.play) {
 			log('Animation has been turned off by a third party.');
 			return;
 		}
+		// #endregion
 
 		AnimCore.createHistoryEntry({
 			rollOptions,
@@ -250,14 +244,7 @@ export let AnimCore = class AnimCore {
 			triggerContext,
 		});
 
-		return this.play(appliedAnimations, {
-			sources,
-			targets,
-			item: sanitisedItem,
-			user,
-			trigger,
-			triggerContext,
-		});
+		return this.play(appliedAnimations, playData);
 	}
 
 	/**
