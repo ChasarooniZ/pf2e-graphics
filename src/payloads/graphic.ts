@@ -1,15 +1,16 @@
 import type { TokenPF2e } from 'foundry-pf2e';
+import type { ExecutionContext } from '.';
 import type { Payload } from '../../schema';
 import type { EffectiveSize } from '../extensions';
+import type { ArrayElement } from '../utils';
 import {
 	addCustomExecutionContext,
-	type ExecutionContext,
 	offsetToVector2,
 	parseMinMaxObject,
 	positionToArgument,
 } from '.';
 import { AnimCore } from '../storage/AnimCore';
-import { type ArrayElement, ErrorMsg, getDefaultSize } from '../utils';
+import { ErrorMsg, getDefaultSize } from '../utils';
 
 export function executeGraphic(
 	payload: Extract<Payload, { type: 'graphic' }>,

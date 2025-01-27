@@ -1,8 +1,8 @@
+import type { ExecutionContext } from '.';
 import type { Payload } from '../../schema';
 import type { ArrayElement } from '../utils';
 import {
 	addCustomExecutionContext,
-	type ExecutionContext,
 	offsetToVector2,
 	parseMinMaxObject,
 	positionToArgument,

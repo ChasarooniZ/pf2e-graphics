@@ -1,4 +1,5 @@
-import { ZodError, type ZodIssue, ZodIssueCode } from 'zod';
+import type { ZodIssue } from 'zod';
+import { ZodError, ZodIssueCode } from 'zod';
 import { rollOption } from '../helpers/atoms';
 import { animationSets } from '../payload';
 import { tokenImagesObject } from '../tokenImages';

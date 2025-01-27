@@ -1,8 +1,9 @@
 <script lang='ts'>
 	import type { AnimationSetDocument } from 'src/extensions';
+	import type { Readable } from 'svelte/store';
 	import { dev, i18n } from 'src/utils';
 	import { onMount } from 'svelte';
-	import { derived, readable, type Readable, writable } from 'svelte/store';
+	import { derived, readable, writable } from 'svelte/store';
 	import { popupCreateAnimation } from './sidebarFunctions';
 	import SidebarListElement from './SidebarListElement.svelte';
 	import { initVariables } from './sidebarVars';

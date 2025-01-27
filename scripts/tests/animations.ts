@@ -1,12 +1,14 @@
 // To test and report on all files, use `npm run test:animations`.
 // To validate some specific files or directories, use `npm run test:animations -- <...paths> (e.g. `npm run test:animations -- animations/actions/aid.json animations/conditions`).
 
+import type { ZodIssue } from 'zod-validation-error';
+import type { DetailsMessage } from '../helpers.ts';
 import * as fs from 'node:fs';
 import { parse as JSONSourceMapParse } from 'json-source-map';
 import p from 'picocolors';
 import { testAndMergeAnimations } from 'scripts/testAndMergeAnimations.ts';
-import { fromZodIssue, type ZodIssue } from 'zod-validation-error';
-import { type DetailsMessage, Log, pluralise } from '../helpers.ts';
+import { fromZodIssue } from 'zod-validation-error';
+import { Log, pluralise } from '../helpers.ts';
 
 const testPaths = process.argv.length > 2 ? [...new Set(process.argv.slice(2))] : ['animations/'];
 

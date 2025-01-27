@@ -1,8 +1,9 @@
 <script lang='ts'>
 	import type { AnimationSetDocument } from 'src/extensions';
+	import type { animationPresetType } from './sidebarFunctions';
 	import { getContext } from 'svelte';
 	import { ErrorMsg, i18n } from '../../utils';
-	import { type animationPresetType, makeAnimation, openAnimation } from './sidebarFunctions';
+	import { makeAnimation, openAnimation } from './sidebarFunctions';
 
 	export let mode: 'make' | 'copy';
 	export let animation: AnimationSetDocument | undefined;

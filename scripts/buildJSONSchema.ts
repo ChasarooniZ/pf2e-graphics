@@ -1,9 +1,10 @@
 // JSON schemas are emitted automatically via Vite.
 // Use `npm run build:schema` to emit the JSON schema manually.
 
+import type { Options as zodToJsonSchemaOptions } from 'zod-to-json-schema';
 import fs from 'node:fs/promises';
 import p from 'picocolors';
-import { zodToJsonSchema, type Options as zodToJsonSchemaOptions } from 'zod-to-json-schema';
+import { zodToJsonSchema } from 'zod-to-json-schema';
 import { animationSetsObject, tokenImagesObject } from '../schema';
 import { Log } from './helpers';
 

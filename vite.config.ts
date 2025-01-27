@@ -1,3 +1,5 @@
+import type { Connect, PluginOption, ViteDevServer } from 'vite';
+import type { FileValidationFailure } from './scripts/helpers';
 /* eslint-env node */
 import fs from 'node:fs';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
@@ -9,12 +11,12 @@ import Sonda from 'sonda/vite';
 import { sveltePreprocess } from 'svelte-preprocess';
 import tailwindcss from 'tailwindcss';
 import nesting from 'tailwindcss/nesting';
-import { type Connect, defineConfig, type PluginOption, type ViteDevServer } from 'vite';
+import { defineConfig } from 'vite';
 import checker from 'vite-plugin-checker';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import moduleJSON from './module.json' with { type: 'json' };
 import { getJSONSchema } from './scripts/buildJSONSchema';
-import { type FileValidationFailure, Log, pluralise } from './scripts/helpers';
+import { Log, pluralise } from './scripts/helpers';
 import { testAndMergeAnimations } from './scripts/testAndMergeAnimations';
 
 const packagePath = `modules/${moduleJSON.id}`;

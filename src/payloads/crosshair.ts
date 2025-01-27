@@ -1,8 +1,9 @@
 import type { ActorPF2e } from 'foundry-pf2e';
+import type { ExecutionContext } from '.';
 import type { Payload } from '../../schema';
 import { TJSDialog } from '#runtime/svelte/application';
 import Pick from 'src/view/CrosshairPickALocation/Pick.svelte';
-import { type ExecutionContext, offsetToVector2, positionToArgument } from '.';
+import { offsetToVector2, positionToArgument } from '.';
 import { devLog, ErrorMsg, getPlayerOwners, i18n } from '../utils';
 
 export async function executeCrosshair(

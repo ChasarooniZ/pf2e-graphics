@@ -1,6 +1,7 @@
+import type { SvelteApp } from '#runtime/svelte/application';
 import type { AnimationSetDocument, UserAnimationSetDocument, WorldAnimationSetDocument } from 'src/extensions';
 import type { Mode } from 'svelte-jsoneditor';
-import { type SvelteApp, SvelteApplication } from '#runtime/svelte/application';
+import { SvelteApplication } from '#runtime/svelte/application';
 import { ErrorMsg, i18n, kofiButton, log } from '../../utils';
 import BasicAppShell from './AnimationDocument.svelte';
 
