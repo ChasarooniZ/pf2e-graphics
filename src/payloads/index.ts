@@ -119,7 +119,7 @@ export function addCustomExecutionContext(
  */
 export function positionToArgument(
 	position: string | Partial<Vector2>,
-	context: ExecutionContext,
+	context: { sources: TokenOrDoc[], targets: TokenOrDoc[], templates: MeasuredTemplateDocument[] },
 ): string | Vector2 | TokenPF2e | MeasuredTemplateDocumentPF2e {
 	if (typeof position === 'object') return offsetToVector2(position);
 

@@ -220,7 +220,8 @@
 				"error": {
 					"noName": "Failed to execute a <code>crosshair</code> payload (no <code>name</code> provided).",
 					"noActor": "Failed to execute a <code>crosshair</code> payload (couldn't find actor for source token <b>{token}</b>).",
-					"unresolvedPosition": "Failed to execute a <code>crosshair</code> payload (couldn't resolve position)."
+					"unresolvedPosition": "Failed to execute a <code>crosshair</code> payload (couldn't resolve position).",
+					"noToken": "Failed to execute a <code>crosshair</code> payload (couldn't find token)."
 				},
 				"notifications": {
 					"pickALocation": "Click on the canvas to choose a position!",

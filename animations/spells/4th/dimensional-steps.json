@@ -16,6 +16,10 @@
 						"template": {
 							"type": "token",
 							"relativeTo": "SOURCES"
+						},
+						"icon": {
+							"texture": "systems/pf2e/icons/spells/dimensional-step.webp",
+							"borderVisible": true
 						}
 					}
 				},
