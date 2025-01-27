@@ -2,6 +2,7 @@
 
 <script lang='ts'>
 	import type { AnimationHistoryObject } from 'src/storage/AnimCore';
+	import type { Mode } from 'svelte-jsoneditor';
 	import { ApplicationShell } from '#runtime/svelte/component/application';
 	import { i18n } from '../../utils';
 
@@ -21,6 +22,8 @@
 	});
 
 	let search = '';
+	let json = false;
+	const mode = 'text' as Mode;
 </script>
 
 <ApplicationShell bind:elementRoot>
@@ -28,7 +31,7 @@
 		<aside
 			class='
 				flex flex-col gap-1
-				w-1/3 pr-1
+				w-1/4 pr-1
 				overflow-y-scroll overflow-x-hidden
 			'
 			style:content-visibility='auto'
@@ -80,30 +83,48 @@
 				<i class='text-gray-500 opacity-50 text-center my-auto'>No animations.</i>
 			{/if}
 		</aside>
-		<main class='w-2/3 flex'>
+		<main class='w-3/4 flex'>
 			{#if selected}
-				<div class='w-2/3'>
-					<div class='flex flex-row gap-1 border border-solid rounded-md'>
-						<div class='self-center text-lg leading-3 pl-1'>
-							{i18n('pf2e-graphics.history.window.search')}
+				{#if !json}
+					<div class='w-2/3'>
+						<div class='flex flex-row gap-1 border border-solid rounded-md'>
+							<div class='self-center text-lg leading-3 pl-1'>
+								{i18n('pf2e-graphics.history.window.search')}
+							</div>
+							<input type='text' bind:value={search} />
 						</div>
-						<input type='text' bind:value={search} />
+						<ul class='
+							px-1 h-[calc(100%-2rem)]
+							overflow-y-scroll overflow-x-hidden
+							list-none text-ellipsis
+							leading-5 text-nowrap
+						'>
+							{#each selected.rollOptions.filter(option => option
+								.toLowerCase()
+								.includes(search.toLowerCase())) as option}
+								<li class='even:bg-black/10 px-2 -mx-2 select-text'>
+									{option}
+								</li>
+							{/each}
+						</ul>
 					</div>
-					<ul class='
-						px-1 h-[calc(100%-2rem)]
-						overflow-y-scroll overflow-x-hidden
-						list-none text-ellipsis
-						leading-5 text-nowrap
-					'>
-						{#each selected.rollOptions.filter(option => option
-							.toLowerCase()
-							.includes(search.toLowerCase())) as option}
-							<li class='even:bg-black/10 px-2 -mx-2 select-text'>
-								{option}
-							</li>
-						{/each}
-					</ul>
-				</div>
+				{:else}
+					<div class='w-2/3 text-xs' style:--jse-font-size-mono='12px'>
+						{#await import('svelte-jsoneditor')}
+							Waiting for extra JSONEditor code...
+						{:then Module}
+							<Module.JSONEditor
+								content={{ json: selected }}
+								readOnly={true}
+								{mode}
+								navigationBar={false}
+								statusBar={false}
+								indentation='	'
+								tabSize={2}
+							/>
+						{/await}
+					</div>
+				{/if}
 				<div class='w-1/3 p-2 [&>section]:pb-2'>
 					<section>
 						<h4 class='text-lg bold w-full border-0 border-b border-solid'>
@@ -134,17 +155,22 @@
 							</h4>
 							{#each Object.keys(selected.triggerContext) as key}
 								<b><code>{key}</code>:</b>
-								<code
-								>{JSON.stringify(
-									// @ts-ignore-error Can't easily index objects
-									selected.triggerContext[key],
-									undefined,
-									'\t',
-								)}</code
-								>
+								<code>
+									{JSON.stringify(
+										// @ts-ignore-error Can't easily index objects
+										selected.triggerContext[key],
+										undefined,
+										'\t',
+									)}
+								</code>
 							{/each}
 						</section>
 					{/if}
+					<section>
+						<button type='button' on:click={() => { json = !json; }}>
+							{json ? 'Text' : 'JSON'}
+						</button>
+					</section>
 				</div>
 			{/if}
 		</main>
