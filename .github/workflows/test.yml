@@ -116,9 +116,9 @@ jobs:
 
       - name: Test animation files
         if: steps.changed-animations.outputs.any_changed == 'true'
-        env:
-          MODIFIED_ANIMATIONS: ${{ steps.changed-animations.outputs.all_changed_files }}
-        run: npm run test:animations -- ${MODIFIED_ANIMATIONS}
+        # env:
+        #   MODIFIED_ANIMATIONS: ${{ steps.changed-animations.outputs.all_changed_files }}
+        run: "npm run test:animations" #-- ${MODIFIED_ANIMATIONS}
 
   sequencer_db:
     name: Sequencer DB

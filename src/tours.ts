@@ -109,16 +109,16 @@ export async function registerTours() {
 			// - Add buttons to start unstarted tours, plus one to hide message forever by setting all unstarted tours to status 0
 			// - Move this entire thing to localisation file
 			content: `
-			<h2>Welcome to <i>PF2e Graphics</i>!</h2>
-			<p>Do you want a tour? :)</p>
-			<ul>
-				${unstartedTourConfigs.map(tour => `<li>Yes! I want to learn about: <code>${tour.id}</code></li>`)}
-			</ul>
-			<hr />
-			<ul>
-				<li><b>Never speak to me again >:(</b></li>
-			</ul>
-		`,
+				<h2>Welcome to <i>PF2e Graphics</i>!</h2>
+				<p>Do you want a tour? :)</p>
+				<ul>
+					${unstartedTourConfigs.map(tour => `<li>Yes! I want to learn about: <code>${tour.id}</code></li>`)}
+				</ul>
+				<hr />
+				<ul>
+					<li><b>Never speak to me again >:(</b></li>
+				</ul>
+			`,
 			whisper: [game.userId],
 		});
 	}
