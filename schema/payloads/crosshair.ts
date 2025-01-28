@@ -177,6 +177,15 @@ export const crosshairPayload = z
 					.describe(
 						'For a non-circular template crosshair, this forces the template\'s orientation to snap to specific angles. The number determines how many angles are allowed (for example, `4` would force snapping to up, down, left, and right only).',
 					),
+				resolution: z
+					.number()
+					.positive()
+					.int()
+					.refine(num => num !== 1, '1 is the default and doesn\'t need to be configured.')
+					.optional()
+					.describe(
+						'The resolution ratio of the snapping sub-grid to the canvas grid. This can hard to wrap your head around, but, if you\'re simply snapping to the canvas grid itself, you can ignore it. For more information, see [this issue](https://github.com/foundryvtt/foundryvtt/issues/10014).',
+					),
 			})
 			.refine(...nonEmpty)
 			.optional()

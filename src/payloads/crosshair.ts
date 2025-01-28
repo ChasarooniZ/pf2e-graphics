@@ -165,7 +165,7 @@ function transformCrosshairPayload(
 			position: snappingCode,
 			size: snappingCode,
 			direction: payload.snap.direction ?? 0,
-			resolution: 1, // TODO: @Spappz
+			resolution: payload.snap.resolution ?? 1,
 		};
 	}
 	if (payload.location) {
