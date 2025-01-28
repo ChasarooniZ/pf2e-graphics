@@ -118,7 +118,7 @@ jobs:
         if: steps.changed-animations.outputs.any_changed == 'true'
         # env:
         #   MODIFIED_ANIMATIONS: ${{ steps.changed-animations.outputs.all_changed_files }}
-        run: "npm run test:animations" #-- ${MODIFIED_ANIMATIONS}
+        run: 'npm run test:animations' # -- ${MODIFIED_ANIMATIONS}
 
   sequencer_db:
     name: Sequencer DB
