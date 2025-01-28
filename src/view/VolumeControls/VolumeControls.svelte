@@ -21,7 +21,7 @@
 </script>
 
 <div class='pf2e-g'>
-	<li class='sound flexrow bg-purple-400/25 rounded-sm' data-tooltip='pf2e-graphics.sidebar.playlists.volumeSlider.tooltip'>
+	<li id='pf2e-graphics-volume-slider' class='sound flexrow bg-purple-400/25 rounded-sm' data-tooltip='pf2e-graphics.sidebar.playlists.volumeSlider.tooltip'>
 		<h4>{i18n('pf2e-graphics.sidebar.playlists.volumeSlider.title')}</h4>
 		<i class='volume-icon fas fa-volume-down'></i>
 		<input

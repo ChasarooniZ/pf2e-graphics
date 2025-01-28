@@ -70,6 +70,7 @@
 <!-- Load bearing height style. Don't ask. -->
 <div class='inline-flex flex-col h-1'>
 	<ol
+		id='pf2e-graphics-custom-sets'
 		class:grow={!$search}
 		class='m-0 p-0 list-none overflow-x-hidden overflow-y-auto'
 	>
@@ -81,7 +82,7 @@
 			</li>
 		{/each}
 	</ol>
-	<ol class='m-0 p-0 max-h-[50%]'>
+	<ol id='pf2e-graphics-bundled-sets' class='m-0 p-0 max-h-[50%]'>
 		<header
 			role='tree'
 			tabindex='0'
@@ -90,7 +91,7 @@
 			on:keypress={() => (showModuleAnimations = !showModuleAnimations)}
 		>
 			<i class='fas fa-cubes pr-1'></i>
-			Module Animations
+			{i18n('pf2e-graphics.sidebar.animationSets.moduleAnimationSets')}
 		</header>
 		<li class='
 			[&>li]:pl-2 [&>li]:border-l-4 [&>li]:border-solid [&>li]:border-l-red-900
