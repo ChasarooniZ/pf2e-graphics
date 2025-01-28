@@ -9,7 +9,9 @@
 			],
 			"contents": [
 				{
-					"predicates": ["target"],
+					"predicates": [
+						"target"
+					],
 					"execute": {
 						"type": "graphic",
 						"position": [
