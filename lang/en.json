@@ -247,6 +247,30 @@
 			"triggers": "A list of triggers that will cause this animation to be executed. See specifics in the <a href='https://github.com/MrVauxs/pf2e-graphics/wiki/Triggers'>PF2e Graphics</a> wiki.",
 			"overrides": "An list of roll options, with each roll option corresponding to an animation's primary predicate. If two animations are triggered by the same trigger and one of them overrides the other, the overridden animation will not be executed.",
 			"predicates": "A list of predicates as per the pf2e system. The animation will only be executed if the predicates apply. See specifics in the <a href='https://github.com/foundryvtt/pf2e/wiki/Quickstart-guide-for-rule-elements#predicates'>PF2e System</a> wiki."
+		},
+		"tours": {
+			"sidebar": {
+				"title": "Sidebar Interface",
+				"description": "Introduces you to the changes <i>PF2e Graphics</i> makes to the sidebar.",
+				"steps": {
+					"1": {
+						"title": "Welcome",
+						"content": "Welcome to <i>PF2e Graphics</i>! This quick tour will show you how to use the module."
+					},
+					"2": {
+						"title": "Animation Sets",
+						"content": "This new button opens the <i>animation sets</i> directory. Sets from <i>PF2e Graphics</i> and integrating modules can be found here, along with all the custom ones you and your GM have made.<br /><br />An 'animation set' is what <i>PF2e Graphics</i> calls the complete set of graphics, sounds, and other magic that gets played when something happens."
+					},
+					"3": {
+						"title": "Sound Controls",
+						"content": "You should already know what this button does! <i>PF2e Graphics</i> adds a new volume slider here, so you can control the volume of the sounds it plays.<br /><br />You can also adjust animation sets' volume in <i>PF2e Graphics</i>' module settings."
+					},
+					"4": {
+						"title": "That's it!",
+						"content": "If you have any questions, take a look at our <a href=\"https://github.com/MrVauxs/pf2e-graphics/wiki\">wiki</a> or ask us directly on <a href=\"https://discord.com/invite/SajryVzCyf\">Discord</a> (look for the <b><code>#PF2e Graphics</code></b> thread within <b><code>#pf2e-modules</code></b>).<br /><br />Thank you for using the module!"
+					}
+				}
+			}
 		}
 	}
 }
