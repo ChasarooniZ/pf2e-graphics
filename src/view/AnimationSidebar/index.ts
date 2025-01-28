@@ -12,7 +12,6 @@ export function initSidebar() {
 		// @ts-ignore Fixed in the next update
 		classes: ['flexcol directory pf2e-g'],
 		svelte: {
-			// @ts-ignore Fixed in the next update
 			class: AnimationSidebar,
 		},
 	});
