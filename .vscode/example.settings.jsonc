@@ -16,11 +16,17 @@
 	// Add JSON Validation - remember to either build with Vite or run `npm run build:schema` first!
 	"json.schemas": [
 		{
-			"fileMatch": ["animations/*/**/*.json"],
+			"fileMatch": [
+				"animations/*/**/*.json",
+				"!assets/library/**/*.json"
+			],
 			"url": "./dist/animations-schema.json"
 		},
 		{
-			"fileMatch": ["animations/tokenImages.json"],
+			"fileMatch": [
+				"animations/tokenImages.json",
+				"!assets/library/**/*.json"
+			],
 			"url": "./dist/token-images-schema.json"
 		}
 	],

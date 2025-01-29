@@ -19,7 +19,8 @@
 		"test:animations": "tsx ./scripts/tests/animations.ts",
 		"test:assets": "npm run test:assets:exist && npm run test:assets:format",
 		"test:assets:exist": "tsx ./scripts/tests/assets/exist.ts",
-		"test:assets:format": "tsx ./scripts/tests/assets/format.ts"
+		"test:assets:format": "tsx ./scripts/tests/assets/format.ts",
+		"generate-spritesheet": "tsx ./scripts/generateSpritesheetJSON.ts"
 	},
 	"imports": {
 		"#runtime/*": "@typhonjs-fvtt/runtime/*",
