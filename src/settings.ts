@@ -27,8 +27,6 @@ const settingsData = [
 		key: 'globalAnimations',
 		folder: 'PF2e Graphics',
 		options: {
-			name: 'pf2e-graphics.settings.globalAnimations.name',
-			hint: 'pf2e-graphics.settings.globalAnimations.hint',
 			scope: 'world',
 			config: false,
 			type: Array,
@@ -40,8 +38,6 @@ const settingsData = [
 		key: 'globalDisabledAnimations',
 		folder: 'PF2e Graphics',
 		options: {
-			name: 'pf2e-graphics.settings.globalDisabledAnimations.name',
-			hint: 'pf2e-graphics.settings.globalDisabledAnimations.hint',
 			scope: 'world',
 			config: false,
 			type: Array,
@@ -184,6 +180,17 @@ const settingsData = [
 			config: true,
 			type: Boolean,
 			default: false,
+		},
+	},
+	{
+		namespace: 'pf2e-graphics',
+		key: 'tourNag',
+		folder: 'PF2e Graphics',
+		options: {
+			scope: 'client',
+			config: false,
+			type: Boolean,
+			default: true,
 		},
 	},
 ] as const;

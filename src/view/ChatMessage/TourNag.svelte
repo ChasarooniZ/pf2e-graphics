@@ -3,9 +3,15 @@
 
 	export let message: ChatMessagePF2e;
 	const { unstartedTourConfigs } = message.flags['pf2e-graphics'] as { unstartedTourConfigs: TourConfig[] };
+
+	function close() {
+		window.game.settings.set('pf2e-graphics', 'tourNag', false);
+		message.delete();
+	}
 </script>
 
-<h2>Welcome to <i>PF2e Graphics</i>!</h2>
+<h2>Welcome to <i>PF2e Graphics!</i></h2>
+
 <p>Do you want a tour? :)</p>
 <ul>
 	{#each unstartedTourConfigs as tour}
@@ -13,6 +19,6 @@
 	{/each}
 </ul>
 <hr />
-<ul>
-	<li><b>Never speak to me again >:(</b></li>
-</ul>
+<button class='' on:click={close}>
+	<b>Never speak to me again >:(</b>
+</button>
