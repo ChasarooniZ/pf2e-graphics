@@ -247,7 +247,7 @@
 										<label class='flex items-center gap-2'>
 											X
 											<input
-												type='text'
+												type='number'
 												bind:value={position.offset.x}
 												{readonly}
 												disabled={readonly}
@@ -256,7 +256,7 @@
 										<label class='flex items-center gap-2'>
 											Y
 											<input
-												type='text'
+												type='number'
 												bind:value={position.offset.y}
 												{readonly}
 												disabled={readonly}
@@ -279,7 +279,7 @@
 										<label class='flex items-center gap-2'>
 											X
 											<input
-												type='text'
+												type='number'
 												bind:value={position.anchor.x}
 												{readonly}
 												disabled={readonly}
@@ -288,7 +288,7 @@
 										<label class='flex items-center gap-2'>
 											Y
 											<input
-												type='text'
+												type='number'
 												bind:value={position.anchor.y}
 												{readonly}
 												disabled={readonly}
