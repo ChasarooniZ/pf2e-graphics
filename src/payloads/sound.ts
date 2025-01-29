@@ -31,7 +31,7 @@ function processSound(
 	if (context.label) seq.name(context.label);
 
 	seq.atLocation(positionToArgument(position.location, context), {
-		offset: offsetToVector2(position.offset),
+		// offset: offsetToVector2(position.offset), TODO: https://github.com/fantasycalendar/FoundryVTT-Sequencer/pull/388
 		randomOffset: position.randomOffset ?? 0,
 		gridUnits: position.gridUnits ?? false,
 	});
