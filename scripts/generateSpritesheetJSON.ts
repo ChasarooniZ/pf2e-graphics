@@ -83,8 +83,6 @@ for (let i = 0; i < Number(frameCount); i++) {
 animations[name] = frameNames;
 
 const spritesheet: SpritesheetJSON = {
-    frames,
-    animations,
     meta: {
         frameRate: 60,
         image: `${name}.webp`,
@@ -94,7 +92,9 @@ const spritesheet: SpritesheetJSON = {
             h: Number(imageHeight)
         },
         scale: "1"
-    }
+    },
+    frames,
+    animations
 };
 
 // Write to file
