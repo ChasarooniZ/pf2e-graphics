@@ -3,7 +3,7 @@ import type { TokenOrDoc } from 'src/extensions';
 import type { ExecutionContext } from '.';
 import type { Payload } from '../../schema';
 import { TJSDialog } from '#runtime/svelte/application';
-import Pick from 'src/view/CrosshairPickALocation/Pick.svelte';
+import Pick from 'src/view/LiveCrosshairPicker/Pick.svelte';
 import { offsetToVector2, positionToArgument } from '.';
 import { devLog, ErrorMsg, getPlayerOwners, i18n } from '../utils';
 
