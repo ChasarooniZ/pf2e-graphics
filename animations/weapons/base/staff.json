@@ -10,7 +10,12 @@
 			"contents": [
 				{
 					"predicates": [
-						"target"
+						{
+							"gt": [
+								"target:distance",
+								0
+							]
+						}
 					],
 					"execute": {
 						"type": "graphic",

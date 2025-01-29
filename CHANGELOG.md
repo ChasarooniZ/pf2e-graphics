@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.0-alpha.2] - 2025-01-29
+
+### Added
+
+- Tours. Or one, specifically. May be expanded upon in the future.
+- Crosshair snap resolution.
+- Looking at Animation History JSON.
+
+### Changed
+
+- Staff animation not requiring a target.
+- Added "`target:distance` above 0 feet" predicate to all animations requiring targets to work.
+
 ## [1.0.0-alpha.1] - 2025-01-25
 
 ### Added
@@ -487,7 +500,8 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 - Moved internal structure
 - Pre-release versions to be semver compliant
 
-[Unreleased]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.1...HEAD
+[Unreleased]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.2...HEAD
+[1.0.0-alpha.2]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.1...v1.0.0-alpha.2
 [1.0.0-alpha.1]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha...v1.0.0-alpha.1
 [1.0.0-alpha]: https://github.com/MrVauxs/pf2e-graphics/compare/v0.9.4...v1.0.0-alpha
 [0.9.4]: https://github.com/MrVauxs/pf2e-graphics/compare/v0.9.3...v0.9.4

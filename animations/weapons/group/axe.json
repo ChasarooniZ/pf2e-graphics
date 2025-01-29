@@ -5,7 +5,14 @@
 				"attack-roll"
 			],
 			"predicates": [
-				"melee"
+				"melee",
+				{
+					"gt": [
+						"target:distance",
+						0
+					]
+				}
+
 			],
 			"contents": [
 				{

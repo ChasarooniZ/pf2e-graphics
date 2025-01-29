@@ -2,7 +2,13 @@
 	"item:group:club": [
 		{
 			"predicates": [
-				"melee"
+				"melee",
+				{
+					"gt": [
+						"target:distance",
+						0
+					]
+				}
 			],
 			"triggers": [
 				"attack-roll"
