@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+### Fixed
+
+- `offset` and `anchor` not being properly set as numbers.
+
 ## [1.0.0-alpha.3] - 2025-01-29
 
 ### Fixed
