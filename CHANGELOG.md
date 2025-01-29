@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 - Staff animation not requiring a target.
 - Added "`target:distance` above 0 feet" predicate to all animations requiring targets to work.
 
+### Fixed
+
+- Sounds throwing a `gridUnits` type error.
+
 ## [1.0.0-alpha.1] - 2025-01-25
 
 ### Added
