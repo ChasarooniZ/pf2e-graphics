@@ -20,7 +20,10 @@ export default class AnimationDocumentApp extends SvelteApplication<BasicAppOpti
 			} catch { }
 		}
 
-		if (this.options.animation.source === 'module') {
+		if (
+			this.options.animation.source === 'module'
+			|| (this.options.animation.source === 'user' && this.options.animation.user !== game.userId)
+		) {
 			this.options.readonly = true;
 			this.options.title = `${i18n('pf2e-graphics.document.title')} (Read-only)`;
 		}

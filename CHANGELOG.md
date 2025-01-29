@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.0-alpha.3] - 2025-01-29
+
+### Fixed
+
+- Animation Document not being read-only for other users than its creator.
+- TourNag message erroring at startup.
+
 ## [1.0.0-alpha.2] - 2025-01-29
 
 ### Added
@@ -504,7 +511,8 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 - Moved internal structure
 - Pre-release versions to be semver compliant
 
-[Unreleased]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.2...HEAD
+[Unreleased]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.3...HEAD
+[1.0.0-alpha.3]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.2...v1.0.0-alpha.3
 [1.0.0-alpha.2]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.1...v1.0.0-alpha.2
 [1.0.0-alpha.1]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha...v1.0.0-alpha.1
 [1.0.0-alpha]: https://github.com/MrVauxs/pf2e-graphics/compare/v0.9.4...v1.0.0-alpha

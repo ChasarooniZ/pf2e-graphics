@@ -24,8 +24,8 @@
 		{@const tourDoc = getTourDoc(tour)}
 		<button
 			on:click={() => tourDoc.start()}
-			disabled={tourDoc.status !== 'unstarted'}
-			class:line-through={tourDoc.status !== 'unstarted'}
+			disabled={tourDoc?.status !== 'unstarted'}
+			class:line-through={tourDoc?.status !== 'unstarted'}
 		>
 			Yes! I want to learn about the <i>{i18n(tour.title)}</i>.
 		</button>
