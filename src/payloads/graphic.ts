@@ -3,12 +3,7 @@ import type { ExecutionContext } from '.';
 import type { Payload } from '../../schema';
 import type { EffectiveSize } from '../extensions';
 import type { ArrayElement } from '../utils';
-import {
-	addCustomExecutionContext,
-	offsetToVector2,
-	parseMinMaxObject,
-	positionToArgument,
-} from '.';
+import { addCustomExecutionContext, offsetToVector2, parseMinMaxObject, positionToArgument } from '.';
 import { AnimCore } from '../storage/AnimCore';
 import { ErrorMsg, getDefaultSize } from '../utils';
 
@@ -380,15 +375,11 @@ function processGraphic(
 					);
 				}
 			} else if (payload.size.type === 'screenSpace') {
-				// TODO: Implement
-				throw ErrorMsg.send('pf2e-graphics.execute.common.error.unimplemented', {
-					payloadType: 'graphic',
-					unimplemented: '<code>size.type: "screenSpace"</code>',
-				});
+				seq.screenSpaceScale(payload.size);
 			} else {
-				throw ErrorMsg.send('pf2e-graphics.execute.common.error.unimplemented', {
+				throw ErrorMsg.send('pf2e-graphics.execute.common.error.unknownDiscriminatedUnionValue', {
 					payloadType: 'graphic',
-					unimplemented: '<code>size.type: "screenSpace"</code>',
+					property: 'size.type',
 				});
 			}
 		}
