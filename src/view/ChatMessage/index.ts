@@ -1,25 +1,20 @@
 import type { ChatMessagePF2e } from 'foundry-pf2e';
 import { FVTTVersion } from '#standard/fvtt';
+import { info } from '../../utils';
 import CrosshairPicker from './CrosshairPicker.svelte';
 import TourNag from './TourNag.svelte';
 
-function assignSvelteComponent(
-	element: HTMLElement,
-	message: ChatMessagePF2e,
-	component: string,
-) {
+function assignSvelteComponent(element: HTMLElement, message: ChatMessagePF2e, component: string) {
 	if (!message.flags['pf2e-graphics']) return;
 	if (message.flags['pf2e-graphics']._svelteComponent) return;
 
-	switch (component) {
-		case 'CrosshairPicker':
-			message.flags['pf2e-graphics']._svelteComponent = new CrosshairPicker({ target: element, props: { message } });
-			break;
-		case 'TourNag':
-			message.flags['pf2e-graphics']._svelteComponent = new TourNag({ target: element, props: { message } });
-			break;
-		default:
-			break;
+	if (component === 'CrosshairPicker') {
+		message.flags['pf2e-graphics']._svelteComponent = new CrosshairPicker({
+			target: element,
+			props: { message },
+		});
+	} else if (component === 'TourNag') {
+		message.flags['pf2e-graphics']._svelteComponent = new TourNag({ target: element, props: { message } });
 	}
 }
 
@@ -30,7 +25,9 @@ const ready = Hooks.once('ready', () => {
 		const component = message.getFlag('pf2e-graphics', 'component') as string | undefined;
 		if (!component) continue;
 
-		const el: HTMLElement | null = document.querySelector(`.message[data-message-id="${message.id}"] .message-content`);
+		const el: HTMLElement | null = document.querySelector(
+			`.message[data-message-id="${message.id}"] .message-content`,
+		);
 		if (el) assignSvelteComponent(el, message, component);
 	}
 
