@@ -245,10 +245,10 @@
 			}
 		},
 		"explanations": {
-			"primary-predicate": "An unique identifier for the entire animation set tree and the main predicate for whether this animation should be executed. <p/> The roll option should be explicitly related to the thing you are animating, e.g. `item:base:rapier` or `item:group:sword`.",
-			"triggers": "A list of triggers that will cause this animation to be executed. See specifics in the <a href='https://github.com/MrVauxs/pf2e-graphics/wiki/Triggers'>PF2e Graphics</a> wiki.",
+			"rollOption": "The roll option that activates this animation set (e.g. <code>item:slug:jaws</code> or <code>check:statistic:society</code>).<p />Your choice should be specific to the thing you're animating. If in doubt, use the <b>Animation History</b> to find an appropriate roll option for your action.",
+			"triggers": "A list of triggers that will cause this animation to be executed.",
 			"overrides": "An list of roll options, with each roll option corresponding to an animation's primary predicate. If two animations are triggered by the same trigger and one of them overrides the other, the overridden animation will not be executed.",
-			"predicates": "A list of predicates as per the pf2e system. The animation will only be executed if the predicates apply. See specifics in the <a href='https://github.com/foundryvtt/pf2e/wiki/Quickstart-guide-for-rule-elements#predicates'>PF2e System</a> wiki."
+			"predicates": "A list of predicates as per the pf2e system. The animation will only be executed if the predicates apply."
 		},
 		"tours": {
 			"sidebar": {

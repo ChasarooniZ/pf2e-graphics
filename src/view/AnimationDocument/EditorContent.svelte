@@ -103,7 +103,13 @@
 		{#if 'triggers' in data}
 			<label class='p-0.5 grid grid-cols-3 items-center'>
 				<span class='flex items-center' data-tooltip='pf2e-graphics.explanations.triggers'>
-					Triggers
+					Triggers&nbsp;
+					<span class='opacity-50'>
+						(<a
+							href='https://github.com/MrVauxs/pf2e-graphics/wiki/Animation-Details#trigger'
+							target='_blank'>wiki</a>)
+					</span
+					>
 					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div
@@ -156,7 +162,13 @@
 		{#if 'predicates' in data || 'default' in data}
 			<label class='p-0.5 grid grid-cols-3 items-center' for='predicates'>
 				<span class='flex items-center' data-tooltip='pf2e-graphics.explanations.predicates'>
-					Predicates
+					Predicates&nbsp;
+					<span class='opacity-50'>
+						(<a
+							href='https://github.com/foundryvtt/pf2e/wiki/Quickstart-guide-for-rule-elements#predicates'
+							target='_blank'>wiki</a>)
+					</span
+					>
 					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div
@@ -282,7 +294,7 @@
 									modal: true,
 									title: 'Confirm Deletion',
 									content:
-										'Are you sure you want to delete this Execute payload?<p/><b>All data will be lost.</b>',
+										`Are you sure you want to delete this ${data.execute?.type ?? 'unconfigured'} payload? <p /> <center><b>All data will be irretrievably lost.</b></center>`,
 									onYes: () => {
 										delete data.execute;
 										data = data;
