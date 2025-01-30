@@ -8,7 +8,7 @@
 		"build": "npm run build:vite && npm run build:clean",
 		"build:vite": "vite build",
 		"build:sonda": "cross-env SONDA=true npm run build:vite",
-		"build:clean": "tsx ./scripts/cleanAnimations.ts",
+		"build:clean": "tsx ./scripts/cleanJSONs.ts",
 		"build:schema": "tsx ./scripts/buildJSONSchema.ts",
 		"preview": "vite preview",
 		"check": "svelte-check --tsconfig ./tsconfig.json",

@@ -3,7 +3,11 @@ import path from 'node:path';
 import p from 'picocolors';
 import { getFilesRecursively, Log, safeJSONParse } from './helpers.ts';
 
-const files = getFilesRecursively('animations').filter(filename => path.extname(filename) === '.json');
+const JSON_PATHS = ['animations/', 'assets/library/graphics/'] as const;
+
+const files = JSON_PATHS.flatMap(JSONPath => getFilesRecursively(JSONPath)).filter(
+	filename => path.extname(filename) === '.json',
+);
 
 function cleanFiles(files: string[]): { cleaned: number; failed: Set<string> } {
 	let cleaned = 0;
