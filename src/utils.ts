@@ -308,3 +308,20 @@ export function getDefaultSize(size: ActorPF2e['size'] | undefined): number {
 	if (size === 'grg') return 4;
 	throw ErrorMsg.send('pf2e-graphics.execute.common.error.unknownSize', { size: size!.toString() });
 }
+
+/**
+ * A data-valiation wrapper around `JSON.parse()` for when data is ingested from external sources.
+ * @privateRemarks Copied from `scripts/helpers.ts`.
+ * @param input The input string.
+ * @returns An object with a `success` property indicating the success state. If `input` was parsed successfully, it is included in the `json` property.
+ */
+export function safeJSONParse(input: string): { success: true; data: JSONValue } | { success: false } {
+	try {
+		return {
+			success: true,
+			data: JSON.parse(input),
+		};
+	} catch {
+		return { success: false };
+	}
+}
