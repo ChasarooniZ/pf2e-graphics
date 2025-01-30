@@ -4,7 +4,7 @@
 	import type { AnimationHistoryObject } from 'src/storage/AnimCore';
 	import type { Mode } from 'svelte-jsoneditor';
 	import { ApplicationShell } from '#runtime/svelte/component/application';
-	import { i18n } from '../../utils';
+	import { i18n, nonEmpty } from '../../utils';
 
 	export let elementRoot: HTMLElement;
 	let sidebarElement: HTMLElement;
@@ -27,17 +27,23 @@
 </script>
 
 <ApplicationShell bind:elementRoot>
-	<div class='flex flex-row gap-1 h-[calc(100%-2rem)]'>
-		<aside
-			class='
-				flex flex-col gap-1
-				w-1/4 pr-1
-				overflow-y-scroll overflow-x-hidden
-			'
-			style:content-visibility='auto'
-			bind:this={sidebarElement}
-		>
-			{#if $history.length}
+	{#if $history.length === 0}
+		<div style:display='flex' style:flex-flow='column'>
+			<p class='text-gray-500 opacity-50 text-center my-auto'>
+				<i>No animations recorded.</i>
+			</p>
+		</div>
+	{:else}
+		<div class='flex flex-row gap-1 h-[calc(100%-2rem)]'>
+			<aside
+				class='
+					flex flex-col gap-1
+					w-1/4 pr-1
+					overflow-y-scroll overflow-x-hidden
+				'
+				style:content-visibility='auto'
+				bind:this={sidebarElement}
+			>
 				{#each $history as entry}
 					<section
 						class='
@@ -55,7 +61,9 @@
 						on:keydown={() => (selected = entry)}
 					>
 						<header class='[&>p]:m-0 w-full'>
-							<p class='text-lg text-nowrap truncate'>{entry.item?.name ?? '???'}</p>
+							<p class='text-lg text-nowrap truncate'>
+								{#if entry.item?.name}{entry.item.name}{:else}<i>Unknown</i>{/if}
+							</p>
 							<p class='text-xs align-right'>
 								{@html i18n('pf2e-graphics.history.window.data.summary', {
 									trigger: entry.trigger,
@@ -79,106 +87,111 @@
 						</header>
 					</section>
 				{/each}
-			{:else}
-				<i class='text-gray-500 opacity-50 text-center my-auto'>No animations.</i>
-			{/if}
-		</aside>
-		<main class='w-3/4 flex'>
-			{#if selected}
-				{#if !json}
-					<div class='w-2/3'>
-						<div class='flex flex-row gap-1 border border-solid rounded-md'>
-							<div class='self-center text-lg leading-3 pl-1'>
-								{i18n('pf2e-graphics.history.window.search')}
+			</aside>
+			<main class='w-3/4 flex'>
+				{#if selected}
+					{#if !json}
+						<div class='w-2/3'>
+							<div class='flex flex-row gap-1 border border-solid rounded-md'>
+								<div class='self-center text-lg leading-3 pl-1'>
+									{i18n('pf2e-graphics.history.window.search')}
+								</div>
+								<input type='text' bind:value={search} />
 							</div>
-							<input type='text' bind:value={search} />
+							<ul
+								class='
+									px-1 h-[calc(100%-2rem)]
+									overflow-y-scroll overflow-x-hidden
+									list-none text-ellipsis
+									leading-5 text-nowrap
+								'
+							>
+								{#each selected.rollOptions.filter(option => option
+									.toLowerCase()
+									.includes(search.toLowerCase())) as option}
+									<li class='even:bg-black/10 px-2 -mx-2 select-text'>
+										{option}
+									</li>
+								{/each}
+							</ul>
 						</div>
-						<ul class='
-							px-1 h-[calc(100%-2rem)]
-							overflow-y-scroll overflow-x-hidden
-							list-none text-ellipsis
-							leading-5 text-nowrap
-						'>
-							{#each selected.rollOptions.filter(option => option
-								.toLowerCase()
-								.includes(search.toLowerCase())) as option}
-								<li class='even:bg-black/10 px-2 -mx-2 select-text'>
-									{option}
-								</li>
-							{/each}
-						</ul>
-					</div>
-				{:else}
-					<div class='w-2/3 text-xs' style:--jse-font-size-mono='12px'>
-						{#await import('svelte-jsoneditor')}
-							Waiting for extra JSONEditor code...
-						{:then Module}
-							<Module.JSONEditor
-								content={{ json: selected }}
-								readOnly={true}
-								{mode}
-								navigationBar={false}
-								statusBar={false}
-								indentation='	'
-								tabSize={2}
-							/>
-						{/await}
-					</div>
-				{/if}
-				<div class='w-1/3 p-2 [&>section]:pb-2'>
-					<section>
-						<h4 class='text-lg bold w-full border-0 border-b border-solid'>
-							{i18n('pf2e-graphics.history.window.data.actor.header')}
-						</h4>
-						{selected.actor.name}
-					</section>
-					<section>
-						<h4 class='text-lg bold w-full border-0 border-b border-solid'>
-							{i18n('pf2e-graphics.history.window.data.trigger.header')}
-						</h4>
-						<code>{selected.trigger}</code>
-					</section>
-					<section>
-						<h4 class='text-lg bold w-full border-0 border-b border-solid'>
-							{i18n('pf2e-graphics.history.window.data.user.header')}
-						</h4>
-						{#if selected.user?.name}
-							{selected.user.name}
-						{:else}
-							<i>{i18n('pf2e-graphics.history.window.data.user.unknown')}</i>
-						{/if}
-					</section>
-					{#if selected.triggerContext}
+					{:else}
+						<div class='w-2/3 text-xs' style:--jse-font-size-mono='12px'>
+							{#await import('svelte-jsoneditor')}
+								Waiting for extra JSONEditor code...
+							{:then Module}
+								<Module.JSONEditor
+									content={{ json: selected }}
+									readOnly={true}
+									{mode}
+									navigationBar={false}
+									statusBar={false}
+									indentation='	'
+									tabSize={2}
+								/>
+							{/await}
+						</div>
+					{/if}
+					<div class='w-1/3 p-2 [&>section]:pb-2'>
 						<section>
 							<h4 class='text-lg bold w-full border-0 border-b border-solid'>
-								{i18n('pf2e-graphics.history.window.data.triggerContext.header')}
+								{i18n('pf2e-graphics.history.window.data.actor.header')}
 							</h4>
-							{#each Object.keys(selected.triggerContext) as key}
-								<b><code>{key}</code>:</b>
-								<code>
-									{JSON.stringify(
-										// @ts-ignore-error Can't easily index objects
-										selected.triggerContext[key],
-										undefined,
-										'\t',
-									)}
-								</code>
-							{/each}
+							{selected.actor.name}
 						</section>
-					{/if}
-					<section>
-						<button type='button' on:click={() => { json = !json; }}>
-							{json ? 'Text' : 'JSON'}
-						</button>
-					</section>
-				</div>
-			{/if}
-		</main>
-	</div>
-	<footer class='grow-0 py-1 h-8'>
-		<button type='button' on:click={clearHistory}>
-			<i class='fa fa-trash'></i>
-			{i18n('pf2e-graphics.history.window.clear')}
-		</button>
-	</footer>
+						<section>
+							<h4 class='text-lg bold w-full border-0 border-b border-solid'>
+								{i18n('pf2e-graphics.history.window.data.trigger.header')}
+							</h4>
+							<code>{selected.trigger}</code>
+						</section>
+						<section>
+							<h4 class='text-lg bold w-full border-0 border-b border-solid'>
+								{i18n('pf2e-graphics.history.window.data.user.header')}
+							</h4>
+							{#if selected.user?.name}
+								{selected.user.name}
+							{:else}
+								<i>{i18n('pf2e-graphics.history.window.data.user.unknown')}</i>
+							{/if}
+						</section>
+						{#if selected.triggerContext && nonEmpty(selected.triggerContext)}
+							<section>
+								<h4 class='text-lg bold w-full border-0 border-b border-solid'>
+									{i18n('pf2e-graphics.history.window.data.triggerContext.header')}
+								</h4>
+								{#each Object.keys(selected.triggerContext) as key}
+									<b><code>{key}</code>:</b>
+									<code>
+										{JSON.stringify(
+											// @ts-ignore-error Can't easily index objects
+											selected.triggerContext[key],
+											undefined,
+											'\t',
+										)}
+									</code>
+								{/each}
+							</section>
+						{/if}
+						<div>
+							<button
+								type='button'
+								on:click={() => {
+									json = !json;
+								}}
+							>
+								{json ? 'Text' : 'JSON'}
+							</button>
+						</div>
+					</div>
+				{/if}
+			</main>
+		</div>
+		<footer class='grow-0 py-1 h-8'>
+			<button type='button' on:click={clearHistory}>
+				<i class='fa fa-trash'></i>
+				{i18n('pf2e-graphics.history.window.clear')}
+			</button>
+		</footer>
+	{/if}
 </ApplicationShell>

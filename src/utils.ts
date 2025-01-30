@@ -94,7 +94,8 @@ export function warn(message: string, format?: Record<string, string>, options?:
 export function error(message: string, format?: Record<string, string>, options?: NotifyOptions & ErrorOptions) {
 	const i18nedMessage = `<b>PF2e Graphics</b> | ${i18n(message, format)}`;
 	ui.notifications.error(i18nedMessage, { ...options, console: false });
-	if (options?.console !== false) console.error(HTMLToMarkdown(i18nedMessage), options?.data ?? ' ', options?.cause ?? ' ');
+	if (options?.console !== false)
+		console.error(HTMLToMarkdown(i18nedMessage), options?.data ?? ' ', options?.cause ?? ' ');
 }
 
 export function i18n(code: string, format?: Record<string, string>) {
@@ -116,9 +117,10 @@ export function i18n(code: string, format?: Record<string, string>) {
  * Returns `true` if the the input object `obj` has at least one property.
  * @privateRemarks Duplicated from `schema/helpers/refinements.ts`.
  */
-export function nonEmpty(obj: object): boolean {
-	// eslint-disable-next-line no-unreachable-loop
-	for (const _key in obj) return true; // This is simply most performant ¯\_(ツ)_/¯
+export function nonEmpty(obj: { [K: string]: any }): boolean {
+	for (const _key in obj) {
+		if (obj[_key] !== 'undefined') return true; // This is simply most performant ¯\_(ツ)_/¯
+	}
 	return false;
 }
 
