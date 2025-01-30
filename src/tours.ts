@@ -78,6 +78,31 @@ export async function registerTours() {
 		},
 	] as const;
 
+	/**
+	 * A Tour subclass that handles controlling the UI state of a loaded world. It can handle both `sidebarTab` and `layer` controls.
+	 * Code adapted from FoundryVTT's core `CanvasTour` class definition.
+	 */
+	class GrandUnifiedTour extends SidebarTour {
+		override get canStart() {
+			return !!canvas.scene;
+		}
+
+		override async _preStep() {
+			await super._preStep();
+			if ('layer' in this.currentStep! && canvas.scene) {
+				// @ts-expect-error https://github.com/7H3LaughingMan/foundry-pf2e/pull/603
+				const layer = canvas[this.currentStep.layer as string];
+				if (layer.active) {
+					// @ts-expect-error https://github.com/7H3LaughingMan/foundry-pf2e/pull/603
+					ui.controls.initialize({ tool: this.currentStep.tool });
+				} else {
+					// @ts-expect-error https://github.com/7H3LaughingMan/foundry-pf2e/pull/603
+					layer.activate({ tool: this.currentStep.tool });
+				}
+			}
+		}
+	}
+
 	// Get the secret tour progress-tracker for the client
 	const tourProgress = game.settings.get('core', 'tourProgress') as {
 		[Namespace: string]: {
@@ -92,7 +117,7 @@ export async function registerTours() {
 
 	// Register tours
 	for (const newTourConfig of newTourConfigs) {
-		game.tours.register(newTourConfig.namespace, newTourConfig.id, new SidebarTour(newTourConfig, {}));
+		game.tours.register(newTourConfig.namespace, newTourConfig.id, new GrandUnifiedTour(newTourConfig, {}));
 		if (
 			tourProgress[newTourConfig.namespace] === undefined
 			|| tourProgress[newTourConfig.namespace][newTourConfig.id] === undefined
