@@ -82,7 +82,9 @@ const preDelete = Hooks.on('preDeleteChatMessage', (message) => {
 
 if (import.meta.hot) {
 	// Prevents reloads
-	import.meta.hot.accept();
+	import.meta.hot.accept((newModule) => {
+		if (newModule) info('pf2e-graphics.load.notify.componentUpdated', { component: 'view/ChatMessage' });
+	});
 	// Disposes the previous hook
 	import.meta.hot.dispose(() => {
 		Hooks.off('preDeleteChatMessage', preDelete);

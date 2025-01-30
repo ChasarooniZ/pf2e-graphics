@@ -637,7 +637,7 @@ if (import.meta.hot) {
 		if (newModule && newModule.AnimCore) {
 			AnimCore = newModule.AnimCore;
 			newModule.AnimCore.init();
-			info('pf2e-graphics.load.notify.AnimCoreUpdated');
+			info('pf2e-graphics.load.notify.componentUpdated', { component: 'AnimCore' });
 		}
 	});
 }
