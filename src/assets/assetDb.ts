@@ -1,7 +1,7 @@
 export const DB_PREFIX = 'graphics-vfx';
 
 // Start from 01
-const p = 'modules/pf2e-graphics/assets/library/animations';
+const p = 'modules/pf2e-graphics/assets/library/graphics';
 export const database = {
 	rpg: {
 		accelerate: {
