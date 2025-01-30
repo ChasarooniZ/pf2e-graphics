@@ -251,36 +251,40 @@
 		},
 		"tours": {
 			"sidebar": {
-				"title": "Sidebar Interface",
-				"description": "Introduces you to the changes <i>PF2e Graphics</i> makes to the sidebar.",
+				"title": "New Interface Elements",
+				"description": "Introduces you to the changes <i>PF2e Graphics</i> makes to the sidebar and canvas controls.",
 				"steps": {
-					"1": {
+					"1:intro": {
 						"title": "Welcome!",
 						"content": "Welcome to <i>PF2e Graphics</i>! This quick tour will show you how to use the module."
 					},
-					"2": {
+					"2:animationSetsTabButton": {
 						"title": "Animation Sets",
-						"content": "This new sidebar button switches to the <i>Animation Sets</i> tab.<br /><br />Let's open it up!"
+						"content": "This new sidebar button switches to the <i>Animation Sets</i> tab.\nLet's open it up!"
 					},
-					"3": {
+					"3:animationSetsTab": {
 						"title": "Animation Sets",
-						"content": "The Animation Sets tab is just like the Actors or Items tab, except it contains animation sets instead!<br /><br />An 'animation set' is what <i>PF2e Graphics</i> calls the complete batch of graphics, sounds, and other magic that gets played when something happens."
+						"content": "The Animation Sets tab is just like the Actors or Items tab, except it contains animation sets instead!\nAn 'animation set' is what <i>PF2e Graphics</i> calls the complete batch of graphics, sounds, and other magic that gets played when something happens."
 					},
-					"4": {
+					"4:bundledAnimationSets": {
 						"title": "Animation Sets",
-						"content": "Down here is a special folder containing all the pre-made animation sets bundled with <i>PF2e Graphics</i>. You can't add, remove, or edit them directly, but they're still available for inspection.<br /><br />If you've activated another module which integrates with <i>PF2e Graphics</i>, you'll find its animation sets here too. The icon at the top-right of each document tells you where it's from."
+						"content": "Down here is a special folder containing all the pre-made animation sets bundled with <i>PF2e Graphics</i>. You can't add, remove, or edit them directly, but they're still available for inspection.\nIf you've activated another module which integrates with <i>PF2e Graphics</i>, you'll find its animation sets here too. The icon at the top-right of each document tells you where it's from."
 					},
-					"5": {
+					"5:customAnimationSets": {
 						"title": "Animation Sets",
-						"content": "Up here is (or will be!) all the custom animation sets in your world. An icon at the top-right of each item tells you whether it's in the 'user scope' (only triggered by you) or 'world scope' (can be triggered by anyone).<br /><br />Custom animation sets take priority over modules' sets."
+						"content": "Up here is (or will be!) all the custom animation sets in your world. An icon at the top-right of each item tells you whether it's in the 'user scope' (only triggered by you) or 'world scope' (can be triggered by anyone).\nCustom animation sets take priority over modules' sets."
 					},
-					"6": {
+					"6:animationHistory": {
+						"title": "Animation History",
+						"content": "This little button opens up the 'Animation History' window.\nWhenever something happens that could trigger <i>PF2e Graphics</i>, an entry gets made in the Animation History. You can use this to figure out triggers and roll options when creating your own custom animation sets—just do the thing you want and see what gets logged!"
+					},
+					"7:animationSetsVolumeSlider": {
 						"title": "Sound Controls",
-						"content": "Over here in the Playlists tab, <i>PF2e Graphics</i> also adds a new volume slider. This allows you to control the volume of the sounds <i>PF2e Graphics</i> plays.<br /><br />Note that this is actually the same slider as in <i>PF2e Graphics</i>' own module settings—it's just here for convenience!"
+						"content": "Over here in the Playlists tab, <i>PF2e Graphics</i> also adds a new volume slider. This allows you to control the volume of the sounds <i>PF2e Graphics</i> plays.\nNote that this is actually the same slider as in <i>PF2e Graphics</i>' own module settings—it's just here for convenience!"
 					},
-					"7": {
+					"8:thanks": {
 						"title": "That's it!",
-						"content": "If you have any questions, take a read of our <a href=\"https://github.com/MrVauxs/pf2e-graphics/wiki\">wiki</a>, or ask us directly on <a href=\"https://discord.com/invite/SajryVzCyf\">Discord</a> (look for the <b><code>#PF2e Graphics</code></b> thread within <b><code>#pf2e-modules</code></b>).<br /><br />Thank you for using the module! <a href=\"https://ko-fi.com/mrvauxs\" target=\"_blank\"><i class=\"fas fa-mug-hot ko-fi\"></i> Ko-fi</a>"
+						"content": "If you have any questions, take a read of our <a href=\"https://github.com/MrVauxs/pf2e-graphics/wiki\">wiki</a>, or ask us directly on <a href=\"https://discord.com/invite/SajryVzCyf\">Discord</a> (look for the <b><code>#PF2e Graphics</code></b> thread within <b><code>#pf2e-modules</code></b>).\nThank you for using the module! <a href=\"https://ko-fi.com/mrvauxs\" target=\"_blank\"><i class=\"fas fa-mug-hot ko-fi\"></i> Ko-fi</a>"
 					}
 				}
 			}
