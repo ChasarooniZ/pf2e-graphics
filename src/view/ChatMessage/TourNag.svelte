@@ -5,8 +5,11 @@
 	export let message: ChatMessagePF2e;
 	const { unstartedTourConfigs } = message.flags['pf2e-graphics'] as { unstartedTourConfigs: TourConfig[] };
 
-	function close() {
-		window.game.settings.set('pf2e-graphics', 'tourNag', false);
+	function close(unstartedTourConfigs: TourConfig[]): undefined {
+		unstartedTourConfigs.forEach((tourConfig) => {
+			const tour = getTourDoc(tourConfig);
+			tour.progress(0).then(() => tour.exit()); // Tour isn't completed, so don't complete it 😤
+		});
 		message.delete();
 	}
 
@@ -20,20 +23,19 @@
 
 	<p>Do you want a tour? :)</p>
 
-	{#each unstartedTourConfigs as tour}
-		{@const tourDoc = getTourDoc(tour)}
+	{#each unstartedTourConfigs as tourConfig}
+		{@const tourDoc = getTourDoc(tourConfig)}
 		<button
 			on:click={() => tourDoc.start()}
 			disabled={tourDoc?.status !== 'unstarted'}
 			class:line-through={tourDoc?.status !== 'unstarted'}
 		>
-			Yes! I want to learn about the <i>{i18n(tour.title)}</i>.
+			Yes! I want to learn about <i>{i18n(tourConfig.title)}</i>.
 		</button>
 	{/each}
 
 	<hr />
-	<button class='' on:click={close}>
-
+	<button class="" on:click={() => close(unstartedTourConfigs)}>
 		<b>Never speak to me again >:(</b>
 	</button>
 </div>

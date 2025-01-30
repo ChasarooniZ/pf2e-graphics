@@ -182,17 +182,6 @@ const settingsData = [
 			default: false,
 		},
 	},
-	{
-		namespace: 'pf2e-graphics',
-		key: 'tourNag',
-		folder: 'PF2e Graphics',
-		options: {
-			scope: 'client',
-			config: false,
-			type: Boolean,
-			default: true,
-		},
-	},
 ] as const;
 
 function conditionalSettings() {

@@ -103,7 +103,7 @@ export async function registerTours() {
 	}
 
 	// Post ~~nagging~~ welcome message if client has unstarted PF2e Graphics tours
-	if (unstartedTourConfigs.length && game.settings.get('pf2e-graphics', 'tourNag')) {
+	if (unstartedTourConfigs.length) {
 		ChatMessage.create({
 			style: CONST.CHAT_MESSAGE_STYLES.OOC,
 			speaker: {
