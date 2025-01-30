@@ -1,20 +1,25 @@
 import type { ChatMessagePF2e } from 'foundry-pf2e';
 import { FVTTVersion } from '#standard/fvtt';
-import { info } from '../../utils';
+import { ErrorMsg, info } from '../../utils';
 import CrosshairPicker from './CrosshairPicker.svelte';
 import TourNag from './TourNag.svelte';
 
 function assignSvelteComponent(element: HTMLElement, message: ChatMessagePF2e, component: string) {
-	if (!message.flags['pf2e-graphics']) return;
-	if (message.flags['pf2e-graphics']._svelteComponent) return;
+	const moduleFlags = message.flags['pf2e-graphics'];
+	if (!moduleFlags) return;
+	if (moduleFlags._svelteComponent) return;
 
 	if (component === 'CrosshairPicker') {
-		message.flags['pf2e-graphics']._svelteComponent = new CrosshairPicker({
+		moduleFlags._svelteComponent = new CrosshairPicker({
 			target: element,
 			props: { message },
 		});
 	} else if (component === 'TourNag') {
-		message.flags['pf2e-graphics']._svelteComponent = new TourNag({ target: element, props: { message } });
+		moduleFlags._svelteComponent = new TourNag({ target: element, props: { message } });
+	} else {
+		throw ErrorMsg.send('pf2e-graphics.load.error.badMessageFlags', {
+			flags: Object.keys(moduleFlags).join(', '),
+		});
 	}
 }
 

@@ -44,6 +44,7 @@
 			"error": {
 				"badModuleFlags": "Failed to read package flags for module {title} (<code>{id}</code>).",
 				"badModuleAnimations": "Failed to load animation sets for {title} (<code>{id}</code>). See console (<kbd>F12</kbd>) for more information.",
+				"badMessageFlags": "Failed to read module <code>ChatMessage</code> flags (received <code>{flags}</code>).",
 				"cantAccessFile": "Can't access file `{path}`.",
 				"schemaValidationFailed": "{number} animation sets failed validation! See console (<kbd>F12</kbd>) for more information."
 			}
