@@ -32,7 +32,6 @@ export async function registerTours() {
 					title: 'pf2e-graphics.tours.sidebar.steps.3.title',
 					content: 'pf2e-graphics.tours.sidebar.steps.3.content',
 					selector: '#graphics',
-					// @ts-expect-error https://github.com/foundryvtt/foundryvtt/issues/12065
 					sidebarTab: 'graphics',
 					tooltipDirection: 'LEFT',
 				},
@@ -41,7 +40,6 @@ export async function registerTours() {
 					title: 'pf2e-graphics.tours.sidebar.steps.4.title',
 					content: 'pf2e-graphics.tours.sidebar.steps.4.content',
 					selector: '#pf2e-graphics-bundled-sets',
-					// @ts-expect-error https://github.com/foundryvtt/foundryvtt/issues/12065
 					sidebarTab: 'graphics',
 					tooltipDirection: 'LEFT',
 				},
@@ -50,7 +48,6 @@ export async function registerTours() {
 					title: 'pf2e-graphics.tours.sidebar.steps.5.title',
 					content: 'pf2e-graphics.tours.sidebar.steps.5.content',
 					selector: '#pf2e-graphics-custom-sets',
-					// @ts-expect-error https://github.com/foundryvtt/foundryvtt/issues/12065
 					sidebarTab: 'graphics',
 					tooltipDirection: 'LEFT',
 				},
@@ -59,7 +56,6 @@ export async function registerTours() {
 					title: 'pf2e-graphics.tours.sidebar.steps.6.title',
 					content: 'pf2e-graphics.tours.sidebar.steps.6.content',
 					selector: '.playlist-sounds #pf2e-graphics-volume-slider',
-					// @ts-expect-error https://github.com/foundryvtt/foundryvtt/issues/12065
 					sidebarTab: 'playlists',
 					tooltipDirection: 'LEFT',
 				},
@@ -86,7 +82,6 @@ export async function registerTours() {
 
 	// Register tours
 	for (const newTourConfig of newTourConfigs) {
-		// @ts-expect-error https://github.com/7H3LaughingMan/foundry-pf2e/pull/602
 		game.tours.register(newTourConfig.namespace, newTourConfig.id, new SidebarTour(newTourConfig, {}));
 		if (
 			tourProgress[newTourConfig.namespace] === undefined
