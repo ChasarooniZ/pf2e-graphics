@@ -117,7 +117,7 @@ export async function registerTours() {
 
 	// Register tours
 	for (const newTourConfig of newTourConfigs) {
-		game.tours.register(newTourConfig.namespace, newTourConfig.id, new GrandUnifiedTour(newTourConfig, {}));
+		game.tours.register(newTourConfig.namespace, newTourConfig.id, new GrandUnifiedTour(newTourConfig));
 		if (
 			tourProgress[newTourConfig.namespace] === undefined
 			|| tourProgress[newTourConfig.namespace][newTourConfig.id] === undefined
