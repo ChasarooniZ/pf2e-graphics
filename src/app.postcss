@@ -64,6 +64,14 @@
 		text-shadow: 0 0 10px var(--color-shadow-primary);
 		@apply underline font-bold;
 	}
+
+	button.jse-last {
+		display: none !important;
+	}
+
+	.jse-button.jse-group-button:not(.jse-last) {
+		border-right: 1px solid var(--jse-menu-color, var(--jse-text-color-inverse, #fff)) !important;
+	}
 }
 
 .svelecte {
