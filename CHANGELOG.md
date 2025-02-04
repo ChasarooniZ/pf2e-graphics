@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+### Added
+- Directed Size Options
+- Sound File Option
+- Macro Options
+- In-Foundry JSON Data Validation (Dev Mode Only)
+-
+
 ## [1.0.0-alpha.4] - 2025-01-29
 
 ### Fixed
