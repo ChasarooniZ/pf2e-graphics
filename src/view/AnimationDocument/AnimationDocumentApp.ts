@@ -1,6 +1,7 @@
 import type { SvelteApp } from '#runtime/svelte/application';
 import type { AnimationSetDocument, UserAnimationSetDocument, WorldAnimationSetDocument } from 'src/extensions';
 import type { Mode } from 'svelte-jsoneditor';
+import type { Writable } from 'svelte/store';
 import { SvelteApplication } from '#runtime/svelte/application';
 import { ErrorMsg, i18n, kofiButton, log } from '../../utils';
 import BasicAppShell from './AnimationDocument.svelte';
@@ -70,32 +71,26 @@ export default class AnimationDocumentApp extends SvelteApplication<BasicAppOpti
 		return AnimationDocumentApp.validate(_animation);
 	}
 
-	async save(_animation: AnimationSetDocument = this.options.animation) {
-		log('Saving data.', _animation);
-		switch (_animation.source) {
-			case 'user': {
-				const user = game.users.get(_animation.user);
-				if (!user) {
-					throw ErrorMsg.send('Can\'t find the assigned animations user?!'); // TODO: i18n
-				}
-				const userAnimations = user.getFlag('pf2e-graphics', 'animations') as UserAnimationSetDocument[];
+	async save(document: AnimationSetDocument = this.options.animation) {
+		log('Saving document.', document);
+		if (document.source === 'user') {
+			const user = game.users.get(document.user);
+			if (!user) throw ErrorMsg.send('Can\'t find the assigned animations user?!'); // TODO: i18n
 
-				userAnimations.findSplice(el => el.id === _animation.id, _animation);
-
-				await user.setFlag('pf2e-graphics', 'animations', userAnimations);
-				break;
-			}
-			case 'world': {
-				const store = window.pf2eGraphics.storeSettings.getWritableStore('globalAnimations')!;
-				store.update((val: WorldAnimationSetDocument[]) => {
-					val.findSplice(x => x.id === _animation.id);
-					val.push(_animation);
-					return val;
-				});
-				break;
-			}
-			default:
-				log(`Edits have been ignored on read-only "${_animation.source}" type animation.`); // TODO: i18n
+			const userAnimations = user.getFlag('pf2e-graphics', 'animations') as UserAnimationSetDocument[];
+			userAnimations.findSplice(el => el.id === document.id, document);
+			await user.setFlag('pf2e-graphics', 'animations', userAnimations);
+		} else if (document.source === 'world') {
+			const store = window.pf2eGraphics.storeSettings.getWritableStore('globalAnimations') as Writable<
+				WorldAnimationSetDocument[]
+			>;
+			store.update((val) => {
+				val.findSplice(x => x.id === document.id);
+				val.push(document);
+				return val;
+			});
+		} else {
+			log(`Edits have been ignored on read-only "${document.source}" type animation.`); // TODO: i18n
 		}
 	}
 
