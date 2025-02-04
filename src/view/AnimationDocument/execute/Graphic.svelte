@@ -9,6 +9,7 @@
 	const entries: string[] = window.Sequencer.Database.publicFlattenedSimpleEntries;
 
 	let positionType: 'static' | 'dynamic' = 'static';
+	let size: 'absolute' | 'relative' | 'directed' | 'screenSpace' = 'relative';
 
 	let collapsed: number[] = [];
 
@@ -372,33 +373,38 @@
 					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div class='flex align-middle items-center col-span-2'>
-					<select
-						disabled={readonly}
-						class='grow h-8 capitalize'
-						value={data.execute.size?.type}
-						on:change={(e) => {
-							const type = e.currentTarget.value;
-							if (type === '' && data.execute?.size) {
-								delete data.execute.size;
-							} else if (data.execute) {
-								if (!('size' in data.execute)) {
-									data.execute.size = {
-										// @ts-ignore-error Lacking typescript support in Svelte 4
-										type,
-									};
-								} else if (data.execute.size) {
-									// @ts-ignore-error Lacking typescript support in Svelte 4
-									data.execute.size.type = type;
-								}
-							}
-							data = data;
-						}}
-					>
-						<option></option>
+					<select disabled={readonly || Boolean(data.execute.size)} bind:value={size} class='grow h-8 capitalize'>
 						{#each ['absolute', 'relative', 'directed', 'screenSpace'] as option}
 							<option value={option}>{option}</option>
 						{/each}
 					</select>
+					{#if data.execute.size}
+						<button
+							disabled={readonly}
+							class='w-min text-nowrap h-8'
+							on:click={() => {
+								if (!data.execute) return;
+								delete data.execute.size;
+								data = data;
+							}}
+						>
+							<i class='fa fa-trash pr-1 fa-fw'></i>
+							Remove
+						</button>
+					{:else}
+						<button
+							disabled={readonly}
+							class='w-min text-nowrap h-8'
+							on:click={() => {
+								// @ts-ignore-error Lacking typescript support in Svelte 4
+								data.execute.size = { type: size };
+								data = data;
+							}}
+						>
+							<i class='fa fa-plus pr-1 fa-fw'></i>
+							Add
+						</button>
+					{/if}
 				</div>
 			</label>
 			{#if data.execute?.size?.type === 'relative'}
@@ -442,6 +448,25 @@
 								}
 							}}
 						/>
+					</div>
+				</label>
+			{/if}
+			{#if data.execute?.size?.type === 'directed'}
+				<label class='grid grid-cols-3 items-center'>
+					<span class='flex items-center' data-tooltip='TODO: Explain'>
+						Endpoint
+						<i class='fa fa-info-circle px-2 ml-auto'></i>
+					</span>
+					<div class='flex align-middle items-center col-span-2'>
+						<select
+							disabled={readonly}
+							class='grow h-8 capitalize'
+							bind:value={data.execute.size.endpoint}
+						>
+							{#each ['SOURCES', 'TARGETS'] as option}
+								<option value={option}>{option}</option>
+							{/each}
+						</select>
 					</div>
 				</label>
 			{/if}
