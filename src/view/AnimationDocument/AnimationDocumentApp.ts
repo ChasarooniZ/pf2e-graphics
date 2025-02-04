@@ -76,7 +76,7 @@ export default class AnimationDocumentApp extends SvelteApplication<BasicAppOpti
 			case 'user': {
 				const user = game.users.get(_animation.user);
 				if (!user) {
-					throw ErrorMsg.send('Can\'t find the assigned animatiions user?!'); // TODO: i18n
+					throw ErrorMsg.send('Can\'t find the assigned animations user?!'); // TODO: i18n
 				}
 				const userAnimations = user.getFlag('pf2e-graphics', 'animations') as UserAnimationSetDocument[];
 

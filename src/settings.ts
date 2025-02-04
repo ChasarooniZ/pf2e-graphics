@@ -2,7 +2,7 @@ import type { WorldAnimationSetDocument } from './extensions';
 import { TJSGameSettings, TJSLiveGameSettings } from '#runtime/svelte/store/fvtt/settings';
 
 const storeSettings = new TJSGameSettings('pf2e-graphics');
-export type storeSettingsType = typeof storeSettings;
+export type StoreSettings = typeof storeSettings;
 
 let settings: TJSLiveGameSettings & {
 	quality: 0 | 1 | 2 | 3;
@@ -19,7 +19,7 @@ let settings: TJSLiveGameSettings & {
 	cardsGone: true;
 	showHiddenRolls: boolean;
 };
-export type liveSettings = typeof settings;
+export type LiveSettings = typeof settings;
 
 const settingsData = [
 	{

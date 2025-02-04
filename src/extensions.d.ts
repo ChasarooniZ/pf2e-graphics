@@ -2,7 +2,7 @@ import type { SvelteApplicationOptions } from '@typhonjs-fvtt/runtime/svelte/app
 import type { TJSSessionStorage } from '@typhonjs-fvtt/runtime/svelte/store/web-storage';
 import type { Writable } from 'svelte/store';
 import type { AnimationSet, ModuleDataObject } from '../schema';
-import type { liveSettings, storeSettingsType } from './settings';
+import type { LiveSettings, StoreSettings } from './settings';
 import type { AnimationHistoryObject, AnimCore } from './storage/AnimCore';
 
 export type CombinedSvelteApplicationOptions = ApplicationOptions & SvelteApplicationOptions;
@@ -79,8 +79,8 @@ declare global {
 		socket: SocketlibSocket;
 		modules: Writable<Map<string, ModuleDataObject>>;
 		AnimCore: InstanceType<typeof AnimCore>;
-		liveSettings: liveSettings;
-		storeSettings: storeSettingsType;
+		liveSettings: LiveSettings;
+		storeSettings: StoreSettings;
 		history: Writable<AnimationHistoryObject[]>;
 		locations: Writable<{ name: string; location: object }[]>;
 	}
