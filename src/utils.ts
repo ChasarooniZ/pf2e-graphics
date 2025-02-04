@@ -317,7 +317,7 @@ export function getDefaultSize(size: ActorPF2e['size'] | undefined): number {
  * @param input The input string.
  * @returns An object with a `success` property indicating the success state. If `input` was parsed successfully, it is included in the `json` property.
  */
-export function safeJSONParse(input: string): { success: true; data: JSONValue } | { success: false } {
+export function safeJSONParse(input: string): { success: true; data: ReturnType<JSON['parse']> } | { success: false } {
 	try {
 		return {
 			success: true,

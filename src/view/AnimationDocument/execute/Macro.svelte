@@ -12,8 +12,7 @@
 			delete data.execute!.options;
 		} else {
 			const json = safeJSONParse(optionsInput);
-			if (!json.success || !json.data || typeof json.data !== 'object') return;
-			data.execute!.options = json.data;
+			if (json.success && json.data && typeof json.data === 'object') data.execute!.options = json.data;
 		}
 	}
 

@@ -3,7 +3,7 @@ import type { AnimationSetDocument, UserAnimationSetDocument, WorldAnimationSetD
 import type { Mode } from 'svelte-jsoneditor';
 import type { Writable } from 'svelte/store';
 import { SvelteApplication } from '#runtime/svelte/application';
-import { ErrorMsg, i18n, kofiButton, log } from '../../utils';
+import { ErrorMsg, i18n, kofiButton, log, safeJSONParse } from '../../utils';
 import BasicAppShell from './AnimationDocument.svelte';
 
 export default class AnimationDocumentApp extends SvelteApplication<BasicAppOptions> {
@@ -15,10 +15,9 @@ export default class AnimationDocumentApp extends SvelteApplication<BasicAppOpti
 		if ('id' in options.animation) {
 			this.options.id = `${this.options.id}-${options.animation.id}`;
 
-			try {
-				// Attempt to parse session storage item and set to application state.
-				this.state.set(JSON.parse(sessionStorage.getItem(`${this.options.id}`) || '{}'));
-			} catch { }
+			// Attempt to parse session storage item and set to application state.
+			const json = safeJSONParse(sessionStorage.getItem(this.options.id) ?? '{}');
+			if (json.success && json.data) this.state.set(json.data);
 		}
 
 		if (
