@@ -1,7 +1,8 @@
 <script lang='ts'>
+	import type { MinimalWritable } from '@typhonjs-fvtt/runtime/svelte/store/util';
 	import { ErrorMsg, i18n } from '../../utils';
 
-	const volume = window.pf2eGraphics.storeSettings.getStore('volume');
+	const volume = window.pf2eGraphics.storeSettings.getStore('volume') as MinimalWritable<number>;
 
 	if (!volume) throw ErrorMsg.send('pf2e-graphics.sidebar.playlists.error.noVolume');
 
