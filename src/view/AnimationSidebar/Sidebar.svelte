@@ -3,7 +3,9 @@
 	import type { Readable } from 'svelte/store';
 	import { dev, i18n } from 'src/utils';
 	import { onMount } from 'svelte';
+	import { circInOut } from 'svelte/easing';
 	import { derived, readable, writable } from 'svelte/store';
+	import { slide } from 'svelte/transition';
 	import { popupCreateAnimation } from './sidebarFunctions';
 	import SidebarListElement from './SidebarListElement.svelte';
 	import { initVariables } from './sidebarVars';
@@ -74,8 +76,8 @@
 		class:grow={!$search}
 		class='m-0 p-0 list-none overflow-x-hidden overflow-y-auto'
 	>
-		{#each $list.filter(x => x.source !== 'module') as item, index}
-			<SidebarListElement {item} {index} hidden={hiddenAnimations} />
+		{#each $list.filter(x => x.source !== 'module') as item}
+			<SidebarListElement {item} hidden={hiddenAnimations} />
 		{:else}
 			<li class='p-8 text-center opacity-40 italic text-sm'>
 				{i18n('pf2e-graphics.sidebar.animationSets.list.empty')}
@@ -93,15 +95,18 @@
 			<i class='fas fa-cubes pr-1'></i>
 			{i18n('pf2e-graphics.sidebar.animationSets.moduleAnimationSets')}
 		</header>
-		<li class='
-			[&>li]:pl-2 [&>li]:border-l-4 [&>li]:border-solid [&>li]:border-l-red-900
-			list-none overflow-x-hidden overflow-y-auto h-[calc(100%-2.5rem)]
-		'>
-			{#if showModuleAnimations}
-				{#each $list.filter(x => x.source === 'module') as item, index}
-					<SidebarListElement {item} {index} hidden={hiddenAnimations} />
+		{#if showModuleAnimations}
+			<li
+				transition:slide={{ duration: 600, axis: 'y', easing: circInOut }}
+				style="scrollbar-gutter: stable;"
+				class='
+					[&>li]:pl-2 [&>li]:border-l-4 [&>li]:border-solid [&>li]:border-l-red-900
+					list-none overflow-x-hidden overflow-y-auto h-[calc(100%-2.5rem)]
+				'>
+				{#each $list.filter(x => x.source === 'module') as item}
+					<SidebarListElement {item} hidden={hiddenAnimations} />
 				{/each}
-			{/if}
-		</li>
+			</li>
+		{/if}
 	</ol>
 </div>

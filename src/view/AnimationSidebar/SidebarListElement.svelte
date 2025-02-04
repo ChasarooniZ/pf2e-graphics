@@ -4,12 +4,11 @@
 	import type { Readable } from 'svelte/store';
 	import { TJSContextMenu } from '@typhonjs-fvtt/standard/application/menu';
 	import { i18n, info, warn } from 'src/utils';
-	import { slide } from 'svelte/transition';
 	import AnimationDocumentApp from '../AnimationDocument/AnimationDocumentApp';
 	import { copyAnimation, openAnimation, removeAnimation } from './sidebarFunctions';
 
 	export let item: AnimationSetDocument;
-	export let index: number;
+	// export let index: number;
 	export let hidden: { global: Readable<string[]>; user: Readable<Record<string, string[]>>	};
 
 	function moduleIDToName(id: string): string {
@@ -167,7 +166,6 @@
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <li
-	transition:slide|global={{ duration: 500, delay: Math.max(0, 50 * Math.min(index, 10)), axis: 'y' }}
 	id='pf2e-g-{item.source}-{item.rollOption}'
 	tabindex='-1'
 	on:click={() => openAnimation(item)}
