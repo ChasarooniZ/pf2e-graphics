@@ -17,6 +17,7 @@ export default class AnimationDocumentApp extends SvelteApplication<BasicAppOpti
 
 			// Attempt to parse session storage item and set to application state.
 			const json = safeJSONParse(sessionStorage.getItem(this.options.id) ?? '{}');
+			
 			if (json.success && json.data) this.state.set(json.data);
 		}
 

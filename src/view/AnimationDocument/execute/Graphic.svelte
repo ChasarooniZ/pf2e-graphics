@@ -378,33 +378,27 @@
 							<option value={option}>{option}</option>
 						{/each}
 					</select>
-					{#if data.execute.size}
-						<button
-							disabled={readonly}
-							class='w-min text-nowrap h-8'
-							on:click={() => {
+					<button
+						disabled={readonly}
+						class='w-min text-nowrap h-8'
+						on:click={() => {
+							if (data.execute?.size) {
 								if (!data.execute) return;
 								delete data.execute.size;
 								data = data;
-							}}
-						>
-							<i class='fa fa-trash pr-1 fa-fw'></i>
-							Remove
-						</button>
-					{:else}
-						<button
-							disabled={readonly}
-							class='w-min text-nowrap h-8'
-							on:click={() => {
+							} else {
 								// @ts-ignore-error Lacking typescript support in Svelte 4
 								data.execute.size = { type: size };
 								data = data;
-							}}
-						>
-							<i class='fa fa-plus pr-1 fa-fw'></i>
-							Add
-						</button>
-					{/if}
+							}
+						}}
+					>
+						{#if data.execute.size}
+							<i class='fa fa-trash fa-fw'></i>
+						{:else}
+							<i class='fa fa-plus fa-fw'></i>
+						{/if}
+					</button>
 				</div>
 			</label>
 			{#if data.execute?.size?.type === 'relative'}
@@ -469,6 +463,12 @@
 						</select>
 					</div>
 				</label>
+			{/if}
+			{#if data.execute?.size?.type === 'screenSpace'}
+				Unimplemented!
+			{/if}
+			{#if data.execute?.size?.type === 'absolute'}
+				Unimplemented!
 			{/if}
 		</FadedWrapper>
 	</div>
