@@ -108,7 +108,7 @@ export function makeAnimation(
 		preset.push({
 			label: `${_name} (Melee)`,
 			triggers: ['attack-roll'],
-			predicates: ['melee'],
+			predicates: ['melee', { gt: ['target:distance', 0] }],
 			execute: {
 				type: 'graphic',
 				graphic: ['jb2a.melee_attack.02.handaxe.01'],
