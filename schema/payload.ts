@@ -257,9 +257,14 @@ export const animationSets = z
 	.refine(...uniqueItems);
 
 /**
+ * Zod schema for the value that a roll option maps onto.
+ */
+export const animationSetsObjectValue = rollOption.or(animationSets);
+
+/**
  * Zod schema for the data object mapping roll options to animation sets (or other roll options).
  */
-export const animationSetsObject = z.record(rollOption, rollOption.or(animationSets));
+export const animationSetsObject = z.record(rollOption, animationSetsObjectValue);
 
 /**
  * The data object mapping roll options to animation sets (or other roll options).

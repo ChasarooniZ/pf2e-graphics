@@ -16,10 +16,22 @@ export type ModuleDataMap = Map<
 
 // #region Relayed exports
 export {
+	animationSetDocument,
+	type AnimationSetDocument,
+	moduleAnimationSetDocument,
+	type ModuleAnimationSetDocument,
+	userAnimationSetDocument,
+	type UserAnimationSetDocument,
+	worldAnimationSetDocument,
+	type WorldAnimationSetDocument,
+} from './document';
+export {
 	type AnimationSet,
+	type AnimationSetContentsItem,
 	animationSets,
 	type AnimationSetsObject,
 	animationSetsObject,
+	animationSetsObjectValue,
 	type Payload,
 } from './payload';
 export { type PayloadType, payloadTypeList, payloadTypes } from './payloads';

@@ -1,5 +1,9 @@
-import type { AnimationSetDocument, UserAnimationSetDocument, WorldAnimationSetDocument } from 'src/extensions';
-import type { AnimationSet } from '../../../schema';
+import type {
+	AnimationSet,
+	AnimationSetDocument,
+	UserAnimationSetDocument,
+	WorldAnimationSetDocument,
+} from 'schema';
 import { TJSDialog } from '@typhonjs-fvtt/runtime/svelte/application';
 import { ErrorMsg, i18n, log } from 'src/utils';
 import AnimationDocumentApp from '../AnimationDocument/AnimationDocumentApp';

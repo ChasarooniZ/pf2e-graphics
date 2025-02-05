@@ -1,7 +1,7 @@
 import type { SvelteApplicationOptions } from '@typhonjs-fvtt/runtime/svelte/application';
 import type { TJSSessionStorage } from '@typhonjs-fvtt/runtime/svelte/store/web-storage';
 import type { Writable } from 'svelte/store';
-import type { AnimationSet, ModuleDataObject } from '../schema';
+import type { ModuleDataObject } from '../schema';
 import type { LiveSettings, StoreSettings } from './settings';
 import type { AnimationHistoryObject, AnimCore } from './storage/AnimCore';
 
@@ -23,45 +23,6 @@ declare module 'svelte' {
 	export function getContext<T extends keyof Context, K extends Context[T]>(key: T): K;
 	export function setContext<T extends keyof Context, K extends Context[T]>(key: T, context: K): void;
 }
-
-/**
- * The document format for an animation set in the module scope.
- */
-export interface ModuleAnimationSetDocument {
-	source: 'module';
-	module: string;
-	name: string;
-	rollOption: string;
-	animationSets: string | AnimationSet[];
-}
-
-/**
- * The document format for an animation set in the world scope.
- */
-export interface WorldAnimationSetDocument {
-	source: 'world';
-	id: string;
-	name: string;
-	rollOption: string;
-	animationSets: string | AnimationSet[];
-}
-
-/**
- * The document format for an animation set in the user scope.
- */
-export interface UserAnimationSetDocument {
-	source: 'user';
-	user: string;
-	id: string;
-	name: string;
-	rollOption: string;
-	animationSets: string | AnimationSet[];
-}
-
-/**
- * The document format for an animation set.
- */
-export type AnimationSetDocument = ModuleAnimationSetDocument | WorldAnimationSetDocument | UserAnimationSetDocument;
 
 export type TokenOrDoc = TokenDocument | Token;
 

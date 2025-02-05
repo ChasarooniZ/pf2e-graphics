@@ -1,6 +1,5 @@
 <script lang='ts'>
-	import type { AnimationSet, AnimationSetContentsItem } from 'schema/payload';
-	import type { AnimationSetDocument } from 'src/extensions';
+	import type { AnimationSet, AnimationSetContentsItem, AnimationSetDocument } from 'schema';
 	import type { Writable } from 'svelte/store';
 	import type { BasicAppExternal } from './AnimationDocumentApp';
 	import { getContext } from 'svelte';

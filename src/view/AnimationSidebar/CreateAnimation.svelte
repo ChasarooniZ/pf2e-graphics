@@ -1,6 +1,6 @@
 <script lang='ts'>
-	import type { AnimationSetDocument } from 'src/extensions';
-	import type { animationPresetType } from './sidebarFunctions';
+	import type { AnimationSetDocument } from 'schema';
+	import type { AnimationPresetType } from './sidebarFunctions';
 	import { getContext } from 'svelte';
 	import { ErrorMsg, i18n } from '../../utils';
 	import { makeAnimation, openAnimation } from './sidebarFunctions';

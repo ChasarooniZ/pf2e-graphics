@@ -1,7 +1,7 @@
 <script lang='ts'>
 	import type { MacroPF2e } from 'foundry-pf2e';
+	import type { AnimationSetDocument } from 'schema';
 	import type { AnimationSetContentsItem } from 'schema/payload';
-	import type { AnimationSetDocument } from 'src/extensions';
 	import { TJSDialog } from '#runtime/svelte/application';
 	import { TJSDocument } from '#runtime/svelte/store/fvtt/document';
 	import { ErrorMsg, isTrueish, log } from 'src/utils';

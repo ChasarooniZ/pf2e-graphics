@@ -1,5 +1,5 @@
 import type { SvelteApp } from '#runtime/svelte/application';
-import type { AnimationSetDocument, UserAnimationSetDocument, WorldAnimationSetDocument } from 'src/extensions';
+import type { AnimationSetDocument, UserAnimationSetDocument, WorldAnimationSetDocument } from 'schema';
 import type { Mode } from 'svelte-jsoneditor';
 import type { Writable } from 'svelte/store';
 import { SvelteApplication } from '#runtime/svelte/application';

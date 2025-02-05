@@ -1,4 +1,9 @@
-import type { AnimationSetDocument, ModuleAnimationSetDocument, UserAnimationSetDocument, WorldAnimationSetDocument } from 'src/extensions';
+import type {
+	AnimationSetDocument,
+	ModuleAnimationSetDocument,
+	UserAnimationSetDocument,
+	WorldAnimationSetDocument,
+} from 'schema';
 import type { Readable } from 'svelte/store';
 import { TJSDocument } from '@typhonjs-fvtt/runtime/svelte/store/fvtt/document';
 import { deslugify } from 'src/utils';

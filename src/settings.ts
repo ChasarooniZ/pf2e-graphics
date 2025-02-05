@@ -1,4 +1,4 @@
-import type { WorldAnimationSetDocument } from './extensions';
+import type { WorldAnimationSetDocument } from '../schema';
 import { TJSGameSettings, TJSLiveGameSettings } from '#runtime/svelte/store/fvtt/settings';
 
 const storeSettings = new TJSGameSettings('pf2e-graphics');

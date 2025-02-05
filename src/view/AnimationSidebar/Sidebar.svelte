@@ -1,5 +1,5 @@
 <script lang='ts'>
-	import type { AnimationSetDocument } from 'src/extensions';
+	import type { AnimationSetDocument } from 'schema';
 	import type { Readable } from 'svelte/store';
 	import { dev, i18n } from 'src/utils';
 	import { onMount } from 'svelte';

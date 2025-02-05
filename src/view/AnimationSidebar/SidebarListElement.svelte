@@ -1,6 +1,5 @@
 <script lang='ts'>
-	import type { AnimationSet } from 'schema';
-	import type { AnimationSetDocument } from 'src/extensions';
+	import type { AnimationSet, AnimationSetDocument } from 'schema';
 	import type { Readable } from 'svelte/store';
 	import { TJSContextMenu } from '@typhonjs-fvtt/standard/application/menu';
 	import { i18n, info, warn } from 'src/utils';
