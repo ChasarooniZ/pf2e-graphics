@@ -67,7 +67,7 @@ export function initVariables(): {
 		userDisabled: derived(userDocs, ($userDocs) => {
 			const obj: Record<string, string[]> = {};
 			for (const userDoc of $userDocs) {
-				obj[userDoc.id] = (userDoc.getFlag('pf2e-graphics', 'disabledAnimations') as string[]) || [];
+				obj[userDoc.id] = (userDoc.getFlag('pf2e-graphics', 'disabledAnimations') || []) as string[];
 			}
 			return obj;
 		}),

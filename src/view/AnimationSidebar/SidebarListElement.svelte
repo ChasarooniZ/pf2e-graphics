@@ -4,11 +4,11 @@
 	import { TJSContextMenu } from '@typhonjs-fvtt/standard/application/menu';
 	import { i18n, info, warn } from 'src/utils';
 	import AnimationDocumentApp from '../AnimationDocument/AnimationDocumentApp';
-	import { copyAnimation, openAnimation, removeAnimation } from './sidebarFunctions';
+	import { openAnimation, popupCreateAnimation, removeAnimation } from './sidebarFunctions';
 
 	export let item: AnimationSetDocument;
 	// export let index: number;
-	export let hidden: { global: Readable<string[]>; user: Readable<Record<string, string[]>>	};
+	export let hidden: { global: Readable<string[]>; user: Readable<Record<string, string[]>> };
 
 	function moduleIDToName(id: string): string {
 		const module = game.modules.get(id)!;
@@ -21,7 +21,8 @@
 			y: Math.ceil(bounds.bottom + 1 || 0),
 			x: Math.ceil(bounds.left + 1 || 0),
 		};
-		const disabledUserAnimations = game.user.getFlag('pf2e-graphics', 'disabledAnimations') as string[] || [];
+		const disabledUserAnimations = (game.user.getFlag('pf2e-graphics', 'disabledAnimations')
+			|| []) as string[];
 		const disabledUser = disabledUserAnimations.includes(animation.rollOption);
 		const disabledGlobalAnimations = window.pf2eGraphics.liveSettings.globalDisabledAnimations;
 		const disabledGlobal = disabledGlobalAnimations.includes(animation.rollOption);
@@ -29,7 +30,7 @@
 		const items = [
 			{
 				icon: 'fa fa-file-export',
-				label: 'Export',
+				label: 'Export data',
 				onPress: async () => {
 					let validated: string | AnimationSet[];
 					if (typeof item.animationSets !== 'string') {
@@ -60,38 +61,46 @@
 			},
 			{
 				icon: 'fa fa-file-import',
-				label: 'Import',
+				label: 'Import data',
 				onPress: () => {
-				// TODO:
+					// TODO:
+					warn('<i>Coming soon!</i>');
 				},
 			},
 			{
 				icon: 'fa fa-copy',
-				label: 'Duplicate',
-				onPress: () => copyAnimation(animation),
+				label: 'Duplicate as...',
+				onPress: () => popupCreateAnimation('copy', animation),
 			},
 			{
 				icon: 'fa fa-eye-slash',
 				label: disabledUser ? 'Enable' : 'Disable',
 				onPress: () => {
+					// TODO: disable by ID rather than just roll option
 					if (disabledUser) {
-						game.user.setFlag(
-							'pf2e-graphics',
-							'disabledAnimations',
-							disabledUserAnimations.filter(x => x !== animation.rollOption),
-						).then(() => {
-							// TODO: i18n
-							info(`You will now see <code>${animation.rollOption}</code> animations.`);
-						});
+						game.user
+							.setFlag(
+								'pf2e-graphics',
+								'disabledAnimations',
+								disabledUserAnimations.filter(x => x !== animation.rollOption),
+							)
+							.then(() => {
+								// TODO: i18n
+								info(`You will now see the <code>${animation.rollOption}</code> animation set.`);
+							});
 					} else {
-						game.user.setFlag(
-							'pf2e-graphics',
-							'disabledAnimations',
-							disabledUserAnimations.concat([animation.rollOption]),
-						).then(() => {
-							// TODO: i18n
-							info(`You will no longer see <code>${animation.rollOption}</code> animations.`);
-						});
+						game.user
+							.setFlag(
+								'pf2e-graphics',
+								'disabledAnimations',
+								disabledUserAnimations.concat([animation.rollOption]),
+							)
+							.then(() => {
+								// TODO: i18n
+								info(
+									`You will no longer see the <code>${animation.rollOption}</code> animation set.`,
+								);
+							});
 					}
 				},
 			},
@@ -100,40 +109,37 @@
 		if (game.user.isGM) {
 			items.push({
 				icon: 'fa fa-ban',
-				label: `${disabledGlobal ? 'Enable' : 'Disable'} for Everyone`,
+				label: `${disabledGlobal ? 'Enable' : 'Disable'} for everyone`,
 				onPress: () => {
 					if (disabledGlobal) {
-						game.settings.set(
-							'pf2e-graphics',
-							'globalDisabledAnimations',
-							disabledGlobalAnimations.filter(x => x !== animation.rollOption),
-						).then(() => {
-							// TODO: i18n
-							info(`The <code>${animation.rollOption}</code> animations will no longer be displayed.`);
-						});
+						game.settings
+							.set(
+								'pf2e-graphics',
+								'globalDisabledAnimations',
+								disabledGlobalAnimations.filter(x => x !== animation.rollOption),
+							)
+							.then(() => {
+								// TODO: i18n
+								info(
+									`The <code>${animation.rollOption}</code> animation set will be executed once again.`,
+								);
+							});
 					} else {
-						game.settings.set(
-							'pf2e-graphics',
-							'globalDisabledAnimations',
-							disabledGlobalAnimations.concat([animation.rollOption]),
-						).then(() => {
-							// TODO: i18n
-							info(`The <code>${animation.rollOption}</code> animations will no longer be displayed.`);
-						});
+						game.settings
+							.set(
+								'pf2e-graphics',
+								'globalDisabledAnimations',
+								disabledGlobalAnimations.concat([animation.rollOption]),
+							)
+							.then(() => {
+								// TODO: i18n
+								info(
+									`The <code>${animation.rollOption}</code> animation set will no longer be executed.`,
+								);
+							});
 					}
 				},
 			});
-
-			if (animation.source !== 'world') {
-				items.push({
-					icon: 'fa fa-arrow-up',
-					label: 'Copy as World Animation',
-					onPress: () => {
-						const newAnim = { ...animation, source: 'world' } as AnimationSetDocument;
-						copyAnimation(newAnim);
-					},
-				});
-			}
 		}
 
 		if (animation.source !== 'module') {
@@ -170,7 +176,7 @@
 	on:click={() => openAnimation(item)}
 	on:contextmenu={event => contextMenu(event, item)}
 	on:keydown={e => e.key === 'Enter' && openAnimation(item)}
-	class='
+	class="
 		relative px-2
 		hover:bg-slate-400/10
 		active:bg-slate-400/20
@@ -178,15 +184,21 @@
 		border-black border-solid
 		text-left w-full
 		{hiddenToYou ? 'text-white/50' : ''}
-	'
+	"
 >
 	<aside class='absolute right-0 top-0 m-1'>
 		{#if $global.includes(item.rollOption) && Object.values($user).flat().includes(item.rollOption)}
-			<i data-tooltip={i18n('pf2e-graphics.disabled.both', { users })} class='fas fa-eye-slash'></i>
+			<i
+				data-tooltip={i18n('pf2e-graphics.sidebar.animationSets.disabled.both', { users })}
+				class='fas fa-ban'
+			></i>
 		{:else if $global.includes(item.rollOption)}
-			<i data-tooltip={i18n('pf2e-graphics.disabled.global')} class='fas fa-eye-slash'></i>
+			<i data-tooltip={i18n('pf2e-graphics.sidebar.animationSets.disabled.global')} class='fas fa-ban'></i>
 		{:else if Object.values($user).flat().includes(item.rollOption)}
-			<i data-tooltip={i18n('pf2e-graphics.disabled.users', { users })} class='fas fa-eye-slash'></i>
+			<i
+				data-tooltip={i18n('pf2e-graphics.sidebar.animationSets.disabled.users', { users })}
+				class='fas fa-eye-slash'
+			></i>
 		{/if}
 		{#if item.source === 'module'}
 			{#if item.module === 'pf2e-graphics'}
@@ -195,10 +207,7 @@
 				<span class='px-0.5 bg-black/40 rounded-sm border-solid border border-black'>
 					{moduleIDToName(item.module)}
 				</span>
-				<i
-					data-tooltip={i18n('pf2e-graphics.scopes.full.module')}
-					class='fas fa-cubes'
-				></i>
+				<i data-tooltip={i18n('pf2e-graphics.scopes.full.module')} class='fas fa-cubes'></i>
 			{/if}
 		{:else if item.source === 'user'}
 			<span class='px-0.5 bg-black/40 rounded-sm border-solid border border-black'>
@@ -210,11 +219,13 @@
 		{/if}
 	</aside>
 
-	<header class='
-		leading-[3rem]
-		text-nowrap whitespace-nowrap
-		text-ellipsis overflow-hidden max-w-[calc(100%-2rem)]
-	'>
+	<header
+		class='
+			leading-[3rem]
+			text-nowrap whitespace-nowrap
+			text-ellipsis overflow-hidden max-w-[calc(100%-2rem)]
+		'
+	>
 		{item.name}
 		<span class='text-xs align-sub'>
 			{#if !item.animationSets || !item.animationSets.length}
@@ -224,12 +235,14 @@
 	</header>
 
 	{#if typeof item.animationSets === 'string'}
-		<footer class='
-			absolute right-0 bottom-0
-			text-[0.6rem]
-			bg-black/40 rounded-sm border-solid border border-black
-			px-1 m-0.5
-		'>
+		<footer
+			class='
+				absolute right-0 bottom-0
+				text-[0.6rem]
+				bg-black/40 rounded-sm border-solid border border-black
+				px-1 m-0.5
+			'
+		>
 			{@html i18n('pf2e-graphics.sidebar.animationSets.list.alias', {
 				rollOption: item.animationSets,
 			})}

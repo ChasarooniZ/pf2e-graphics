@@ -5,7 +5,7 @@ import type {
 	WorldAnimationSetDocument,
 } from 'schema';
 import { TJSDialog } from '@typhonjs-fvtt/runtime/svelte/application';
-import { ErrorMsg, i18n, log } from 'src/utils';
+import { error, ErrorMsg, i18n } from 'src/utils';
 import AnimationDocumentApp from '../AnimationDocument/AnimationDocumentApp';
 import CreateAnimation from './CreateAnimation.svelte';
 
@@ -55,34 +55,20 @@ function removeFromCurrentUser(animation: UserAnimationSetDocument) {
 	);
 }
 
-export function copyAnimation(
-	animation: AnimationSetDocument,
-	addCopy: boolean = true,
-): void | AnimationSetDocument {
-	if (animation.source === 'world') {
-		return addToWorld({
-			...animation,
-			name: addCopy ? `${animation.name} (Copy)` : animation.name,
-			id: foundry.utils.randomID(),
-		});
-	} else if (animation.source === 'user') {
-		return addToCurrentUser({
-			...animation,
-			name: addCopy ? `${animation.name} (Copy)` : animation.name,
-			id: foundry.utils.randomID(),
-		});
-	} else if (animation.source === 'module') {
-		popupCreateAnimation('copy', animation);
-	} else {
-		throw ErrorMsg.send('Failed to copy animation set (unknown source).');
-	}
-}
-
 export function sluggify(name: string) {
 	return game.pf2e.system
 		.sluggify(name)
 		.replaceAll(/((spell-)?effect)-/g, 'effect:')
 		.replaceAll(/(spell|item)-/g, '$1:');
+}
+
+export function getAnimationNameAndID(name?: string, id?: string) {
+	const _id = id || foundry.utils.randomID();
+	const _name = name || `Untitled Animation Set ${_id.slice(0, 5)}`;
+	return {
+		_name,
+		_id,
+	};
 }
 
 export type AnimationPresetType = 'custom' | 'ranged' | 'melee' | 'onToken' | 'template';
@@ -92,103 +78,90 @@ export function makeAnimation(
 	location: string,
 	animation?: AnimationSetDocument,
 ): AnimationSetDocument {
-	const id = foundry.utils.randomID();
-	if (!name) name = `Animation ${id.slice(0, 4)}`;
+	const { _name, _id } = getAnimationNameAndID(name);
 
 	// TODO:
 	const preset: AnimationSet[] = [];
 
-	switch (type) {
-		case 'ranged': {
-			preset.push({
-				label: `${name} (Projectile)`,
-				triggers: ['attack-roll'],
-				execute: {
-					type: 'graphic',
-					graphic: ['jb2a.arrow'],
-					position: [
-						{
-							type: 'static',
-							location: 'SOURCES',
-						},
-					],
-					size: {
-						type: 'directed',
-						endpoint: 'TARGETS',
+	if (type === 'ranged') {
+		preset.push({
+			label: `${_name} (Projectile)`,
+			triggers: ['attack-roll'],
+			execute: {
+				type: 'graphic',
+				graphic: ['jb2a.arrow'],
+				position: [
+					{
+						type: 'static',
+						location: 'SOURCES',
 					},
+				],
+				size: {
+					type: 'directed',
+					endpoint: 'TARGETS',
 				},
-			});
-			break;
-		}
-
-		case 'melee': {
-			preset.push({
-				label: `${name} (Melee)`,
-				triggers: ['attack-roll'],
-				predicates: ['melee'],
-				execute: {
-					type: 'graphic',
-					graphic: ['jb2a.melee_attack.02.handaxe.01'],
-					position: [
-						{
-							type: 'static',
-							location: 'SOURCES',
-							anchor: {
-								x: 0.4,
-							},
+			},
+		});
+	} else if (type === 'melee') {
+		preset.push({
+			label: `${_name} (Melee)`,
+			triggers: ['attack-roll'],
+			predicates: ['melee'],
+			execute: {
+				type: 'graphic',
+				graphic: ['jb2a.melee_attack.02.handaxe.01'],
+				position: [
+					{
+						type: 'static',
+						location: 'SOURCES',
+						anchor: {
+							x: 0.4,
 						},
-					],
-					reflection: {
-						y: 'random',
 					},
-					size: {
-						type: 'relative',
-						relativeTo: 'SOURCES',
-						scaling: 5,
-					},
-					rotation: {
-						type: 'relative',
-						location: 'TARGETS',
-					},
+				],
+				reflection: {
+					y: 'random',
 				},
-			});
-			break;
-		}
-
-		case 'custom':
-			break;
-		default:
-			log('Unknown preset type!');
+				size: {
+					type: 'relative',
+					relativeTo: 'SOURCES',
+					scaling: 5,
+				},
+				rotation: {
+					type: 'relative',
+					location: 'TARGETS',
+				},
+			},
+		});
+	} else if (type === 'custom') {
+		// Do nothing
+	} else {
+		error('Unknown preset type!');
 	}
 
-	switch (location) {
-		case 'world':
-			return addToWorld({
-				animationSets: preset,
-				rollOption: sluggify(name), // TODO: if this is just template data, make sure the user gets shouted at if they leave it like this (remember you can use the `rollOption` Zod schema to at least check it's got the right format)
+	if (location === 'world') {
+		return addToWorld({
+			animationSets: preset,
+			rollOption: sluggify(_name), // TODO: if this is just template data, make sure the user gets shouted at if they leave it like this (remember you can use the `rollOption` Zod schema to at least check it's got the right format)
 
-				// Ordering here is important, animation has to override animationSets and rollOption
-				...animation,
-				id,
-				name,
-				source: 'world',
-			});
-			break;
-		case 'user':
-		default:
-			return addToCurrentUser({
-				animationSets: preset,
-				rollOption: sluggify(name), // TODO: as above
-
-				// Ordering here is important, animation has to override animationSets and rollOption
-				...animation,
-				id,
-				name,
-				user: game.userId,
-				source: 'user',
-			});
-			break;
+			// Ordering here is important, animation has to override animationSets and rollOption
+			...animation,
+			id: _id,
+			name: _name,
+			source: 'world',
+		});
 	}
+	return addToCurrentUser({
+		animationSets: preset,
+		rollOption: sluggify(_name), // TODO: as above
+
+		// Ordering here is important, animation has to override animationSets and rollOption
+		...animation,
+		id: _id,
+		name: _name,
+		user: game.userId,
+		source: 'user',
+	});
 }
 
 export function removeAnimation(animation: AnimationSetDocument): void {

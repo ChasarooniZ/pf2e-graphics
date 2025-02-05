@@ -3,14 +3,14 @@
 	import type { AnimationPresetType } from './sidebarFunctions';
 	import { getContext } from 'svelte';
 	import { ErrorMsg, i18n } from '../../utils';
-	import { makeAnimation, openAnimation } from './sidebarFunctions';
+	import { getAnimationNameAndID, makeAnimation, openAnimation } from './sidebarFunctions';
 
 	export let mode: 'make' | 'copy';
 	export let animation: AnimationSetDocument | undefined;
 
 	const { application } = getContext('#external');
 
-	let name = animation?.name || '';
+	let name = `${getAnimationNameAndID(animation?.name)._name}${mode === 'copy' ? ' (Copy)' : ''}`;
 	let type = 'ranged';
 	let location: AnimationSetDocument['source'] = 'user';
 
@@ -23,7 +23,12 @@
 	function copy() {
 		if (!animation) throw ErrorMsg.send('Attempted to copy no animation?'); // TODO: i18n
 
-		const newAnimation = makeAnimation(name, type as AnimationPresetType, location, foundry.utils.deepClone(animation));
+		const newAnimation = makeAnimation(
+			name,
+			type as AnimationPresetType,
+			location,
+			foundry.utils.deepClone(animation),
+		);
 		openAnimation(newAnimation);
 		application.close();
 	}
@@ -32,7 +37,9 @@
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <main
 	class='space-y-1'
-	on:keypress={(e) => { if (e.key === 'Enter') mode === 'copy' ? copy() : make(); }}
+	on:keypress={(e) => {
+		if (e.key === 'Enter') mode === 'copy' ? copy() : make();
+	}}
 >
 	<label class='flex gap-2'>
 		<span class='self-center basis-1/3'>
@@ -74,7 +81,7 @@
 </main>
 
 <footer class='mt-2'>
-	<button on:click={() => mode === 'copy' ? copy() : make()}>
+	<button on:click={() => (mode === 'copy' ? copy() : make())}>
 		<i class='fas fa-check'></i>
 		{i18n('pf2e-graphics.sidebar.animationSets.create.animationSet.popup.complete')}
 	</button>
