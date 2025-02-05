@@ -28,5 +28,14 @@ export const database = {
 		stasis: {
 			file: `${p}/dreams-circle/animationscollection2_quantum/stasis/stasis.json`,
 		},
+		chomp: {
+			file: `${p}/dreams-circle/animationscollection_cursedkingdoms/chomp/chomp.json`,
+		},
+		gash: {
+			file: `${p}/dreams-circle/animationscollection_cursedkingdoms/gash/gash.json`,
+		},
+		rip: {
+			file: `${p}/dreams-circle/animationscollection_cursedkingdoms/rip/rip.json`,
+		},
 	},
 } as const;
