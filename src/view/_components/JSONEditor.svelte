@@ -1,11 +1,11 @@
 <script lang='ts'>
-	import type { Mode, ValidationError } from 'svelte-jsoneditor';
+	import type { ValidationError } from 'svelte-jsoneditor';
 	import { dev } from 'src/utils';
-	import { ValidationSeverity } from 'svelte-jsoneditor';
+	import { Mode, ValidationSeverity } from 'svelte-jsoneditor';
 	import { fromZodIssue } from 'zod-validation-error';
 
 	export let json: object;
-	export let mode: Mode = 'text' as Mode;
+	export let mode: Mode = Mode.text;
 
 	async function validatorFactory(): Promise<(json: unknown) => ValidationError[]> {
 		const module = await import('schema/validation');
