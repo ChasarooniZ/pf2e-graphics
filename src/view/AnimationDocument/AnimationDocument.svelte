@@ -3,6 +3,7 @@
 <script lang='ts'>
 	import type { BasicAppExternal } from './AnimationDocumentApp';
 	import { ApplicationShell } from '#runtime/svelte/component/application';
+	import { clearEmpties } from 'src/utils';
 	import { getContext } from 'svelte';
 	import JsonEditor from '../_components/JSONEditor.svelte';
 	import Editor from './Editor.svelte';
@@ -47,7 +48,7 @@
 			{#if application.options.tab === 'main'}
 				<Editor bind:animation readonly={application.options.readonly} />
 			{:else if application.options.tab === 'json'}
-				<JsonEditor json={animation} />
+				<JsonEditor json={clearEmpties(animation)} />
 			{/if}
 		</main>
 		<footer class='flex gap-1 grow-0 pt-2'>

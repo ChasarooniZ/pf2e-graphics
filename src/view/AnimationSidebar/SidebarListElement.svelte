@@ -2,7 +2,7 @@
 	import type { AnimationSet, AnimationSetDocument } from 'schema';
 	import type { Readable } from 'svelte/store';
 	import { TJSContextMenu } from '@typhonjs-fvtt/standard/application/menu';
-	import { i18n, info, warn } from 'src/utils';
+	import { clearEmpties, i18n, info, warn } from 'src/utils';
 	import AnimationDocumentApp from '../AnimationDocument/AnimationDocumentApp';
 	import { openAnimation, popupCreateAnimation, removeAnimation } from './sidebarFunctions';
 
@@ -34,7 +34,7 @@
 				onPress: async () => {
 					let validated: string | AnimationSet[];
 					if (typeof item.animationSets !== 'string') {
-						const result = await AnimationDocumentApp.validate(item);
+						const result = await AnimationDocumentApp.validate(clearEmpties(item));
 						if (result.success) {
 							validated = result.data;
 						} else {
