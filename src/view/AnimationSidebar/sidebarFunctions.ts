@@ -83,7 +83,9 @@ export function makeAnimation(
 	// TODO:
 	const preset: AnimationSet[] = [];
 
-	if (type === 'ranged') {
+	if (type === 'custom') {
+		// Do nothing
+	} else if (type === 'ranged') {
 		preset.push({
 			label: `${_name} (Projectile)`,
 			triggers: ['attack-roll'],
@@ -133,8 +135,25 @@ export function makeAnimation(
 				},
 			},
 		});
-	} else if (type === 'custom') {
-		// Do nothing
+	} else if (type === 'onToken') {
+		preset.push({
+			label: `${_name} (On Token)`,
+			triggers: ['effect'],
+			execute: {
+				type: 'graphic',
+				graphic: ['jb2a.shield.01.complete.01'],
+				position: [
+					{
+						type: 'dynamic',
+						location: 'SOURCES',
+					},
+				],
+				size: {
+					type: 'relative',
+					relativeTo: 'SOURCES',
+				},
+			},
+		});
 	} else {
 		error('Unknown preset type!');
 	}
