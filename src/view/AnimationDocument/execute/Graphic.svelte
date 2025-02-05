@@ -237,7 +237,7 @@
 							<!-- #endregion -->
 							{#if !position.offset}
 								<!-- If wrong, don't! -->
-								{(position.offset = { x: 0, y: 0 }) && ''}
+								{(position.offset = { x: undefined, y: undefined }) && ''}
 							{:else}
 								<label class='grid grid-cols-3 items-center'>
 									<span class='flex items-center' data-tooltip='TODO: Explain'>
@@ -269,7 +269,7 @@
 
 							{#if !position.anchor}
 								<!-- If wrong, don't! -->
-								{(position.anchor = { x: 0, y: 0 }) && ''}
+								{(position.anchor = { x: undefined, y: undefined }) && ''}
 							{:else}
 								<label class='grid grid-cols-3 items-center'>
 									<span class='flex items-center' data-tooltip='TODO: Explain'>
@@ -284,6 +284,7 @@
 												bind:value={position.anchor.x}
 												{readonly}
 												disabled={readonly}
+												placeholder='0.5'
 											/>
 										</label>
 										<label class='flex items-center gap-2'>
@@ -293,6 +294,7 @@
 												bind:value={position.anchor.y}
 												{readonly}
 												disabled={readonly}
+												placeholder='0.5'
 											/>
 										</label>
 									</div>
