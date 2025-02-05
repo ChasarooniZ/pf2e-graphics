@@ -47,28 +47,29 @@ export function initVariables(): {
 			Array.from($animations.entries()).map(([rollOption, data]) => ({
 				source: 'module' as const,
 				module: data.module,
-				name: moduleAnimationName(deslugify(rollOption.replace(new RegExp(ignoredWords.join('|'), 'g'), ''))),
+				name: moduleAnimationName(
+					deslugify(rollOption.replace(new RegExp(ignoredWords.join('|'), 'g'), '')),
+				),
 				rollOption,
 				animationSets: data.animationSets,
 			})),
 	);
 
-	const world: Readable<WorldAnimationSetDocument[]> = window.pf2eGraphics.storeSettings.getReadableStore('globalAnimations')!;
+	const world: Readable<WorldAnimationSetDocument[]>
+		= window.pf2eGraphics.storeSettings.getReadableStore('globalAnimations')!;
 
 	return {
-		animations: derived(
-			[users, module, world],
-			([$users, $module, $world]) => [...$users, ...$world, ...$module],
-		),
-		userDisabled: derived(
-			userDocs,
-			($userDocs) => {
-				const obj: Record<string, string[]> = {};
-				for (const userDoc of $userDocs) {
-					obj[userDoc.id] = userDoc.getFlag('pf2e-graphics', 'disabledAnimations') as string[] || [];
-				}
-				return obj;
-			},
-		),
+		animations: derived([users, module, world], ([$users, $module, $world]) => [
+			...$users,
+			...$world,
+			...$module,
+		]),
+		userDisabled: derived(userDocs, ($userDocs) => {
+			const obj: Record<string, string[]> = {};
+			for (const userDoc of $userDocs) {
+				obj[userDoc.id] = (userDoc.getFlag('pf2e-graphics', 'disabledAnimations') as string[]) || [];
+			}
+			return obj;
+		}),
 	};
 }

@@ -15,7 +15,7 @@
 	let location: AnimationSetDocument['source'] = 'user';
 
 	function make() {
-		const newAnimation = makeAnimation(name, type as animationPresetType, location);
+		const newAnimation = makeAnimation(name, type as AnimationPresetType, location);
 		openAnimation(newAnimation);
 		application.close();
 	}
@@ -23,7 +23,7 @@
 	function copy() {
 		if (!animation) throw ErrorMsg.send('Attempted to copy no animation?'); // TODO: i18n
 
-		const newAnimation = makeAnimation(name, type as animationPresetType, location, foundry.utils.deepClone(animation));
+		const newAnimation = makeAnimation(name, type as AnimationPresetType, location, foundry.utils.deepClone(animation));
 		openAnimation(newAnimation);
 		application.close();
 	}

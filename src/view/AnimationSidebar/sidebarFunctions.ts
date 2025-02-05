@@ -55,7 +55,10 @@ function removeFromCurrentUser(animation: UserAnimationSetDocument) {
 	);
 }
 
-export function copyAnimation(animation: AnimationSetDocument, addCopy: boolean = true): void | AnimationSetDocument {
+export function copyAnimation(
+	animation: AnimationSetDocument,
+	addCopy: boolean = true,
+): void | AnimationSetDocument {
 	if (animation.source === 'world') {
 		return addToWorld({
 			...animation,
@@ -76,13 +79,19 @@ export function copyAnimation(animation: AnimationSetDocument, addCopy: boolean 
 }
 
 export function sluggify(name: string) {
-	return game.pf2e.system.sluggify(name)
+	return game.pf2e.system
+		.sluggify(name)
 		.replaceAll(/((spell-)?effect)-/g, 'effect:')
 		.replaceAll(/(spell|item)-/g, '$1:');
 }
 
-export type animationPresetType = 'custom' | 'ranged' | 'melee' | 'onToken' | 'template';
-export function makeAnimation(name: string, type: animationPresetType, location: string, animation?: AnimationSetDocument): AnimationSetDocument {
+export type AnimationPresetType = 'custom' | 'ranged' | 'melee' | 'onToken' | 'template';
+export function makeAnimation(
+	name: string,
+	type: AnimationPresetType,
+	location: string,
+	animation?: AnimationSetDocument,
+): AnimationSetDocument {
 	const id = foundry.utils.randomID();
 	if (!name) name = `Animation ${id.slice(0, 4)}`;
 
@@ -96,9 +105,7 @@ export function makeAnimation(name: string, type: animationPresetType, location:
 				triggers: ['attack-roll'],
 				execute: {
 					type: 'graphic',
-					graphic: [
-						'jb2a.arrow',
-					],
+					graphic: ['jb2a.arrow'],
 					position: [
 						{
 							type: 'static',
@@ -121,9 +128,7 @@ export function makeAnimation(name: string, type: animationPresetType, location:
 				predicates: ['melee'],
 				execute: {
 					type: 'graphic',
-					graphic: [
-						'jb2a.melee_attack.02.handaxe.01',
-					],
+					graphic: ['jb2a.melee_attack.02.handaxe.01'],
 					position: [
 						{
 							type: 'static',
@@ -150,8 +155,10 @@ export function makeAnimation(name: string, type: animationPresetType, location:
 			break;
 		}
 
-		case 'custom': break;
-		default: log('Unknown preset type!');
+		case 'custom':
+			break;
+		default:
+			log('Unknown preset type!');
 	}
 
 	switch (location) {

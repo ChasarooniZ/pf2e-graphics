@@ -7,7 +7,7 @@
 	export let json: object;
 	export let mode: Mode = 'text' as Mode;
 
-	async function validatorFactory(): Promise<(x: unknown) => ValidationError[]> {
+	async function validatorFactory(): Promise<(json: unknown) => ValidationError[]> {
 		const module = await import('schema/validation');
 		return (json: unknown): ValidationError[] => {
 			const result = module.validateAnimationData(json);
