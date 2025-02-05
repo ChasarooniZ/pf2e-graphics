@@ -2,7 +2,7 @@
 	import type { AnimationSet, AnimationSetDocument } from 'schema';
 	import type { Readable } from 'svelte/store';
 	import { TJSContextMenu } from '@typhonjs-fvtt/standard/application/menu';
-	import { clearEmpties, i18n, info, warn } from 'src/utils';
+	import { clearEmpties, dev, i18n, info, warn } from 'src/utils';
 	import AnimationDocumentApp from '../AnimationDocument/AnimationDocumentApp';
 	import { openAnimation, popupCreateAnimation, removeAnimation } from './sidebarFunctions';
 
@@ -27,30 +27,34 @@
 		const disabledGlobalAnimations = window.pf2eGraphics.liveSettings.globalDisabledAnimations;
 		const disabledGlobal = disabledGlobalAnimations.includes(animation.rollOption);
 
+		async function validateExport() {
+			let validated: string | AnimationSet[];
+			if (typeof item.animationSets !== 'string') {
+				const result = await AnimationDocumentApp.validate(clearEmpties(item));
+				if (result.success) {
+					validated = result.data;
+				} else {
+					validated = item.animationSets;
+					warn(
+						'The export animation failed the validation check! This may range from typos to malformed data. Check the console for more info.',
+						{},
+						{ data: result },
+					); // TODO: i18n
+				}
+			} else {
+				validated = item.animationSets;
+			}
+			return validated;
+		}
+
 		const items = [
 			{
 				icon: 'fa fa-file-export',
 				label: 'Export data',
 				onPress: async () => {
-					let validated: string | AnimationSet[];
-					if (typeof item.animationSets !== 'string') {
-						const result = await AnimationDocumentApp.validate(clearEmpties(item));
-						if (result.success) {
-							validated = result.data;
-						} else {
-							validated = item.animationSets;
-							warn(
-								'The export animation failed the validation check! This may range from typos to malformed data. Check the console for more info.',
-								{},
-								{ data: result },
-							); // TODO: i18n
-						}
-					} else {
-						validated = item.animationSets;
-					}
 					const data = {
 						...item,
-						animationSets: validated,
+						animationSets: await validateExport(),
 					};
 					window.saveDataToFile(
 						JSON.stringify(data, null, '\t'),
@@ -150,12 +154,27 @@
 			});
 		}
 
+		if (dev) {
+			items.unshift({
+				icon: 'fa fa-download',
+				label: 'Export data for Module dev',
+				onPress: async () => {
+					const data = { [item.rollOption]: await validateExport() };
+					window.saveDataToFile(
+						JSON.stringify(data, null, '\t'),
+						'text/json',
+						`${item.name}.json`,
+					);
+				},
+			});
+		}
+
 		TJSContextMenu.create({
 			id: 'pf2e-g pf2e-graphics-context',
 			event,
 			...coordinates,
 			styles: {
-				width: `${Math.ceil(bounds.width + 1)}px`,
+				width: `${Math.ceil(bounds.width - 1)}px`,
 			},
 			items,
 		});
