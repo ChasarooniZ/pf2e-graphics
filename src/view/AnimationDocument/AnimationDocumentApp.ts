@@ -3,7 +3,7 @@ import type { AnimationSetDocument, UserAnimationSetDocument, WorldAnimationSetD
 import type { Mode } from 'svelte-jsoneditor';
 import type { Writable } from 'svelte/store';
 import { SvelteApplication } from '#runtime/svelte/application';
-import { ErrorMsg, i18n, kofiButton, log } from '../../utils';
+import { clearEmpties, ErrorMsg, i18n, kofiButton, log } from '../../utils';
 import BasicAppShell from './AnimationDocument.svelte';
 
 export default class AnimationDocumentApp extends SvelteApplication<BasicAppOptions> {
@@ -67,6 +67,7 @@ export default class AnimationDocumentApp extends SvelteApplication<BasicAppOpti
 	}
 
 	async save(document: AnimationSetDocument = this.options.animation) {
+		document = clearEmpties(document);
 		log('Saving document.', document);
 		if (document.source === 'user') {
 			const user = game.users.get(document.user);
