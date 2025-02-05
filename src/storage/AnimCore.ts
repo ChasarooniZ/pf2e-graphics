@@ -579,23 +579,25 @@ export let AnimCore = class AnimCore {
 				});
 
 				// Handle `removes`
-				for (const ID of set.removes ?? []) {
-					if (ID === 'ALL_ON_SOURCES') {
-						for (const source of data.sources) {
-							Sequencer.EffectManager.endEffects({ object: source });
+				if (game.user.isGM) {
+					for (const ID of set.removes ?? []) {
+						if (ID === 'ALL_ON_SOURCES') {
+							for (const source of data.sources) {
+								Sequencer.EffectManager.endEffects({ object: source });
+							}
+						} else if (ID === 'ALL_ON_TARGETS') {
+							for (const target of targets) {
+								Sequencer.EffectManager.endEffects({ object: target });
+							}
+						} else if (ID === 'ALL_ON_TEMPLATES') {
+							for (const template of templates) {
+								Sequencer.EffectManager.endEffects({ object: template });
+							}
+						} else if (typeof ID === 'string') {
+							Sequencer.EffectManager.endEffects({ name: ID });
+						} else {
+							throw ErrorMsg.send('pf2e-graphics.execute.common.error.schema');
 						}
-					} else if (ID === 'ALL_ON_TARGETS') {
-						for (const target of targets) {
-							Sequencer.EffectManager.endEffects({ object: target });
-						}
-					} else if (ID === 'ALL_ON_TEMPLATES') {
-						for (const template of templates) {
-							Sequencer.EffectManager.endEffects({ object: template });
-						}
-					} else if (typeof ID === 'string') {
-						Sequencer.EffectManager.endEffects({ name: ID });
-					} else {
-						throw ErrorMsg.send('pf2e-graphics.execute.common.error.schema');
 					}
 				}
 
