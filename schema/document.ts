@@ -1,9 +1,9 @@
 import { z } from 'zod';
-import { animationSetsObjectValue } from '.';
-import { rollOption, slug, UUID } from './helpers/atoms';
+import { rollOption, slug } from './helpers/atoms';
+import { animationSetsObjectValue } from './payload';
 
 const animationSetDocumentBase = z.object({
-	id: UUID,
+	id: z.string().min(1),
 	name: z.string().min(1),
 	rollOption,
 	animationSets: animationSetsObjectValue,
@@ -39,7 +39,7 @@ export type WorldAnimationSetDocument = z.infer<typeof worldAnimationSetDocument
  */
 export const userAnimationSetDocument = animationSetDocumentBase.extend({
 	source: z.literal('user'),
-	user: UUID,
+	user: z.string().min(1),
 });
 
 /**

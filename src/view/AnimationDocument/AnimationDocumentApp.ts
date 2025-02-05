@@ -3,7 +3,7 @@ import type { AnimationSetDocument, UserAnimationSetDocument, WorldAnimationSetD
 import type { Mode } from 'svelte-jsoneditor';
 import type { Writable } from 'svelte/store';
 import { SvelteApplication } from '#runtime/svelte/application';
-import { ErrorMsg, i18n, kofiButton, log, safeJSONParse } from '../../utils';
+import { ErrorMsg, i18n, kofiButton, log/* , safeJSONParse */ } from '../../utils';
 import BasicAppShell from './AnimationDocument.svelte';
 
 export default class AnimationDocumentApp extends SvelteApplication<BasicAppOptions> {
@@ -16,9 +16,9 @@ export default class AnimationDocumentApp extends SvelteApplication<BasicAppOpti
 			this.options.id = `${this.options.id}-${options.animation.id}`;
 
 			// Attempt to parse session storage item and set to application state.
-			const json = safeJSONParse(sessionStorage.getItem(this.options.id) ?? '{}');
-
-			if (json.success && json.data) this.state.set(json.data);
+			// TODO: @MrVauxs The below always fails? The value of `sessionStorage.getItem(this.options.id)`, when truthy, is a string, not an object. I'm not really sure what's going on here but it doesn't appear to be critical for the module, so I leave it to you? 🥴
+			// const json = safeJSONParse(sessionStorage.getItem(this.options.id) ?? '{}');
+			// if (json.success && json.data) this.state.set(json.data);
 		}
 
 		if (

@@ -2,15 +2,15 @@
 	import type { ValidationError } from 'svelte-jsoneditor';
 	import { dev } from 'src/utils';
 	import { Mode, ValidationSeverity } from 'svelte-jsoneditor';
-	import { fromZodIssue } from 'zod-validation-error';
 
 	export let json: object;
 	export let mode: Mode = Mode.text;
 
 	async function validatorFactory(): Promise<(json: unknown) => ValidationError[]> {
-		const module = await import('schema/validation');
+		const schema = (await import('schema')).animationSetDocument;
+		const fromZodIssue = (await import('zod-validation-error')).fromZodIssue;
 		return (json: unknown): ValidationError[] => {
-			const result = module.validateAnimationData(json);
+			const result = schema.safeParse(json);
 			if (result.success) return [];
 			return result.error.issues.map(issue => ({
 				path: issue.path.map(piece => piece.toString()),
