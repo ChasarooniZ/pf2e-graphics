@@ -14,11 +14,6 @@
 				{
 					"execute": {
 						"type": "sound",
-						"position": [
-							{
-								"location": "SOURCES"
-							}
-						],
 						"sound": [
 							"graphics-sfx.critical"
 						]
@@ -61,11 +56,6 @@
 				{
 					"execute": {
 						"type": "sound",
-						"position": [
-							{
-								"location": "SOURCES"
-							}
-						],
 						"sound": [
 							"graphics-sfx.generic.miss"
 						]

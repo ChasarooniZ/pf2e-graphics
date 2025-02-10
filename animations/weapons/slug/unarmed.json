@@ -53,6 +53,9 @@
 						"sound": [
 							"graphics-sfx.unarmed"
 						],
+						"radius": 32.5,
+						"constrainedByWalls": true,
+						"audioChannel": "environment",
 						"position": [
 							{
 								"type": "static",

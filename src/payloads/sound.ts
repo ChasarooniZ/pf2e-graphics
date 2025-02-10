@@ -14,8 +14,12 @@ export function executeSound(payload: Extract<Payload, { type: 'sound' }>, conte
 
 	context = addCustomExecutionContext(payload.sources, payload.targets, context);
 
-	for (const position of payload.position) {
-		seq.addSequence(processSound(payload, context, position));
+	if (payload.position?.length) {
+		for (const position of payload.position) {
+			seq.addSequence(processSound(payload, context, position));
+		}
+	} else {
+		seq.addSequence(processSound(payload, context));
 	}
 
 	return seq;
@@ -24,17 +28,19 @@ export function executeSound(payload: Extract<Payload, { type: 'sound' }>, conte
 function processSound(
 	payload: Parameters<typeof executeSound>[0],
 	context: ExecutionContext,
-	position: ArrayElement<Parameters<typeof executeSound>[0]['position']>,
+	position?: ArrayElement<Parameters<typeof executeSound>[0]['position']>,
 ): SoundSection {
 	const seq = new Sequence().sound().file(AnimCore.parseFiles(payload.sound));
 
 	if (context.label) seq.name(context.label);
 
-	seq.atLocation(positionToArgument(position.location, context), {
+	if (position) {
+		seq.atLocation(positionToArgument(position.location, context), {
 		// offset: offsetToVector2(position.offset), TODO: https://github.com/fantasycalendar/FoundryVTT-Sequencer/pull/388
-		randomOffset: position.randomOffset ?? 0,
-		gridUnits: position.gridUnits ?? false,
-	});
+			randomOffset: position.randomOffset ?? 0,
+			gridUnits: position.gridUnits ?? false,
+		});
+	}
 
 	// @ts-expect-error TODO: Sequencer types
 	if (payload.syncGroup) seq.syncGroup(payload.syncGroup);

@@ -23,6 +23,9 @@
 						"sound": [
 							"graphics-sfx.magic.holy.protection"
 						],
+						"radius": 32.5,
+						"constrainedByWalls": true,
+						"audioChannel": "environment",
 						"position": [
 							{
 								"location": "TARGETS"
@@ -69,6 +72,9 @@
 						"sound": [
 							"graphics-sfx.magic.buff.generic.{03,08}"
 						],
+						"radius": 32.5,
+						"constrainedByWalls": true,
+						"audioChannel": "environment",
 						"position": [
 							{
 								"location": "SOURCES"
@@ -132,6 +138,9 @@
 							"graphics-sfx.magic.buff.generic.{01,04,09}",
 							"graphics-sfx.magic.dark.break.mana.01.{01,02}"
 						],
+						"radius": 32.5,
+						"constrainedByWalls": true,
+						"audioChannel": "environment",
 						"position": [
 							{
 								"location": "SOURCES"

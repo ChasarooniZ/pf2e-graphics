@@ -50,6 +50,9 @@
 							"graphics-sfx.generic.hit.blunt"
 						],
 						"delay": 500,
+						"radius": 32.5,
+						"constrainedByWalls": true,
+						"audioChannel": "environment",
 						"position": [
 							{
 								"type": "static",
