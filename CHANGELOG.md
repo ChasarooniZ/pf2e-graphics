@@ -12,7 +12,14 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 - Sound File Option
 - Macro Options
 - In-Foundry JSON Data Validation (Dev Mode Only)
--
+- Chomp, Gash, and Rip animations to Sequencer database
+- On Token preset
+- Effect: Haste animation to presets
+- Range predicate on melee preset
+- Polearm and Bow weapon group animations
+
+### Fixed
+- "Size / Direction" related options
 
 ## [1.0.0-alpha.4] - 2025-01-29
 
