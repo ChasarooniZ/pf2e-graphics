@@ -43,6 +43,7 @@
 
 	function addSection() {
 		if (typeof animation.animationSets === 'string') return;
+		animation.animationSets ??= [];
 		animation.animationSets.push({});
 		animation = animation;
 	}
@@ -107,7 +108,7 @@
 					Reference: <i class='text-nowrap'>{animation.animationSets}</i>
 				</section>
 			{:else}
-				{#each animation.animationSets as section, index}
+				{#each animation?.animationSets ?? [] as section, index}
 					<Section
 						{readonly}
 						{section}
@@ -148,8 +149,9 @@
 						<span style:opacity='0.5'>
 							(<a
 								href='https://github.com/foundryvtt/pf2e/wiki/Quickstart-guide-for-rule-elements#predicates'
-								target='_blank'>wiki</a
-							>)
+								target='_blank'>
+								wiki
+							</a>)
 						</span>
 						<i class='fa fa-info-circle px-2 ml-auto'></i>
 					</span>
