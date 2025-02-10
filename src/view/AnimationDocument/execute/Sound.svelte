@@ -3,9 +3,6 @@
 
 	export let data: AnimationSetContentsItem<'sound'>;
 	export let readonly: boolean;
-
-	// @ts-expect-error TODO: Sequencer Types
-	const entries: string[] = window.Sequencer.Database.publicFlattenedSimpleEntries;
 </script>
 {#if !data.execute}
 	{#if !readonly}
@@ -13,33 +10,43 @@
 	{/if}
 {:else}
 	<div class='space-y-2'>
-		<label class='grid grid-cols-3 items-center'>
-			<span class='flex items-center' data-tooltip='TODO: Explain'>
-				Sound
-				<i class='fa fa-info-circle px-2 ml-auto'></i>
-			</span>
-			<div class='flex align-middle items-center col-span-2'>
-				<datalist id='graphic'>
-					{#each entries as name}
-						<option>{name}</option>
-					{/each}
-				</datalist>
-				<input
-					list='graphic'
-					type='text'
-					value={data.execute.sound}
-					on:change={(e) => {
-						if (!data.execute) data.execute = {};
-						if (e.currentTarget.value) {
-							data.execute.sound = [e.currentTarget.value];
-						} else {
-							data.execute.sound = [];
-						};
-					}}
-					{readonly}
-					disabled={readonly}
-				/>
-			</div>
-		</label>
+		{#if !data.execute.sound}
+			<!-- If wrong, don't! -->
+			{(data.execute.sound = []) && ''}
+		{:else}
+			<label class='grid grid-cols-3 items-center'>
+				<span class='flex items-center' data-tooltip='TODO: Explain'>
+					Sound
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
+				</span>
+				<div class='flex align-middle items-center col-span-2'>
+					<input
+						list='graphic'
+						type='text'
+						value={data.execute.sound?.length ? JSON.stringify(data.execute.sound) : ''}
+						on:change={(e) => {
+							if (!data.execute) data.execute = {};
+							if (e.currentTarget.value) {
+								try {
+									const val = JSON.parse(e.currentTarget.value);
+									if (!Array.isArray(val)) {
+										window.ui.notifications.error('Sound must be an array of strings! ex. <code>["jb2a.arrow"]</code>');
+									} else {
+										data.execute.sound = JSON.parse(e.currentTarget.value);
+									}
+								} catch {
+									window.ui.notifications.error('The current Sound value is not valid JSON.');
+								}
+							} else {
+								data.execute.sound = [];
+							};
+						}}
+						{readonly}
+						disabled={readonly}
+						placeholder='["graphics-sfx.generic.miss.01"]'
+					/>
+				</div>
+			</label>
+		{/if}
 	</div>
 {/if}

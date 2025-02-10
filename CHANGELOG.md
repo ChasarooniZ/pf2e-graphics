@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Graphic and Sound to use json arrays, allowing for multiple animations to be written.
+  - Also removed the autocomplete for Sequencer database paths, that did not take into account whether an asset was a graphic or sound.
+
+### Fixed
+
+- Crosshair Picker erroring on enriching HTML.
+
 ## [1.0.0-alpha.5] - 2025-02-10
 
 ### Added

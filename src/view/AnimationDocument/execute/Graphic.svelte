@@ -5,9 +5,6 @@
 	export let data: AnimationSetContentsItem<'graphic'>;
 	export let readonly: boolean;
 
-	// @ts-expect-error TODO: Sequencer Types
-	const entries: string[] = window.Sequencer.Database.publicFlattenedSimpleEntries;
-
 	let positionType: 'static' | 'dynamic' = 'static';
 	let size: 'absolute' | 'relative' | 'directed' | 'screenSpace' = 'relative';
 
@@ -36,25 +33,30 @@
 					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div class='flex align-middle items-center col-span-2'>
-					<datalist id='graphic'>
-						{#each entries as name}
-							<option>{name}</option>
-						{/each}
-					</datalist>
 					<input
 						list='graphic'
 						type='text'
-						value={data.execute.graphic}
+						value={data.execute.graphic?.length ? JSON.stringify(data.execute.graphic) : ''}
 						on:change={(e) => {
 							if (!data.execute) data.execute = {};
 							if (e.currentTarget.value) {
-								data.execute.graphic = [e.currentTarget.value];
+								try {
+									const val = JSON.parse(e.currentTarget.value);
+									if (!Array.isArray(val)) {
+										window.ui.notifications.error('Graphic must be an array of strings! ex. <code>["jb2a.arrow"]</code>');
+									} else {
+										data.execute.graphic = JSON.parse(e.currentTarget.value);
+									}
+								} catch {
+									window.ui.notifications.error('The current Graphics value is not valid JSON.');
+								}
 							} else {
 								data.execute.graphic = [];
 							};
 						}}
 						{readonly}
 						disabled={readonly}
+						placeholder='["graphics-vfx.rpg.accelerate"]'
 					/>
 				</div>
 			</label>

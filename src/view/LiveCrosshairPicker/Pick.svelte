@@ -17,7 +17,6 @@
 
 	$: if ($tween <= 0) setTimeout(() => close(), 750);
 
-	const enrich = window.game.pf2e.TextEditor.enrichHTML;
 	const rollData: EnrichmentOptionsPF2e['rollData'] = {
 		actor: context.sources[0].actor as ActorPF2e,
 		item: context.item,
@@ -27,7 +26,7 @@
 <div class='pf2e-g' style:position='relative'>
 	<main class='text-center p-1'>
 		{#if payload.prompt?.text}
-			{#await enrich(payload.prompt.text, { rollData }) then text}
+			{#await window.game.pf2e.TextEditor.enrichHTML(payload.prompt.text, { rollData }) then text}
 				{@html text}
 			{:catch error}
 				{error}
