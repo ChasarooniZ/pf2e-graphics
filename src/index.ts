@@ -34,14 +34,14 @@ Hooks.once('ready', () => {
 });
 
 function warnJB2A() {
-	const premium =	game.modules.get('jb2a_patreon');
-	const fremium =	game.modules.get('JB2A_DnD5e');
+	const premium = game.modules.get('jb2a_patreon');
+	const freemium = game.modules.get('JB2A_DnD5e');
 
-	if (premium?.active || fremium?.active || window.pf2eGraphics.liveSettings.suppressWarnings) return;
+	if (premium?.active || freemium?.active || window.pf2eGraphics.liveSettings.suppressWarnings) return;
 
 	if (premium) {
 		ui.notifications.warn(i18n('pf2e-graphics.settings.suppressWarnings.warnPremium'));
-	} else if (fremium) {
+	} else if (freemium) {
 		ui.notifications.warn(i18n('pf2e-graphics.settings.suppressWarnings.warnFremium'));
 	} else {
 		ui.notifications.error(i18n('pf2e-graphics.settings.suppressWarnings.warnNone'));
