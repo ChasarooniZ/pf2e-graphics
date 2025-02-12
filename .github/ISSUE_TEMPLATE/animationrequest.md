@@ -2,7 +2,7 @@
 name: Animation Request
 about: Suggest a new animation to be added
 title: ''
-labels: animation
+labels: Animation set
 
 ---
 
