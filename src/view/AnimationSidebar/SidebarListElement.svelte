@@ -160,11 +160,7 @@
 				label: 'Export data for module dev',
 				onPress: async () => {
 					const data = { [item.rollOption]: await validateExport() };
-					window.saveDataToFile(
-						JSON.stringify(data, null, '\t'),
-						'text/json',
-						`${item.name}.json`,
-					);
+					window.saveDataToFile(JSON.stringify(data, null, '\t'), 'text/json', `${item.name}.json`);
 				},
 			});
 		}
@@ -207,7 +203,10 @@
 >
 	<aside class='absolute right-0 top-0 m-1'>
 		{#if $global.includes(item.rollOption)}
-			<i data-tooltip={i18n('pf2e-graphics.sidebar.animationSets.disabled.global')} class='fas fa-users-slash'></i>
+			<i
+				data-tooltip={i18n('pf2e-graphics.sidebar.animationSets.disabled.global')}
+				class='fas fa-users-slash'
+			></i>
 		{:else if Object.values($user).flat().includes(item.rollOption)}
 			<i
 				data-tooltip={i18n('pf2e-graphics.sidebar.animationSets.disabled.users', { users })}
