@@ -1,9 +1,11 @@
 <script lang='ts'>
 	import type { AnimationSet, AnimationSetDocument } from 'schema';
 	import type { Readable } from 'svelte/store';
+	import { TJSDialog } from '#runtime/svelte/application';
 	import { TJSContextMenu } from '@typhonjs-fvtt/standard/application/menu';
 	import { clearEmpties, dev, i18n, info, warn } from 'src/utils';
 	import AnimationDocumentApp from '../AnimationDocument/AnimationDocumentApp';
+	import ImportData from './ImportData.svelte';
 	import { openAnimation, popupCreateAnimation, removeAnimation } from './sidebarFunctions';
 
 	export let item: AnimationSetDocument;
@@ -67,8 +69,20 @@
 				icon: 'fa fa-file-import',
 				label: 'Import data',
 				onPress: () => {
-					// TODO:
-					warn('<i>Coming soon!</i>');
+					const dialog = new TJSDialog({
+						modal: true,
+						content: {
+							class: ImportData,
+							props: {
+								animation,
+							},
+						},
+						title: 'Import data',
+					}, {
+						classes: ['pf2e-g'],
+						title: 'Import data',
+					});
+					dialog.render(true);
 				},
 			},
 			{
