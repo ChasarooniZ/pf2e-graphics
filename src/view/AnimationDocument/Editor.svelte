@@ -2,6 +2,7 @@
 	import type { AnimationSet, AnimationSetContentsItem, AnimationSetDocument } from 'schema';
 	import type { Writable } from 'svelte/store';
 	import type { BasicAppExternal } from './AnimationDocumentApp';
+	import { devLog } from 'src/utils';
 	import { getContext } from 'svelte';
 	import { sluggify } from '../AnimationSidebar/sidebarFunctions';
 	import EditorContent from './EditorContent.svelte';
@@ -22,13 +23,13 @@
 		.split('.')
 		.map(x => Number(x));
 
-	let data: AnimationSetContentsItem;
+	let data: AnimationSetContentsItem = animation.animationSets[0] as AnimationSetContentsItem;
 
 	$: {
 		// Crash prevention in case the animation was modified
 		// when you were gone or crashed before saving.
 		try {
-			data = sectionArray.slice(1).reduce((object, index) => {
+			const found = sectionArray.slice(1).reduce((object, index) => {
 				try {
 					return object.contents![index];
 				} catch {
@@ -36,9 +37,16 @@
 					return object;
 				}
 			}, animation.animationSets[sectionArray[0]] as AnimationSetContentsItem);
+
+			if (found) {
+				data = found;
+			} else {
+				currentSection.set('details');
+			};
 		} catch {
 			currentSection.set('details');
 		}
+		devLog('Animation Document Data', data);
 	}
 
 	function addSection() {
