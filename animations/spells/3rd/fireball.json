@@ -14,12 +14,10 @@
 								"graphic": [
 									"jb2a.fire_bolt.orange"
 								],
-								"position": [
-									{
-										"type": "static",
-										"location": "SOURCES"
-									}
-								],
+								"position": {
+									"type": "static",
+									"location": "SOURCES"
+								},
 								"size": {
 									"type": "directed",
 									"endpoint": "TEMPLATES"
@@ -33,12 +31,10 @@
 								"graphic": [
 									"jb2a.fireball.explosion.orange"
 								],
-								"position": [
-									{
-										"type": "static",
-										"location": "TEMPLATES"
-									}
-								],
+								"position": {
+									"type": "static",
+									"location": "TEMPLATES"
+								},
 								"size": {
 									"type": "relative",
 									"scaling": 1.5
@@ -58,12 +54,10 @@
 								"graphic": [
 									"jb2a.spell_projectile.ice_shard.blue"
 								],
-								"position": [
-									{
-										"type": "static",
-										"location": "SOURCES"
-									}
-								],
+								"position": {
+									"type": "static",
+									"location": "SOURCES"
+								},
 								"size": {
 									"type": "directed",
 									"endpoint": "TEMPLATES",
@@ -78,12 +72,10 @@
 								"graphic": [
 									"jb2a.ice_spikes.radial.burst.white"
 								],
-								"position": [
-									{
-										"type": "static",
-										"location": "TEMPLATES"
-									}
-								],
+								"position": {
+									"type": "static",
+									"location": "TEMPLATES"
+								},
 								"size": {
 									"type": "relative",
 									"scaling": 1.5

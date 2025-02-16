@@ -14,12 +14,10 @@
 				"graphic": [
 					"jb2a.markers.chain.spectral_standard.complete.02.blue"
 				],
-				"position": [
-					{
-						"type": "dynamic",
-						"location": "SOURCES"
-					}
-				],
+				"position": {
+					"type": "dynamic",
+					"location": "SOURCES"
+				},
 				"size": {
 					"type": "relative",
 					"scaling": 2.3

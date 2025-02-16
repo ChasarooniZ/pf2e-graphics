@@ -25,12 +25,10 @@
 						"graphic": [
 							"jb2a.ui.critical.red.2"
 						],
-						"position": [
-							{
-								"type": "static",
-								"location": "TARGETS"
-							}
-						],
+						"position": {
+							"type": "static",
+							"location": "TARGETS"
+						},
 						"size": {
 							"type": "relative",
 							"relativeTo": "TARGETS",
@@ -67,13 +65,11 @@
 						"graphic": [
 							"jb2a.ui.critical_miss.red.2"
 						],
-						"position": [
-							{
-								"type": "static",
-								"location": "TARGETS",
-								"missed": false
-							}
-						],
+						"position": {
+							"type": "static",
+							"location": "TARGETS",
+							"missed": false
+						},
 						"size": {
 							"type": "relative",
 							"relativeTo": "TARGETS",

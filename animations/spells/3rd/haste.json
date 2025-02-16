@@ -6,12 +6,10 @@
 				"graphic": [
 					"graphics-vfx.rpg.accelerate"
 				],
-				"position": [
-					{
-						"type": "dynamic",
-						"location": "SOURCES"
-					}
-				],
+				"position": {
+					"type": "dynamic",
+					"location": "SOURCES"
+				},
 				"size": {
 					"type": "relative",
 					"relativeTo": "SOURCES",

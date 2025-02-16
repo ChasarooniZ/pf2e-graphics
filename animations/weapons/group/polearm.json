@@ -33,15 +33,13 @@
 						"graphic": [
 							"jb2a.glaive.melee.01.white.{1,4,5}"
 						],
-						"position": [
-							{
-								"type": "static",
-								"location": "SOURCES",
-								"anchor": {
-									"x": 0.4
-								}
+						"position": {
+							"type": "static",
+							"location": "SOURCES",
+							"anchor": {
+								"x": 0.4
 							}
-						]
+						}
 					}
 				},
 				{
@@ -58,15 +56,13 @@
 						"graphic": [
 							"jb2a.glaive.melee.01.white.{2,3}"
 						],
-						"position": [
-							{
-								"type": "static",
-								"location": "SOURCES",
-								"anchor": {
-									"x": 0.25
-								}
+						"position": {
+							"type": "static",
+							"location": "SOURCES",
+							"anchor": {
+								"x": 0.25
 							}
-						]
+						}
 					}
 				}
 			]

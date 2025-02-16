@@ -17,15 +17,13 @@
 				{
 					"execute": {
 						"type": "graphic",
-						"position": [
-							{
-								"type": "static",
-								"location": "SOURCES",
-								"anchor": {
-									"x": 0.4
-								}
+						"position": {
+							"type": "static",
+							"location": "SOURCES",
+							"anchor": {
+								"x": 0.4
 							}
-						],
+						},
 						"reflection": {
 							"y": "random"
 						},
@@ -98,12 +96,9 @@
 						"radius": 32.5,
 						"constrainedByWalls": true,
 						"audioChannel": "environment",
-						"position": [
-							{
-								"type": "static",
-								"location": "TARGETS"
-							}
-						]
+						"position": {
+							"location": "TARGETS"
+						}
 					}
 				}
 			]

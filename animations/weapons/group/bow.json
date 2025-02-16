@@ -15,12 +15,10 @@
 						"graphic": [
 							"jb2a.arrow.physical.white.01"
 						],
-						"position": [
-							{
-								"type": "static",
-								"location": "SOURCES"
-							}
-						],
+						"position": {
+							"type": "static",
+							"location": "SOURCES"
+						},
 						"size": {
 							"type": "directed",
 							"endpoint": "TARGETS"
@@ -41,12 +39,9 @@
 						"delay": 200,
 						"constrainedByWalls": true,
 						"audioChannel": "environment",
-						"position": [
-							{
-								"type": "static",
-								"location": "SOURCES"
-							}
-						]
+						"position": {
+							"location": "SOURCES"
+						}
 					}
 				}
 			]

@@ -30,16 +30,6 @@
 						"graphic": [
 							"jb2a.portals.horizontal.ring.blue"
 						],
-						"position": [
-							{
-								"type": "static",
-								"location": "SOURCES"
-							},
-							{
-								"type": "static",
-								"location": "spell-dimensional-steps"
-							}
-						],
 						"elevation": {
 							"sortLayer": "belowTokens"
 						},
@@ -74,7 +64,25 @@
 						"visibility": {
 							"opacity": 0.75
 						}
-					}
+					},
+					"contents": [
+						{
+							"execute": {
+								"position": {
+									"type": "static",
+									"location": "SOURCES"
+								}
+							}
+						},
+						{
+							"execute": {
+								"position": {
+									"type": "static",
+									"location": "spell-dimensional-steps"
+								}
+							}
+						}
+					]
 				},
 				{
 					"execute": {
