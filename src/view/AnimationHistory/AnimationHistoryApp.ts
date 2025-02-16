@@ -31,9 +31,7 @@ export default class AnimationHistoryApp extends SvelteApplication {
 
 	static getActiveApp() {
 		return Object.values(ui.windows).find((app) => {
-			return (
-				app instanceof this && app._state > Application.RENDER_STATES.CLOSED
-			);
+			return app instanceof this && app._state > Application.RENDER_STATES.CLOSED;
 		});
 	}
 

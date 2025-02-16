@@ -19,7 +19,7 @@ export function initSidebar() {
 	FVTTSidebarControl.wait().then(() => {
 		$('.graphics-sidebar').addClass('flexcol directory pf2e-g');
 	});
-};
+}
 
 Hooks.once('renderSidebar', () => {
 	const noCards = window.pf2eGraphics.liveSettings.cardsGone;

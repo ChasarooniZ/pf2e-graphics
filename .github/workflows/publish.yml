@@ -17,7 +17,7 @@ jobs:
           node-version: latest
           cache: npm
 
-      # get part of the tag after the `v`
+          # get part of the tag after the `v`
       - name: Extract tag version number
         id: get-version
         run: echo "version-without-v=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
@@ -31,7 +31,7 @@ jobs:
         id: title
         run: echo "title=${{ fromJson(steps.set_var.outputs.PACKAGE_JSON).title }}" >> "$GITHUB_OUTPUT"
 
-      # Substitute the Manifest and Download URLs in the `module.json`.
+        # Substitute the Manifest and Download URLs in the `module.json`.
       - name: Substitute Manifest and Download Links For Versioned Ones
         id: sub_manifest_link_version
         uses: devops-actions/variable-substitution@v1.2
@@ -56,7 +56,7 @@ jobs:
           npm ci --legacy-peer-deps
           npm run build
 
-      # Create a folder containing all the module stuff and zip it for the release
+          # Create a folder containing all the module stuff and zip it for the release
       - name: Create Zip
         run: zip -r9 ./module.zip module.json assets/ lang/ packs/ dist/ README.md LICENSE CHANGELOG.md
 
@@ -100,8 +100,8 @@ jobs:
             https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/module.json
             ${{ steps.changelog.outputs.release-notes }}
 
-      # Run the following when setting up a repo
-      # git switch --orphan next && git commit --allow-empty -m "init" && git push -u origin next
+            # Run the following when setting up a repo
+            # git switch --orphan next && git commit --allow-empty -m "init" && git push -u origin next
       - name: Update Prerelease Repository
         if: github.event.release.prerelease
         run: |

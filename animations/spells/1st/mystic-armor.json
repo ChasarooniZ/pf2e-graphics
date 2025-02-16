@@ -16,11 +16,10 @@
 					"jb2a.energy_field.01.blue"
 				],
 				"tieToDocuments": true,
-				"position":
-					{
-						"type": "dynamic",
-						"location": "SOURCES"
-					},
+				"position": {
+					"type": "dynamic",
+					"location": "SOURCES"
+				},
 				"size": {
 					"type": "relative",
 					"scaling": 1.5,

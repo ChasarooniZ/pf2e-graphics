@@ -8,7 +8,14 @@ function handleTemplate(template: MeasuredTemplateDocumentPF2e, delayed = false)
 		return;
 	}
 
-	const { actor, item, message, flags: { pf2e: { origin } } } = template;
+	const {
+		actor,
+		item,
+		message,
+		flags: {
+			pf2e: { origin },
+		},
+	} = template;
 
 	const sources = message?.token ? [message.token] : actor?.getActiveTokens();
 	if (!sources || !sources.length) {
@@ -17,21 +24,26 @@ function handleTemplate(template: MeasuredTemplateDocumentPF2e, delayed = false)
 	}
 
 	// Timed out because of some bizzare circumstance where coordinates are not delivered on time resulting in a 0,0 position.
-	setTimeout(() => window.pf2eGraphics.AnimCore.animate({
-		rollOptions: [
-			...(origin?.rollOptions ?? []),
-			...(message?.actor?.getRollOptions() ?? []),
-		].concat([
-			`template:${template.t}`,
-		] as const),
-		trigger: 'place-template' as const,
-		context: template,
-		targets: [template],
-		sources,
-		actor,
-		item,
-		user: template.author.id,
-	}, 'Template Animation Data'), 100);
+	setTimeout(
+		() =>
+			window.pf2eGraphics.AnimCore.animate(
+				{
+					rollOptions: [
+						...(origin?.rollOptions ?? []),
+						...(message?.actor?.getRollOptions() ?? []),
+					].concat([`template:${template.t}`] as const),
+					trigger: 'place-template' as const,
+					context: template,
+					targets: [template],
+					sources,
+					actor,
+					item,
+					user: template.author.id,
+				},
+				'Template Animation Data',
+			),
+		100,
+	);
 }
 
 const createMeasuredTemplateHook = Hooks.on('createMeasuredTemplate', handleTemplate);

@@ -61,7 +61,17 @@ export default class TJSDocumentProperty<T> {
 
 	#unsubscribeDoc: Unsubscriber | undefined;
 
-	constructor({ doc, accessor, debounce, debug = false }: { doc: any; accessor: string; debounce?: number; debug?: boolean }) {
+	constructor({
+		doc,
+		accessor,
+		debounce,
+		debug = false,
+	}: {
+		doc: any;
+		accessor: string;
+		debounce?: number;
+		debug?: boolean;
+	}) {
 		if (!(doc instanceof TJSDocument)) {
 			throw new TypeError(`'doc' is not an instance of TJSDocument.`);
 		}
@@ -204,7 +214,7 @@ export default class TJSDocumentProperty<T> {
 	 */
 	#log(message: any, ...extra: any[]) {
 		if (this.#debug) {
-		// eslint-disable-next-line no-console
+			// eslint-disable-next-line no-console
 			console.log(message, ...extra);
 		}
 	}
@@ -233,7 +243,11 @@ export default class TJSDocumentProperty<T> {
 				break;
 		}
 
-		if (context?.renderData && typeof context.renderContext === 'string' && context.renderContext.startsWith('update')) {
+		if (
+			context?.renderData
+			&& typeof context.renderContext === 'string'
+			&& context.renderContext.startsWith('update')
+		) {
 			const newValue = safeAccess(this.#doc?.get(), this.#accessor, this.#symbolNoop);
 
 			if (newValue !== this.#symbolNoop) {

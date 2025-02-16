@@ -37,7 +37,9 @@ interface SpritesheetJSON {
 
 const args = process.argv.slice(2);
 if (args.length !== 6) {
-	console.error('Usage: generateSpritesheetJSON.ts <name> <imageWidth> <imageHeight> <gridWidth> <gridHeight> <frameCount>');
+	console.error(
+		'Usage: generateSpritesheetJSON.ts <name> <imageWidth> <imageHeight> <gridWidth> <gridHeight> <frameCount>',
+	);
 	process.exit(1);
 }
 
@@ -98,9 +100,6 @@ const spritesheet: SpritesheetJSON = {
 };
 
 // Write to file
-fs.writeFileSync(
-	path.join(process.cwd(), `${name}.json`),
-	JSON.stringify(spritesheet, null, '\t'),
-);
+fs.writeFileSync(path.join(process.cwd(), `${name}.json`), JSON.stringify(spritesheet, null, '\t'));
 
 console.log(`Generated spritesheet JSON for ${name}`);

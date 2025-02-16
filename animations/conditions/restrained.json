@@ -14,11 +14,10 @@
 				"graphic": [
 					"jb2a.markers.chain.standard.complete.02.red"
 				],
-				"position":
-					{
-						"type": "dynamic",
-						"location": "SOURCES"
-					},
+				"position": {
+					"type": "dynamic",
+					"location": "SOURCES"
+				},
 				"size": {
 					"type": "relative",
 					"scaling": 2

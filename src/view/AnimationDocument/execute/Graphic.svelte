@@ -8,6 +8,7 @@
 	let positionType: 'static' | 'dynamic' = 'static';
 	let size: 'absolute' | 'relative' | 'directed' | 'screenSpace' = 'relative';
 </script>
+
 {#if !data.execute}
 	{#if !readonly}
 		<p>
@@ -37,7 +38,9 @@
 								try {
 									const val = JSON.parse(e.currentTarget.value);
 									if (!Array.isArray(val)) {
-										window.ui.notifications.error('Graphic must be an array of strings! ex. <code>["jb2a.arrow"]</code>');
+										window.ui.notifications.error(
+											'Graphic must be an array of strings! ex. <code>["jb2a.arrow"]</code>',
+										);
 									} else {
 										data.execute.graphic = JSON.parse(e.currentTarget.value);
 									}
@@ -46,7 +49,7 @@
 								}
 							} else {
 								data.execute.graphic = [];
-							};
+							}
 						}}
 						{readonly}
 						disabled={readonly}
@@ -78,10 +81,7 @@
 					}}
 				/>
 				{#if data.execute?.persistent}
-					<select
-						disabled={readonly || !data.execute.persistent}
-						bind:value={data.execute.persistent}
-					>
+					<select disabled={readonly || !data.execute.persistent} bind:value={data.execute.persistent}>
 						<option value='canvas'>Canvas</option>
 						<option value='tokenPrototype'>Token Prototype</option>
 					</select>
@@ -96,12 +96,7 @@
 				<i class='fa fa-info-circle px-2 ml-auto'></i>
 			</span>
 			<div class='flex align-middle items-center col-span-2'>
-				<input
-					disabled={readonly}
-					{readonly}
-					bind:checked={data.execute.tieToDocuments}
-					type='checkbox'
-				/>
+				<input disabled={readonly} {readonly} bind:checked={data.execute.tieToDocuments} type='checkbox' />
 			</div>
 		</label>
 		<!-- #endregion -->
@@ -113,7 +108,11 @@
 					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div class='flex align-middle items-center col-span-2'>
-					<select disabled={readonly || Boolean(data.execute.position)} bind:value={positionType} class='grow h-8 capitalize'>
+					<select
+						disabled={readonly || Boolean(data.execute.position)}
+						bind:value={positionType}
+						class='grow h-8 capitalize'
+					>
 						{#each ['static', 'dynamic'] as section}
 							<option value={section}>{section}</option>
 						{/each}
@@ -140,7 +139,8 @@
 								};
 							}
 							data = data;
-						}}>
+						}}
+					>
 						{#if data.execute.position}
 							<i class='fa fa-trash fa-fw'></i>
 						{:else}
@@ -350,7 +350,11 @@
 					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div class='flex align-middle items-center col-span-2'>
-					<select disabled={readonly || Boolean(data.execute.size)} bind:value={size} class='grow h-8 capitalize'>
+					<select
+						disabled={readonly || Boolean(data.execute.size)}
+						bind:value={size}
+						class='grow h-8 capitalize'
+					>
 						{#each ['absolute', 'relative', 'directed', 'screenSpace'] as option}
 							<option value={option}>{option}</option>
 						{/each}
@@ -407,9 +411,12 @@
 							{readonly}
 							type='number'
 							bind:value={data.execute.size.scaling}
-							min='0.1' step='0.1' placeholder='1'
+							min='0.1'
+							step='0.1'
+							placeholder='1'
 							on:change={() => {
-								if (data.execute
+								if (
+									data.execute
 									&& data.execute?.size
 									&& data.execute?.size?.type === 'relative'
 									&& !data.execute.size?.scaling

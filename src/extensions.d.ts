@@ -35,7 +35,6 @@ export type moduleFlags =
 	};
 
 declare global {
-
 	interface pf2eGraphics {
 		socket: SocketlibSocket;
 		modules: Writable<Map<string, ModuleDataObject>>;

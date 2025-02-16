@@ -49,7 +49,10 @@ export type JSONMap = Map<string, AnimationSetMetadataWrapper>;
  *
  * @todo `unfoldAnimationSets()` is the source of the above inexactness.
  */
-export type ExecutableAnimation = Omit<AnimationSet, 'reference' | 'contents' | 'default' | 'overrides' | 'execute'> & { execute: Payload };
+export type ExecutableAnimation = Omit<
+	AnimationSet,
+	'reference' | 'contents' | 'default' | 'overrides' | 'execute'
+> & { execute: Payload };
 
 export interface AnimationHistoryObject {
 	timestamp: number;

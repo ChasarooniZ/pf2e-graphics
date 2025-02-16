@@ -27,7 +27,9 @@ if (!badFiles.length) {
 		if (!process.env.GITHUB_ACTIONS)
 			return Log.padToColumn(formatted.path.join('.'), p.dim(formatted.message));
 
-		const key = JSONSourceMapParse(fs.readFileSync(file, { encoding: 'utf8' })).pointers[`/${issue.path.join('/')}`];
+		const key = JSONSourceMapParse(fs.readFileSync(file, { encoding: 'utf8' })).pointers[
+			`/${issue.path.join('/')}`
+		];
 		return {
 			message: formatted.path.join('.'),
 			annotation: {

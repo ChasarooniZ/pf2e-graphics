@@ -30,43 +30,48 @@ export async function executeCrosshair(
 
 	const position = await new Promise((resolve) => {
 		if (users.find(user => user.id === game.userId)) {
-			const dialog = new TJSDialog({
-				title: 'Pick a Location',
-				content: {
-					class: Pick,
-					props: {
-						payload,
-						context,
-						close: () => dialog.close(),
-					},
-				},
-				buttons: {
-					confirm: {
-						autoClose: false,
-						label: 'Pick',
-						onPress: () => {
-							ui.notifications.info(i18n('pf2e-graphics.execute.crosshair.notifications.pickALocation'));
-							Sequencer.Crosshair.show(crosshair).then((template) => {
-								if (!template) return;
-								window.pf2eGraphics.socket.executeForOthers(
-									'remoteLocation',
-									payload.name,
-									// @ts-expect-error TODO: Sequencer Types (add Document class...)
-									template.getOrientation(),
-								);
-								resolve(template);
-								dialog.close();
-							});
+			const dialog = new TJSDialog(
+				{
+					title: 'Pick a Location',
+					content: {
+						class: Pick,
+						props: {
+							payload,
+							context,
+							close: () => dialog.close(),
 						},
 					},
-					cancel: {
-						label: 'Cancel',
+					buttons: {
+						confirm: {
+							autoClose: false,
+							label: 'Pick',
+							onPress: () => {
+								ui.notifications.info(
+									i18n('pf2e-graphics.execute.crosshair.notifications.pickALocation'),
+								);
+								Sequencer.Crosshair.show(crosshair).then((template) => {
+									if (!template) return;
+									window.pf2eGraphics.socket.executeForOthers(
+										'remoteLocation',
+										payload.name,
+										// @ts-expect-error TODO: Sequencer Types (add Document class...)
+										template.getOrientation(),
+									);
+									resolve(template);
+									dialog.close();
+								});
+							},
+						},
+						cancel: {
+							label: 'Cancel',
+						},
 					},
 				},
-			}, {
-				headerIcon: payload.icon?.texture ?? 'modules/pf2e-graphics/assets/module/Vauxs_by_Bishop.png',
-				top: 50,
-			}).render(true);
+				{
+					headerIcon: payload.icon?.texture ?? 'modules/pf2e-graphics/assets/module/Vauxs_by_Bishop.png',
+					top: 50,
+				},
+			).render(true);
 		} else {
 			// Writable store that stores the location from above removeLocation socket
 			const unsub = window.pf2eGraphics.locations.subscribe((array) => {
@@ -138,9 +143,9 @@ function transformCrosshairPayload(
 			crosshair.distance = ((tokenGridSpaces + (payload.template.padding ?? 0)) * canvas.grid.distance) / 2;
 
 			const snappingCode
-			= tokenGridSpaces % 2 === 1
-				? getGridSnappingCode(['CENTER']) // Small, Medium, and Huge (plus larger odd-sized tokens)
-				: getGridSnappingCode(['CORNER']); // Tiny, Large, and Gargantuan (plus larger even-sized tokens)
+				= tokenGridSpaces % 2 === 1
+					? getGridSnappingCode(['CENTER']) // Small, Medium, and Huge (plus larger odd-sized tokens)
+					: getGridSnappingCode(['CORNER']); // Tiny, Large, and Gargantuan (plus larger even-sized tokens)
 			crosshair.snap = {
 				position: snappingCode,
 				size: snappingCode,
@@ -156,8 +161,8 @@ function transformCrosshairPayload(
 			if (payload.template.type === 'RAY' && crosshair.width) crosshair.width = payload.template.width;
 			if ('direction' in payload.template) crosshair.direction = payload.template.direction;
 		}
-	// TODO: is there a way to cause persistence with `Sequencer.Crosshair.show()`?
-	// if (payload.template.persist) crosshair.persist = true;
+		// TODO: is there a way to cause persistence with `Sequencer.Crosshair.show()`?
+		// if (payload.template.persist) crosshair.persist = true;
 	}
 	if (payload.snap) {
 		const snappingCode = getGridSnappingCode(payload.snap.position);

@@ -5,7 +5,9 @@ import { database } from '../../../src/assets/soundDb.ts';
 import { flatten } from '../../helpers.ts';
 
 const flattened = flatten(database);
-const existingEntries = Object.values(flattened).map((x: string) => x.replace('modules/pf2e-graphics/', '')).map((x: string) => core.toPosixPath(x));
+const existingEntries = Object.values(flattened)
+	.map((x: string) => x.replace('modules/pf2e-graphics/', ''))
+	.map((x: string) => core.toPosixPath(x));
 
 const errors: string[] = [];
 
@@ -25,8 +27,7 @@ function checkOggFiles(directory: string): void {
 			// If it's a file, check if it has a .ogg extension
 			if (extension === '.md' || extension === '.txt') continue;
 			if (extension === '.ogg') {
-				if (!existingEntries.includes(core.toPosixPath(fullPath)))
-					errors.push(core.toPosixPath(fullPath));
+				if (!existingEntries.includes(core.toPosixPath(fullPath))) errors.push(core.toPosixPath(fullPath));
 			} else {
 				core.warning(`An asset file with a not-allowed extension found!\n${fullPath}`);
 			}

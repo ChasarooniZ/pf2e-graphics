@@ -9,7 +9,7 @@ trim_trailing_whitespace=true
 insert_final_newline=true
 max_line_length=115
 
-[*.{json,md}]
+[*.{json,md,jsonc}]
 # Hack to make Prettier not collapse arrays
 max_line_length=1
 

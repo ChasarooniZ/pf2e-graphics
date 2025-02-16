@@ -1,9 +1,8 @@
 ---
 name: Animation Request
 about: Suggest a new animation to be added
-title: ''
+title: ""
 labels: Animation set
-
 ---
 
 **What item is to be animated?**

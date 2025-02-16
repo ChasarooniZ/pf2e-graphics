@@ -7,10 +7,7 @@ function check(i: ItemPF2e, o: { _id: string; system: any }) {
 		options: [] as string[],
 	};
 
-	if (
-		i.system.rules.length
-		|| i.isOfType('condition')
-	) {
+	if (i.system.rules.length || i.isOfType('condition')) {
 		result.bool = true;
 		result.options.push(...i.getRollOptions(i.type));
 	}
@@ -18,8 +15,12 @@ function check(i: ItemPF2e, o: { _id: string; system: any }) {
 	if (o?.system?.equipped?.carryType || o?.system?.equipped?.handsHeld) {
 		result.bool = true;
 		result.options.push(...i.getRollOptions('item'));
-		// @ts-expect-error These do exist.
-		if (i.system.usage.type === i.system.equipped.carryType && i.system.usage.hands <= i.system.equipped.handsHeld) {
+		if (
+			// @ts-expect-error These do exist.
+			i.system.usage.type === i.system.equipped.carryType
+			// @ts-expect-error These do exist.
+			&& i.system.usage.hands <= i.system.equipped.handsHeld
+		) {
 			result.options.push(`equipment:wielded`);
 		} else {
 			result.options.push(`equipment:${o.system.equipped.carryType}`);
@@ -37,21 +38,27 @@ function trifectaFunc(
 ) {
 	if (window.pf2eGraphics.liveSettings.delay && !delayed) {
 		log(`Delaying animation by ${window.pf2eGraphics.liveSettings.delay} seconds as per settings.`);
-		setTimeout(() => trifectaFunc(item, _options, action, true), window.pf2eGraphics.liveSettings.delay * 1000);
+		setTimeout(
+			() => trifectaFunc(item, _options, action, true),
+			window.pf2eGraphics.liveSettings.delay * 1000,
+		);
 		return;
 	}
 
 	const { bool, options: newOptions } = check(item, _options);
 	if (!item.actor || !bool) return;
 
-	window.pf2eGraphics.AnimCore.animate({
-		rollOptions: [...item.actor.getRollOptions(), ...newOptions, `toggle:${action}`],
-		trigger: 'toggle' as const,
-		context: { item, action, newOptions },
-		actor: item.actor,
-		sources: item.actor.getActiveTokens(),
-		item,
-	}, 'Toggle Animation Data');
+	window.pf2eGraphics.AnimCore.animate(
+		{
+			rollOptions: [...item.actor.getRollOptions(), ...newOptions, `toggle:${action}`],
+			trigger: 'toggle' as const,
+			context: { item, action, newOptions },
+			actor: item.actor,
+			sources: item.actor.getActiveTokens(),
+			item,
+		},
+		'Toggle Animation Data',
+	);
 }
 
 const updateItem = Hooks.on('updateItem', (a: ItemPF2e, b: any) => trifectaFunc(a, b, 'update'));

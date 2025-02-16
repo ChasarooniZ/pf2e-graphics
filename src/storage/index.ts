@@ -38,7 +38,7 @@ export async function loadAnimations() {
 	}
 
 	AnimCore.init();
-};
+}
 
 if (import.meta.hot) {
 	import.meta.hot.on('updateAnims', (data) => {
@@ -47,10 +47,6 @@ if (import.meta.hot) {
 	});
 	import.meta.hot.on('updateValidationError', (data) => {
 		const array = JSON.parse(data);
-		error(
-			'pf2e-graphics.load.error.schemaValidationFailed',
-			{ number: array.length },
-			{ data: array },
-		);
+		error('pf2e-graphics.load.error.schemaValidationFailed', { number: array.length }, { data: array });
 	});
 }

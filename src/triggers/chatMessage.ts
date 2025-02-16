@@ -1,4 +1,14 @@
-import type { ActorPF2e, ChatMessagePF2e, CheckRoll, CheckType, DegreeAdjustmentsRecord, DegreeOfSuccessString, RollNoteSource, TokenDocumentPF2e, UserPF2e } from 'foundry-pf2e';
+import type {
+	ActorPF2e,
+	ChatMessagePF2e,
+	CheckRoll,
+	CheckType,
+	DegreeAdjustmentsRecord,
+	DegreeOfSuccessString,
+	RollNoteSource,
+	TokenDocumentPF2e,
+	UserPF2e,
+} from 'foundry-pf2e';
 import type { Trigger } from '../../schema';
 import { log, nonNullable } from '../utils';
 
@@ -14,7 +24,7 @@ function handleChatMessage(message: ChatMessagePF2e, delayed = false) {
 	if (!message.token) {
 		log('No token found in the chat message data. This often means there is none on the scene. Aborting.');
 		return;
-	};
+	}
 
 	if (!trigger || trigger === 'spell-cast') {
 		if (message?.item?.isOfType('condition') && message.item.slug === 'persistent-damage') {
@@ -31,7 +41,9 @@ function handleChatMessage(message: ChatMessagePF2e, delayed = false) {
 		}
 	}
 
-	const toolbeltTargets = message.flags?.['pf2e-toolbelt']?.targetHelper?.targets?.map(t => fromUuidSync(t) as TokenDocumentPF2e | null);
+	const toolbeltTargets = message.flags?.['pf2e-toolbelt']?.targetHelper?.targets?.map(
+		t => fromUuidSync(t) as TokenDocumentPF2e | null,
+	);
 	const messageTargets = message.target?.token
 		? [message.target?.token]
 		: Array.from((message.author as UserPF2e).targets);
@@ -49,13 +61,15 @@ function handleChatMessage(message: ChatMessagePF2e, delayed = false) {
 	const outcome = message.flags.pf2e.context?.outcome;
 	if (outcome) newOptions.push(`check:outcome:${game.pf2e.system.sluggify(outcome)}`);
 	// TODO: Types, Eugh
-	const contextualRollOptions = (message.flags.pf2e.context as { contextualRollOptions?: { postRoll?: string[] } } | undefined)?.contextualRollOptions?.postRoll;
+	const contextualRollOptions = (
+		message.flags.pf2e.context as { contextualRollOptions?: { postRoll?: string[] } } | undefined
+	)?.contextualRollOptions?.postRoll;
 	if (contextualRollOptions) {
 		newOptions.push(...contextualRollOptions);
 	}
 
 	if (trigger === 'action' || trigger === 'self-effect' || trigger === 'damage-roll') {
-		newOptions.push(...message.item?.getRollOptions() ?? []);
+		newOptions.push(...(message.item?.getRollOptions() ?? []));
 	}
 
 	// showHiddenRolls negates message.blind
@@ -64,29 +78,35 @@ function handleChatMessage(message: ChatMessagePF2e, delayed = false) {
 		return;
 	}
 
-	window.pf2eGraphics.AnimCore.animate({
-		rollOptions: rollOptions.concat(newOptions),
-		trigger,
-		context: message,
-		sources,
-		targets: targets.filter(nonNullable),
-		actor: message.actor,
-		item: message.item,
-		triggerContext: {
-			outcome: outcome ?? undefined,
+	window.pf2eGraphics.AnimCore.animate(
+		{
+			rollOptions: rollOptions.concat(newOptions),
+			trigger,
+			context: message,
+			sources,
+			targets: targets.filter(nonNullable),
+			actor: message.actor,
+			item: message.item,
+			triggerContext: {
+				outcome: outcome ?? undefined,
+			},
+			user: message.author?.id,
 		},
-		user: message.author?.id,
-	}, 'Message Animation Data');
+		'Message Animation Data',
+	);
 }
 
-const diceSoNiceMessageProcessed = Hooks.on('diceSoNiceMessageProcessed', async (messageId: string, willTrigger3DRoll: boolean) => {
-	if (willTrigger3DRoll) {
-		// @ts-expect-error TODO: Dice So Nice types
-		await game.dice3d!.waitFor3DAnimationByMessageID(messageId);
-	}
+const diceSoNiceMessageProcessed = Hooks.on(
+	'diceSoNiceMessageProcessed',
+	async (messageId: string, willTrigger3DRoll: boolean) => {
+		if (willTrigger3DRoll) {
+			// @ts-expect-error TODO: Dice So Nice types
+			await game.dice3d!.waitFor3DAnimationByMessageID(messageId);
+		}
 
-	handleChatMessage(game.messages.get(messageId)!);
-});
+		handleChatMessage(game.messages.get(messageId)!);
+	},
+);
 
 const createChatMessage = Hooks.on('createChatMessage', (msg: ChatMessagePF2e) => {
 	if (!game.modules.get('dice-so-nice')?.active) handleChatMessage(msg);
@@ -115,12 +135,19 @@ interface RollSaveHook {
 }
 
 const pf2etoolbeltRollSave = Hooks.on('pf2e-toolbelt.rollSave', (args: RollSaveHook) => {
-	const { rollMessage, target, roll, data: { success } } = args;
+	const {
+		rollMessage,
+		target,
+		roll,
+		data: { success },
+	} = args;
 
 	const rollOptions: string[] = rollMessage.flags.pf2e.context?.options ?? [];
 	const newOptions: string[] = [];
 	// TODO: Types, Eugh
-	const contextualRollOptions = (rollMessage.flags.pf2e.context as { contextualRollOptions?: { postRoll?: string[] } } | undefined)?.contextualRollOptions?.postRoll;
+	const contextualRollOptions = (
+		rollMessage.flags.pf2e.context as { contextualRollOptions?: { postRoll?: string[] } } | undefined
+	)?.contextualRollOptions?.postRoll;
 	if (contextualRollOptions) {
 		newOptions.push(...contextualRollOptions);
 	}
@@ -128,17 +155,20 @@ const pf2etoolbeltRollSave = Hooks.on('pf2e-toolbelt.rollSave', (args: RollSaveH
 	const outcome = rollMessage.flags.pf2e.context?.outcome;
 	if (outcome) newOptions.push(`check:outcome:${game.pf2e.system.sluggify(outcome)}`);
 
-	window.pf2eGraphics.AnimCore.animate({
-		rollOptions: rollOptions.concat(newOptions),
-		trigger: 'saving-throw' as const,
-		context: args,
-		targets: [target],
-		sources: [rollMessage.token!],
-		item: rollMessage.item,
-		actor: target.actor,
-		triggerContext: { outcome: outcome ?? success },
-		user: roll.options.rollerId,
-	}, 'Target Helper Saving Throw');
+	window.pf2eGraphics.AnimCore.animate(
+		{
+			rollOptions: rollOptions.concat(newOptions),
+			trigger: 'saving-throw' as const,
+			context: args,
+			targets: [target],
+			sources: [rollMessage.token!],
+			item: rollMessage.item,
+			actor: target.actor,
+			triggerContext: { outcome: outcome ?? success },
+			user: roll.options.rollerId,
+		},
+		'Target Helper Saving Throw',
+	);
 });
 
 /*

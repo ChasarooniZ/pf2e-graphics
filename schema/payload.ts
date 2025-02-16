@@ -12,13 +12,7 @@ import { trigger } from './triggers';
  * Zod schema for the animation-set payload that actually gets executed.
  */
 export const payload = z
-	.discriminatedUnion('type', [
-		animationPayload,
-		crosshairPayload,
-		graphicPayload,
-		macroPayload,
-		soundPayload,
-	])
+	.discriminatedUnion('type', [animationPayload, crosshairPayload, graphicPayload, macroPayload, soundPayload])
 	// TODO: move this to the mega-super-refinement
 	//
 	// .superRefine((obj, ctx) => {
@@ -222,8 +216,7 @@ const animationSetContentsItem: z.ZodType<AnimationSetContentsItem> = flatAnimat
 			.describe(
 				'When no animation sets within the same `contents` depth would be executed due to a lack of matches in `predicates`, a set with `default: true` will be executed anyway. Conversely, if multiple sets at the same `contents` depth would be executed, a set with `default: true` will be ignored.\nThis is especially useful when you have one \'standard\' payload, with variants for particular edge-cases. For instance, changing the sound of a Strike depending on the target\'s traits, or more generally setting the default payload when certain module settings are enabled or disabled (e.g. persistence, quality).\nThe same effect can be achieved using combining logic in `predicates`; this property is just a convenience.',
 			),
-		execute: partialPayload
-			.optional(),
+		execute: partialPayload.optional(),
 		contents: z
 			.lazy(() =>
 				z

@@ -51,9 +51,7 @@ export const soundPayload = effectOptions
 			})
 			.strict()
 			.optional()
-			.describe(
-				'Configures where and how the graphic should be placed.',
-			),
+			.describe('Configures where and how the graphic should be placed.'),
 		radius: z
 			.number()
 			.positive()

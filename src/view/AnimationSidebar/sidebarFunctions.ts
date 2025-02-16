@@ -92,11 +92,10 @@ export function makeAnimation(
 			execute: {
 				type: 'graphic',
 				graphic: ['jb2a.arrow'],
-				position:
-					{
-						type: 'static',
-						location: 'SOURCES',
-					},
+				position: {
+					type: 'static',
+					location: 'SOURCES',
+				},
 
 				size: {
 					type: 'directed',

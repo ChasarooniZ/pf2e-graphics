@@ -1,11 +1,6 @@
 import type { ExecutionContext } from '.';
 import type { Payload } from '../../schema';
-import {
-	addCustomExecutionContext,
-	offsetToVector2,
-	parseMinMaxObject,
-	positionToArgument,
-} from '.';
+import { addCustomExecutionContext, offsetToVector2, parseMinMaxObject, positionToArgument } from '.';
 import { AnimCore } from '../storage/AnimCore';
 
 export function executeSound(payload: Extract<Payload, { type: 'sound' }>, context: ExecutionContext): Sequence {
@@ -18,10 +13,7 @@ export function executeSound(payload: Extract<Payload, { type: 'sound' }>, conte
 	return seq;
 }
 
-function processSound(
-	payload: Parameters<typeof executeSound>[0],
-	context: ExecutionContext,
-): SoundSection {
+function processSound(payload: Parameters<typeof executeSound>[0], context: ExecutionContext): SoundSection {
 	const seq = new Sequence().sound().file(AnimCore.parseFiles(payload.sound));
 
 	if (context.label) seq.name(context.label);

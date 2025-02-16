@@ -7,7 +7,7 @@ interface modifiersMatterType {
 	rollingActor: ActorPF2e;
 	significantModifiers: { significance: string; name: string; value: number; appliedTo: string }[];
 	targetedToken: TokenDocumentPF2e;
-};
+}
 
 function handleModifiersMatter(options: modifiersMatterType, delayed = false) {
 	const { actorWithDc, chatMessage, rollingActor, significantModifiers, targetedToken } = options;
@@ -18,21 +18,30 @@ function handleModifiersMatter(options: modifiersMatterType, delayed = false) {
 		return;
 	}
 
-	devLog('Modifiers Matter Hook Data', { actorWithDc, chatMessage, rollingActor, significantModifiers, targetedToken });
+	devLog('Modifiers Matter Hook Data', {
+		actorWithDc,
+		chatMessage,
+		rollingActor,
+		significantModifiers,
+		targetedToken,
+	});
 
 	for (const modifier of significantModifiers) {
 		const rollOptions = chatMessage.flags.pf2e.context?.options ?? [];
 
-		window.pf2eGraphics.AnimCore.animate({
-			rollOptions: rollOptions.concat(`significance:${modifier.significance.toLowerCase()}`),
-			trigger: 'modifiers-matter' as const,
-			context: options,
-			item: chatMessage.item,
-			sources: rollingActor.getActiveTokens(),
-			actor: rollingActor,
-			targets: [targetedToken],
-			user: chatMessage.author?.id,
-		}, 'Modifiers Matter Animation Data');
+		window.pf2eGraphics.AnimCore.animate(
+			{
+				rollOptions: rollOptions.concat(`significance:${modifier.significance.toLowerCase()}`),
+				trigger: 'modifiers-matter' as const,
+				context: options,
+				item: chatMessage.item,
+				sources: rollingActor.getActiveTokens(),
+				actor: rollingActor,
+				targets: [targetedToken],
+				user: chatMessage.author?.id,
+			},
+			'Modifiers Matter Animation Data',
+		);
 	}
 }
 const modifiersMatter = Hooks.on('modifiersMatter', handleModifiersMatter);
