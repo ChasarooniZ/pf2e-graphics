@@ -60,7 +60,7 @@ export async function registerTours() {
 			game.tours.register(tourConfig.namespace, tourConfig.id, new GrandUnifiedTour(tourConfig));
 			if (
 				!tourConfig.id.startsWith('🤹')
-				&& (tourProgress[tourConfig.namespace] === undefined
+				&& (tourProgress === undefined
 					|| tourProgress[tourConfig.id] === undefined
 					|| tourProgress[tourConfig.id] === -1)
 			) {
