@@ -92,12 +92,12 @@ export function makeAnimation(
 			execute: {
 				type: 'graphic',
 				graphic: ['jb2a.arrow'],
-				position: [
+				position:
 					{
 						type: 'static',
 						location: 'SOURCES',
 					},
-				],
+
 				size: {
 					type: 'directed',
 					endpoint: 'TARGETS',
@@ -112,15 +112,13 @@ export function makeAnimation(
 			execute: {
 				type: 'graphic',
 				graphic: ['jb2a.melee_attack.02.handaxe.01'],
-				position: [
-					{
-						type: 'static',
-						location: 'SOURCES',
-						anchor: {
-							x: 0.4,
-						},
+				position: {
+					type: 'static',
+					location: 'SOURCES',
+					anchor: {
+						x: 0.4,
 					},
-				],
+				},
 				reflection: {
 					y: 'random',
 				},
@@ -142,12 +140,10 @@ export function makeAnimation(
 			execute: {
 				type: 'graphic',
 				graphic: ['jb2a.shield.01.complete.01'],
-				position: [
-					{
-						type: 'dynamic',
-						location: 'SOURCES',
-					},
-				],
+				position: {
+					type: 'dynamic',
+					location: 'SOURCES',
+				},
 				size: {
 					type: 'relative',
 					relativeTo: 'SOURCES',
