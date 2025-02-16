@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+### Fixed
+
+- Animation Editor crashing when loading a previously closed and not saved document.
+
+### Added
+
+- UI Support for Reflections in Graphics.
+
+### Changed
+
+- (BREAKING) There can now only be one starting position per graphic or sound. 
+
 ## [1.0.0-alpha.7] - 2025-02-10
 
 ### Fixed

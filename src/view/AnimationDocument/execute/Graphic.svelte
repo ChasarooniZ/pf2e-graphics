@@ -59,47 +59,6 @@
 			</label>
 		{/if}
 		<!-- #endregion -->
-		<!-- #region Persistent -->
-		<label class='grid grid-cols-3 items-center'>
-			<span class='flex items-center' data-tooltip='TODO: Explain'>
-				Persistent
-				<i class='fa fa-info-circle px-2 ml-auto'></i>
-			</span>
-			<div class='flex align-middle items-center col-span-2'>
-				<input
-					disabled={readonly}
-					type='checkbox'
-					checked={Boolean(data.execute?.persistent)}
-					on:change={(e) => {
-						if (!data?.execute) return;
-						if (e.currentTarget.checked) {
-							data.execute.persistent = 'canvas';
-						} else {
-							delete data.execute.persistent;
-						}
-						data = data;
-					}}
-				/>
-				{#if data.execute?.persistent}
-					<select disabled={readonly || !data.execute.persistent} bind:value={data.execute.persistent}>
-						<option value='canvas'>Canvas</option>
-						<option value='tokenPrototype'>Token Prototype</option>
-					</select>
-				{/if}
-			</div>
-		</label>
-		<!-- #endregion -->
-		<!-- #region Tie To Documents -->
-		<label class='grid grid-cols-3 items-center'>
-			<span class='flex items-center' data-tooltip='TODO: Explain'>
-				Tie To Documents
-				<i class='fa fa-info-circle px-2 ml-auto'></i>
-			</span>
-			<div class='flex align-middle items-center col-span-2'>
-				<input disabled={readonly} {readonly} bind:checked={data.execute.tieToDocuments} type='checkbox' />
-			</div>
-		</label>
-		<!-- #endregion -->
 		<!-- #region Position -->
 		<FadedWrapper>
 			<label class='grid grid-cols-3 items-center'>
@@ -454,6 +413,89 @@
 			{#if data.execute?.size?.type === 'absolute'}
 				Unimplemented!
 			{/if}
+		</FadedWrapper>
+		<!-- #endregion -->
+		<!-- #region Reflection -->
+		{#if !data.execute.reflection}
+			<!-- If wrong, don't! -->
+			{(data.execute.reflection = { x: undefined, y: undefined }) && ''}
+		{:else}
+			<label class='grid grid-cols-3 items-center'>
+				<span class='flex items-center' data-tooltip='TODO: Explain'>
+					Reflection
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
+				</span>
+				<div class='grid grid-cols-2 gap-4 items-stretch col-span-2'>
+					<label class='flex items-center gap-2'>
+						X
+						<select bind:value={data.execute.reflection.x} class='w-full'>
+							<option></option>
+							<option value='always'>Always</option>
+							<option value='random'>Random</option>
+						</select>
+					</label>
+					<label class='flex items-center gap-2'>
+						Y
+						<select bind:value={data.execute.reflection.y} class='w-full'>
+							<option></option>
+							<option value='always'>Always</option>
+							<option value='random'>Random</option>
+						</select>
+					</label>
+				</div>
+			</label>
+		{/if}
+		<!-- #endregion -->
+		<!-- #region Persistent -->
+		<label class='grid grid-cols-3 items-center'>
+			<span class='flex items-center' data-tooltip='TODO: Explain'>
+				Persistent
+				<i class='fa fa-info-circle px-2 ml-auto'></i>
+			</span>
+			<div class='flex align-middle items-center col-span-2'>
+				<input
+					disabled={readonly}
+					type='checkbox'
+					checked={Boolean(data.execute?.persistent)}
+					on:change={(e) => {
+						if (!data?.execute) return;
+						if (e.currentTarget.checked) {
+							data.execute.persistent = 'canvas';
+						} else {
+							delete data.execute.persistent;
+						}
+						data = data;
+					}}
+				/>
+				{#if data.execute?.persistent}
+					<select disabled={readonly || !data.execute.persistent} bind:value={data.execute.persistent}>
+						<option value='canvas'>Canvas</option>
+						<option value='tokenPrototype'>Token Prototype</option>
+					</select>
+				{/if}
+			</div>
+		</label>
+		<!-- #endregion -->
+		<!-- #region Tie To Documents -->
+		<label class='grid grid-cols-3 items-center'>
+			<span class='flex items-center' data-tooltip='TODO: Explain'>
+				Tie To Documents
+				<i class='fa fa-info-circle px-2 ml-auto'></i>
+			</span>
+			<div class='flex align-middle items-center col-span-2'>
+				<input disabled={readonly} {readonly} bind:checked={data.execute.tieToDocuments} type='checkbox' />
+			</div>
+		</label>
+		<!-- #endregion -->
+
+		<!-- #region Unfinished -->
+		<FadedWrapper>
+			<p>Missing things in the UI, in no particular order:</p>
+			<ul class="columns-2">
+				{#each ['rotation', 'visibility', 'elevation', 'varyProperties (😭)', 'drawings (😭)', 'filters (😭)'] as item}
+					<li>{item}</li>
+				{/each}
+			</ul>
 		</FadedWrapper>
 		<!-- #endregion -->
 	</div>
