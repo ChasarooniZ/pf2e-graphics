@@ -1,6 +1,6 @@
 <script lang='ts'>
 	import type { AnimationSetContentsItem } from 'schema/payload';
-	import Svelecte from 'svelecte';
+	import MultiSelect from 'svelte-multiselect';
 
 	export let data: AnimationSetContentsItem<'crosshair'>;
 	export let readonly: boolean;
@@ -246,7 +246,8 @@
 					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
 				<div class='flex align middle items-center col-span-2'>
-					<Svelecte
+					<MultiSelect
+						bind:selected={data.execute.snap.position}
 						options={[
 							'BOTTOM_LEFT_CORNER',
 							'BOTTOM_LEFT_VERTEX',
@@ -265,12 +266,7 @@
 							'TOP_RIGHT_VERTEX',
 							'TOP_SIDE_MIDPOINT',
 							'VERTEX',
-						]}
-						bind:value={data.execute.snap.position}
-						disabled={readonly}
-						selectOnTab={true}
-						multiple
-					/>
+						]} />
 				</div>
 			</label>
 			<label class='grid grid-cols-3 items-center'>

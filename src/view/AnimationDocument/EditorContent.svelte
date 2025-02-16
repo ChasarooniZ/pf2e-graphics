@@ -5,7 +5,7 @@
 	import { TJSDialog } from '#runtime/svelte/application';
 	import { TJSDocument } from '#runtime/svelte/store/fvtt/document';
 	import { ErrorMsg, isTrueish, log } from 'src/utils';
-	import Svelecte from 'svelecte';
+	import MultiSelect from 'svelte-multiselect';
 	import { Animation, Crosshair, Graphic, Macro, Sound } from './execute';
 
 	export let data: AnimationSetContentsItem;
@@ -75,7 +75,7 @@
 			</select>
 		</header>
 	{/if}
-	<main class='p-0.5 grow space-y-1'>
+	<main class='p-0.5 grow space-y-1 overflow-y-scroll'>
 		<!-- #region Label -->
 		{#if 'label' in data}
 			<label class='p-0.5 grid grid-cols-3 items-center'>
@@ -118,7 +118,8 @@
 						col-span-2
 					'
 				>
-					<Svelecte
+					<MultiSelect
+						bind:selected={data.triggers}
 						options={[
 							'attack-roll',
 							'damage-roll',
@@ -138,12 +139,7 @@
 							'perception-check',
 							'counteract-check',
 							'modifiers-matter',
-						]}
-						bind:value={data.triggers}
-						disabled={readonly}
-						selectOnTab={true}
-						multiple
-					/>
+						]} />
 					<button
 						class='w-min ml-1'
 						on:click={() => {
@@ -152,7 +148,7 @@
 						}}
 						disabled={readonly}
 					>
-						<i class='fa fa-trash-can pl-0.5'></i>
+						<i class='fa fa-trash-can mx-auto fa-fw'></i>
 					</button>
 				</div>
 			</label>
@@ -212,7 +208,7 @@
 						}}
 						disabled={readonly}
 					>
-						<i class='fa fa-trash-can pl-0.5'></i>
+						<i class='fa fa-trash-can mx-auto fa-fw'></i>
 					</button>
 				</div>
 			</label>
@@ -251,7 +247,7 @@
 						}}
 						disabled={readonly}
 					>
-						<i class='fa fa-trash-can pl-0.5'></i>
+						<i class='fa fa-trash-can mx-auto fa-fw'></i>
 					</button>
 				</div>
 			</label>
@@ -303,7 +299,7 @@
 							}}
 							disabled={readonly}
 						>
-							<i class='fa fa-trash-can pl-0.5'></i>
+							<i class='fa fa-trash-can fa-fw mx-auto'></i>
 						</button>
 					</div>
 				</label>
