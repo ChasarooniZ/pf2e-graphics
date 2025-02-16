@@ -293,10 +293,10 @@
 			"tourNag": {
 				"header": "Witamy w <i>PF2e Graphics!</i>",
 				"body": "W większości, <i>PF2e Graphics</i> działa dyskretnie w tle; nie musisz nic robić, aby rozpocząć. Jeśli jednak chcesz utknąć w dostosowywaniu, przygotowaliśmy kilka przewodników. <i>Więc</i>, mając to na uwadze...",
-				"doYouWantATour": "Chcesz wziąć udział w przewodniku?",
+				"doYouWantATour": "Chcesz wziąć udział w przewodniku? :)",
 				"buttons": {
 					"seeAllTours": "Zobacz wszystkie przewodniki",
-					"neverSpeakToMeAgain": "Nigdy więcej się do mnie nie odzywaj."
+					"neverSpeakToMeAgain": "Nigdy więcej się do mnie nie odzywaj. >:("
 				},
 				"farewellToast": "Przewodniki są zawsze dostępne za pomocą przycisku Zarządzanie przewodnikami. Wrócimy tylko wtedy, gdy pojawi się nowa funkcja, o której będziemy mogli opowiedzieć! 😊"
 			}

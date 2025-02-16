@@ -27,36 +27,38 @@
 <div class='pf2e-g'>
 	<h2>{@html i18n('pf2e-graphics.messages.tourNag.header')}</h2>
 
-	<p>{@html i18n('pf2e-graphics.messages.tourNag.body')}</p>
-	<p style:font-size='1.15em'><b>{i18n('pf2e-graphics.messages.tourNag.doYouWantATour')}</b> :)</p>
+	<p class='text-justify'>{@html i18n('pf2e-graphics.messages.tourNag.body')}</p>
+	<p class='text-lg'><b>{i18n('pf2e-graphics.messages.tourNag.doYouWantATour')}</b></p>
 
-	<div style:margin-left='1em' style:margin-right='1em'>
+	<div class='mx-4 space-y-1'>
 		{#each unstartedTourConfigs as tourConfig}
 			{@const tour = getTourDoc(tourConfig)}
 			<button
+				class='flex flex-row items-center px-2'
 				on:click={() => tour.start()}
 				disabled={tour?.status !== 'unstarted'}
 				class:line-through={tour?.status !== 'unstarted'}
 			>
-				<i class='fas fa-play'></i>
-				{i18n(tourConfig.title)}
+				<i class='fas fa-play fa-fw mx-auto'></i>
+				<span class='grow'>{i18n(tourConfig.title)}</span>
 			</button>
 		{/each}
-		<!-- TODO: pending https://github.com/7H3LaughingMan/foundry-pf2e/pull/605 -->
-		<!-- svelte-ignore missing-declaration -->
 		<button
+			class='flex flex-row items-center px-2'
 			on:click={() => {
 				// @ts-expect-error TODO: pending https://github.com/7H3LaughingMan/foundry-pf2e/pull/605
-				new ToursManagement().render(true, { activeCategory: 'pf2e-graphics' });
+				new window.ToursManagement().render(true, { activeCategory: 'pf2e-graphics' });
 			}}
 		>
-			<i class='fas fa-person-hiking'></i>
-			<i>{i18n('pf2e-graphics.messages.tourNag.buttons.seeAllTours')}</i>
+			<i class='fas fa-person-hiking fa-fw mx-auto'></i>
+			<i class='grow'>{i18n('pf2e-graphics.messages.tourNag.buttons.seeAllTours')}</i>
 		</button>
 		<hr />
-		<button on:click={() => neverSpeakToMeAgain()}>
-			<i class='fas fa-xmark'></i>
-			<b>{i18n('pf2e-graphics.messages.tourNag.buttons.neverSpeakToMeAgain')}</b> &gt;:(
+		<button class='flex flex-row items-center px-2' on:click={() => neverSpeakToMeAgain()}>
+			<i class='fas fa-xmark fa-fw mx-auto'></i>
+			<span class='grow'>
+				<b>{i18n('pf2e-graphics.messages.tourNag.buttons.neverSpeakToMeAgain')}</b>
+			</span>
 		</button>
 	</div>
 </div>
