@@ -15,9 +15,7 @@
 				const tour = window.game.tours.get(tourName) as Tour;
 				if (tour.status === 'unstarted') tour.progress(0).then(() => tour.exit()); // Tour isn't completed, so don't complete it 😤
 			});
-		info(
-			'The tours are always available via the Tour Management button. We\'ll be back only if there\'s new feature to tell you about! 😊',
-		);
+		info('pf2e-graphics.messages.tourNag.farewellToast');
 		message.delete();
 	}
 

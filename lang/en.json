@@ -297,7 +297,8 @@
 				"buttons": {
 					"seeAllTours": "See all tours",
 					"neverSpeakToMeAgain": "Never speak to me again."
-				}
+				},
+				"farewellToast": "The tours are always available via the Tour Management button. We'll be back only if there's new feature to tell you about! 😊"
 			}
 		}
 	}
