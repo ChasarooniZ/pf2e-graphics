@@ -2,7 +2,6 @@ import type { TokenPF2e } from 'foundry-pf2e';
 import type { ExecutionContext } from '.';
 import type { Payload } from '../../schema';
 import type { EffectiveSize } from '../extensions';
-import type { ArrayElement } from '../utils';
 import { addCustomExecutionContext, offsetToVector2, parseMinMaxObject, positionToArgument } from '.';
 import { AnimCore } from '../storage/AnimCore';
 import { ErrorMsg, getDefaultSize } from '../utils';
@@ -15,18 +14,12 @@ export function executeGraphic(
 
 	context = addCustomExecutionContext(payload.sources, payload.targets, context);
 
-	for (const position of payload.position) {
-		seq.addSequence(processGraphic(payload, context, position));
-	}
+	seq.addSequence(processGraphic(payload, context));
 
 	return seq;
 }
 
-function processGraphic(
-	payload: Parameters<typeof executeGraphic>[0],
-	context: ExecutionContext,
-	position: ArrayElement<Parameters<typeof executeGraphic>[0]['position']>,
-): EffectSection {
+function processGraphic(payload: Parameters<typeof executeGraphic>[0], context: ExecutionContext): EffectSection {
 	// TODO: antialiasing
 	const seq = new Sequence().effect();
 
@@ -42,56 +35,56 @@ function processGraphic(
 
 	if (context.label) seq.name(context.label);
 
-	if (position.type === 'screenSpace') {
+	if (payload.position.type === 'screenSpace') {
 		seq.screenSpace();
-		if (position.aboveUI) seq.screenSpaceAboveUI();
-		if (position.anchor) seq.screenSpaceAnchor(offsetToVector2(position.anchor, 0.5));
-		if (position.offset) seq.screenSpacePosition(offsetToVector2(position.offset));
+		if (payload.position.aboveUI) seq.screenSpaceAboveUI();
+		if (payload.position.anchor) seq.screenSpaceAnchor(offsetToVector2(payload.position.anchor, 0.5));
+		if (payload.position.offset) seq.screenSpacePosition(offsetToVector2(payload.position.offset));
 	} else {
 		// #region Common (`positionBaseObject`) properties
 		if (
-			position.missed
-			|| (position.missed !== false
+			payload.position.missed
+			|| (payload.position.missed !== false
 				&& context.trigger === 'attack-roll'
 				&& (context.triggerContext.outcome === 'failure'
 					|| context.triggerContext.outcome === 'criticalFailure'))
 		) {
 			seq.missed();
 		}
-		if (position.spriteOffset) {
-			seq.spriteOffset(offsetToVector2(position.spriteOffset), {
-				gridUnits: position.spriteOffset.gridUnits ?? false,
+		if (payload.position.spriteOffset) {
+			seq.spriteOffset(offsetToVector2(payload.position.spriteOffset), {
+				gridUnits: payload.position.spriteOffset.gridUnits ?? false,
 			});
 		}
-		if (position.anchor) seq.anchor(offsetToVector2(position.anchor, 0.5));
-		if (position.spriteAnchor) seq.spriteAnchor(offsetToVector2(position.spriteAnchor, 0.5));
+		if (payload.position.anchor) seq.anchor(offsetToVector2(payload.position.anchor, 0.5));
+		if (payload.position.spriteAnchor) seq.spriteAnchor(offsetToVector2(payload.position.spriteAnchor, 0.5));
 		const options: Parameters<typeof seq.attachTo>[1] = {
-			randomOffset: position.randomOffset ?? 0,
-			offset: offsetToVector2(position.offset),
-			local: position.local ?? false,
-			gridUnits: position.gridUnits ?? false,
+			randomOffset: payload.position.randomOffset ?? 0,
+			offset: offsetToVector2(payload.position.offset),
+			local: payload.position.local ?? false,
+			gridUnits: payload.position.gridUnits ?? false,
 		};
 		// #endregion
-		if (position.type === 'static') {
-			seq.atLocation(positionToArgument(position.location, context), options);
-			if (position.moveTowards) {
+		if (payload.position.type === 'static') {
+			seq.atLocation(positionToArgument(payload.position.location, context), options);
+			if (payload.position.moveTowards) {
 				seq.moveTowards(
-					positionToArgument(position.moveTowards.target, context),
+					positionToArgument(payload.position.moveTowards.target, context),
 					// @ts-expect-error TODO: Sequencer type should only have `ease`, no `target`
 					{ ease: position.moveTowards.ease ?? 'linear' },
 				);
-				if (position.moveTowards.speed) seq.moveSpeed(position.moveTowards.speed);
+				if (payload.position.moveTowards.speed) seq.moveSpeed(payload.position.moveTowards.speed);
 			}
-		} else if (position.type === 'dynamic') {
-			if (position.align) options.align = position.align;
-			if (position.edge) options.edge = position.edge;
-			options.bindVisibility = !position.unbindVisibility;
-			options.bindAlpha = !position.unbindAlpha;
+		} else if (payload.position.type === 'dynamic') {
+			if (payload.position.align) options.align = payload.position.align;
+			if (payload.position.edge) options.edge = payload.position.edge;
+			options.bindVisibility = !payload.position.unbindVisibility;
+			options.bindAlpha = !payload.position.unbindAlpha;
 			// @ts-expect-error TODO: sequencer types (documentation sometimes uses `followRotation`?)
 			options.bindRotation = !position.ignoreRotation;
-			options.bindScale = !position.unbindScale;
-			options.bindElevation = !position.unbindElevation;
-			seq.attachTo(positionToArgument(position.location, context), options);
+			options.bindScale = !payload.position.unbindScale;
+			options.bindElevation = !payload.position.unbindElevation;
+			seq.attachTo(positionToArgument(payload.position.location, context), options);
 		} else {
 			throw ErrorMsg.send('pf2e-graphics.execute.common.error.unknownDiscriminatedUnionValue', {
 				payloadType: 'graphic',
@@ -181,6 +174,8 @@ function processGraphic(
 				attachTo: payload.rotation.attach ?? false,
 				offset: offsetToVector2(payload.rotation.offset), // TODO: Wtf? This removes atLocation's offset.
 			});
+			// TODO: fix bug in Sequencer preventing `.rotateTowards()` with `.rotate()`
+			// if (payload.rotation.rotationOffset) seq.rotate(payload.rotation.rotationOffset);
 		} else {
 			throw ErrorMsg.send('pf2e-graphics.execute.common.error.unknownDiscriminatedUnionValue', {
 				payloadType: 'graphic',
@@ -273,7 +268,7 @@ function processGraphic(
 				}
 				if (payload.size.scaling) seq.scale(...parseMinMaxObject(payload.size.scaling));
 			} else if (payload.size.type === 'relative') {
-				if (position.type === 'screenSpace')
+				if (payload.position.type === 'screenSpace')
 					throw ErrorMsg.send('pf2e-graphics.execute.graphic.error.mismatchedPositionSize');
 
 				// Get placeable to scale relative to
@@ -283,20 +278,15 @@ function processGraphic(
 					placeable = positionToArgument(payload.size.relativeTo, context);
 				} else if (
 					// Else we use the position, if it has one
-					position.location === 'SOURCES'
-					|| position.location === 'TARGETS'
-					|| position.location === 'TEMPLATES'
+					payload.position.location === 'SOURCES'
+					|| payload.position.location === 'TARGETS'
+					|| payload.position.location === 'TEMPLATES'
 				) {
-					placeable = positionToArgument(position.location, context);
+					placeable = positionToArgument(payload.position.location, context);
 				} else {
-					// Otherwise we try to get *any* placeable defined in the animation set
-					const firstPlaceable = getFirstPlaceable(payload.position);
-					if (!firstPlaceable) {
-						throw ErrorMsg.send(
-							'pf2e-graphics.execute.graphic.error.cantFindPlaceableForRelativeScaling',
-						);
-					}
-					placeable = positionToArgument(firstPlaceable, context);
+					throw ErrorMsg.send(
+						'pf2e-graphics.execute.graphic.error.cantIdentifyPlaceableForRelativeScaling',
+					);
 				}
 				if (
 					placeable instanceof CONFIG.Token.objectClass
@@ -466,23 +456,4 @@ function processGraphic(
 	}
 
 	return seq;
-}
-
-/**
- * Gets the first placeable keyword-string (`'SOURCES'`, `'TARGETS'`, or `'TEMPLATES'`) from an array of positions.
- * @param array The input array to search.
- * @returns The first placeable keyword-string. If none are found, then `null` is returned.
- */
-function getFirstPlaceable(
-	array: (string | Vector2 | ArrayElement<Extract<Payload, { type: 'graphic' }>['position']>)[],
-): 'SOURCES' | 'TARGETS' | 'TEMPLATES' | null {
-	for (const item of array) {
-		if (typeof item === 'string') {
-			if (item === 'SOURCES' || item === 'TARGETS' || item === 'TEMPLATES') return item;
-		} else if ('location' in item) {
-			if (item.location === 'SOURCES' || item.location === 'TARGETS' || item.location === 'TEMPLATES')
-				return item.location;
-		}
-	}
-	return null;
 }

@@ -1,9 +1,8 @@
 import type { ExecutionContext } from '.';
 import type { Payload } from '../../schema';
-import type { ArrayElement } from '../utils';
 import {
 	addCustomExecutionContext,
-	// offsetToVector2,
+	offsetToVector2,
 	parseMinMaxObject,
 	positionToArgument,
 } from '.';
@@ -14,13 +13,7 @@ export function executeSound(payload: Extract<Payload, { type: 'sound' }>, conte
 
 	context = addCustomExecutionContext(payload.sources, payload.targets, context);
 
-	if (payload.position?.length) {
-		for (const position of payload.position) {
-			seq.addSequence(processSound(payload, context, position));
-		}
-	} else {
-		seq.addSequence(processSound(payload, context));
-	}
+	seq.addSequence(processSound(payload, context));
 
 	return seq;
 }
@@ -28,17 +21,16 @@ export function executeSound(payload: Extract<Payload, { type: 'sound' }>, conte
 function processSound(
 	payload: Parameters<typeof executeSound>[0],
 	context: ExecutionContext,
-	position?: ArrayElement<Parameters<typeof executeSound>[0]['position']>,
 ): SoundSection {
 	const seq = new Sequence().sound().file(AnimCore.parseFiles(payload.sound));
 
 	if (context.label) seq.name(context.label);
 
-	if (position) {
-		seq.atLocation(positionToArgument(position.location, context), {
-		// offset: offsetToVector2(position.offset), TODO: https://github.com/fantasycalendar/FoundryVTT-Sequencer/pull/388
-			randomOffset: position.randomOffset ?? 0,
-			gridUnits: position.gridUnits ?? false,
+	if (payload.position) {
+		seq.atLocation(positionToArgument(payload.position.location, context), {
+			offset: offsetToVector2(payload.position.offset),
+			randomOffset: payload.position.randomOffset ?? 0,
+			gridUnits: payload.position.gridUnits ?? false,
 		});
 	}
 
