@@ -174,7 +174,7 @@
 		{:else if typeof animation.animationSets === 'string'}
 			References {animation.animationSets}, mimicking all of its animations.
 		{:else}
-			<EditorContent bind:data {animation} {readonly} {sectionArray} />
+			<EditorContent bind:data {animation} {readonly} />
 		{/if}
 	</main>
 </div>

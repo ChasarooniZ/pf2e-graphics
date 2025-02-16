@@ -11,21 +11,10 @@
 	export let data: AnimationSetContentsItem;
 	export let animation: AnimationSetDocument;
 	export let readonly: boolean;
-	export let sectionArray: number[];
 
-	log(animation);
+	log('Animation Document', animation);
 
 	let selection: keyof AnimationSetContentsItem = 'label';
-
-	// eslint-disable-next-line prefer-const
-	let upperAnimation = sectionArray
-		.slice(1)
-		.slice(0, -1)
-		.reduce((object, index) => {
-			return { ...object, ...object.contents![index] };
-		}, animation.animationSets[sectionArray[0]] as AnimationSetContentsItem);
-
-	$: log(upperAnimation);
 
 	function addSection() {
 		if (selection === 'label') {
