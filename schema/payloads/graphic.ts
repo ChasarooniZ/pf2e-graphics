@@ -1,7 +1,14 @@
 import { z } from 'zod';
 import { effectOptions } from '.';
 import { angle, easing, hexColour, ID, UUID } from '../helpers/atoms';
-import { minimumProperties, minimumUniqueItems, nonEmpty, nonZero, propertyDependencies, uniqueItems } from '../helpers/refinements';
+import {
+	minimumProperties,
+	minimumUniqueItems,
+	nonEmpty,
+	nonZero,
+	propertyDependencies,
+	uniqueItems,
+} from '../helpers/refinements';
 import {
 	easingOptions,
 	playableFile,
@@ -234,145 +241,136 @@ export const graphicPayload = effectOptions
 				'The graphic to be played! Use either a Sequencer database path (recommended), or a filepath relative to your Foundry `Data` directory (not a URL!). You can alternatively use the strings `"SOURCES"` or `"TARGETS"` to instead copy the source or target tokens respectively.\nIf you provide more than one graphic, *PF2e Graphics* will select one at random each time the effect is executed. You can also use the following Sequencer shorthands:\n- Handlebar notation (a comma-separated list inside braces) indicates \'any one of this list\'. For instance, `path.{fire,ice}.1` chooses one of `path.fire.1` and `path.ice.1`.\n- **(Sequencer only)** To pick from all paths with a particular prefix, just don\'t include the variable portion of the path. For instance, if you have the database paths `path.fire.1` and `path.fire.2`, you can just write `path.fire`.\n- **(Filepath only)** You can use `*` as a wildcard (e.g. `assets/audio/*.ogg`).\n**Note:** although you can mix and match the above methods, all possibilities are generated *before* any are chosen. For example, `["path.{fire,ice}.1", "path.fire.1"]` selects from `path.fire.1`, `path.ice.1`, and `path.fire.1` again—a set of three options, so `path.fire.1` has a 67% (not 75%!) chance to occur.',
 			),
 		position: z
-			.array(
-				z
-					.discriminatedUnion('type', [
-						positionBaseObject
-							.extend({
-								type: z.literal('static'),
-								location: vector2
+			.discriminatedUnion('type', [
+				positionBaseObject
+					.extend({
+						type: z.literal('static'),
+						location: vector2
+							.or(z.enum(['SOURCES', 'TARGETS', 'TEMPLATES']))
+							.or(ID)
+							.describe(
+								'Where the graphic should be placed. Accepts one of the following:\n- A pair of pixel-coordinates on the canvas, in the form of `{ x: number, y: number }`.\n- A reference of either the effect\'s `"SOURCES"`, `"TARGETS"`, or `"TEMPLATES"` (if it exits).\n- Another ongoing effect\'s or crosshair\'s `name`.',
+							),
+						moveTowards: z
+							.object({
+								target: vector2
 									.or(z.enum(['SOURCES', 'TARGETS', 'TEMPLATES']))
 									.or(ID)
 									.describe(
-										'Where the graphic should be placed. Accepts one of the following:\n- A pair of pixel-coordinates on the canvas, in the form of `{ x: number, y: number }`.\n- A reference of either the effect\'s `"SOURCES"`, `"TARGETS"`, or `"TEMPLATES"` (if it exits).\n- Another ongoing effect\'s or crosshair\'s `name`.',
+										'Where the graphic should go after it has been placed and begun execution. Accepts one of the following:\n- A pair of pixel-coordinates on the canvas, in the form of `{ x: number, y: number }`.\n- A reference of either the effect\'s `"SOURCES"`, `"TARGETS"`, or `"TEMPLATES"` (if it exist).\n- Another ongoing effect\'s or crosshair\'s `name`.',
 									),
-								moveTowards: z
-									.object({
-										target: vector2
-											.or(z.enum(['SOURCES', 'TARGETS', 'TEMPLATES']))
-											.or(ID)
-											.describe(
-												'Where the graphic should go after it has been placed and begun execution. Accepts one of the following:\n- A pair of pixel-coordinates on the canvas, in the form of `{ x: number, y: number }`.\n- A reference of either the effect\'s `"SOURCES"`, `"TARGETS"`, or `"TEMPLATES"` (if it exist).\n- Another ongoing effect\'s or crosshair\'s `name`.',
-											),
-										ease: easing.optional(),
-										speed: z
-											.number()
-											.positive()
-											.optional()
-											.describe(
-												'Sets the speed at which the graphic moves towards the target (default: fixed time).',
-											),
-									})
-									.strict()
-									.optional(),
-							})
-							.strict(),
-						positionBaseObject
-							.extend({
-								type: z.literal('dynamic'),
-								location: z
-									.enum(['SOURCES', 'TARGETS', 'TEMPLATES'])
-									.describe('What the graphic should be attached to.'),
-								align: z
-									.enum([
-										'top-left',
-										'top',
-										'top-right',
-										'left',
-										'right',
-										'bottom-left',
-										'bottom',
-										'bottom-right',
-									])
+								ease: easing.optional(),
+								speed: z
+									.number()
+									.positive()
 									.optional()
 									.describe(
-										'Snaps the effect to a particular point on the `target` (default: centre).',
-									),
-								edge: z.enum(['inner', 'outer']).optional(),
-								unbindVisibility: z
-									.literal(true)
-									.optional()
-									.describe(
-										'Causes the graphic to not follow the attached placeable\'s visibility, and instead remain constant.',
-									),
-								unbindAlpha: z
-									.literal(true)
-									.optional()
-									.describe(
-										'Causes the graphic to not follow the attached placeable\'s alpha, and instead remain constant.',
-									),
-								ignoreRotation: z
-									.literal(true)
-									.optional()
-									.describe(
-										'Causes the graphic to not follow the attached placeable\'s rotation, and instead remain constant.',
-									),
-								unbindScale: z
-									.literal(true)
-									.optional()
-									.describe(
-										'Causes the graphic to not follow the attached placeable\'s scale, and instead remain constant.',
-									),
-								unbindElevation: z
-									.literal(true)
-									.optional()
-									.describe(
-										'Causes the graphic to not follow the attached placeable\'s elevation, and instead remain constant.',
+										'Sets the speed at which the graphic moves towards the target (default: fixed time).',
 									),
 							})
-							.strict(),
-						z
-							.object({
-								type: z.literal('screenSpace'),
-								aboveUI: z
-									.literal(true)
-									.optional()
-									.describe('Renders the graphic above Foundry\'s UI elements.'),
-								anchor: z
-									.object({
-										x: z
-											.number()
-											.describe(
-												'The proportion horizontally along the screen to anchor the graphic. `0` indicates the leftmost edge; `1` indicates the rightmost.',
-											),
-										y: z
-											.number()
-											.describe(
-												'The proportion horizontally along the screen to anchor the graphic. `0` indicates the leftmost edge; `1` indicates the rightmost.',
-											),
-									})
-									.strict()
-									.refine(
-										obj => obj.x !== 0.5 || obj.y !== 0.5,
-										'The default `anchor` is the centre of the screen (`{ x: 0.5, y: 0.5 }`) and doesn\'t need to be configured.',
-									)
-									.optional()
-									.describe('Locks the graphic to some point on the screen (default: centre).'),
-								offset: vector2
-									.optional()
-									.describe('Offsets the graphic from its `anchor` by some number of pixels.'),
-							})
-							.strict(),
-					])
-					.superRefine((obj, ctx) => {
-						if (obj.type !== 'screenSpace') {
-							const issueAccumulator = [];
-							issueAccumulator.push(propertyDependencies(['gridUnits'], ['offset'], obj));
-							issueAccumulator.push(
-								propertyDependencies(['local'], ['offset', 'randomOffset'], obj),
-							);
-
-							for (const issue of issueAccumulator.filter(issue => issue !== undefined)) {
-								ctx.addIssue(issue);
-							}
-						}
+							.strict()
+							.optional(),
 					})
-					.describe(
-						'Configures where and how the graphic should be placed.\n- `"type": "static"`: sets a constant position for the graphic.\n- `"type": "dynamic"`: \'attaches\' the graphic onto a placeable (e.g. token, template), so that the graphic moves with the placeable.\n- `"type": "screenSpace"`: Causes the graphic to be displayed in \'screen space\' rather than within Foundry\'s \'canvas space\'. This means that the graphic is rendered with respect to the screen or viewport, rather than a particular point on the scene.',
-					),
-			)
-			.min(1)
-			.describe('An array of positions at which to execute the graphic.'),
+					.strict(),
+				positionBaseObject
+					.extend({
+						type: z.literal('dynamic'),
+						location: z
+							.enum(['SOURCES', 'TARGETS', 'TEMPLATES'])
+							.describe('What the graphic should be attached to.'),
+						align: z
+							.enum([
+								'top-left',
+								'top',
+								'top-right',
+								'left',
+								'right',
+								'bottom-left',
+								'bottom',
+								'bottom-right',
+							])
+							.optional()
+							.describe('Snaps the effect to a particular point on the `target` (default: centre).'),
+						edge: z.enum(['inner', 'outer']).optional(),
+						unbindVisibility: z
+							.literal(true)
+							.optional()
+							.describe(
+								'Causes the graphic to not follow the attached placeable\'s visibility, and instead remain constant.',
+							),
+						unbindAlpha: z
+							.literal(true)
+							.optional()
+							.describe(
+								'Causes the graphic to not follow the attached placeable\'s alpha, and instead remain constant.',
+							),
+						ignoreRotation: z
+							.literal(true)
+							.optional()
+							.describe(
+								'Causes the graphic to not follow the attached placeable\'s rotation, and instead remain constant.',
+							),
+						unbindScale: z
+							.literal(true)
+							.optional()
+							.describe(
+								'Causes the graphic to not follow the attached placeable\'s scale, and instead remain constant.',
+							),
+						unbindElevation: z
+							.literal(true)
+							.optional()
+							.describe(
+								'Causes the graphic to not follow the attached placeable\'s elevation, and instead remain constant.',
+							),
+					})
+					.strict(),
+				z
+					.object({
+						type: z.literal('screenSpace'),
+						aboveUI: z
+							.literal(true)
+							.optional()
+							.describe('Renders the graphic above Foundry\'s UI elements.'),
+						anchor: z
+							.object({
+								x: z
+									.number()
+									.describe(
+										'The proportion horizontally along the screen to anchor the graphic. `0` indicates the leftmost edge; `1` indicates the rightmost.',
+									),
+								y: z
+									.number()
+									.describe(
+										'The proportion horizontally along the screen to anchor the graphic. `0` indicates the leftmost edge; `1` indicates the rightmost.',
+									),
+							})
+							.strict()
+							.refine(
+								obj => obj.x !== 0.5 || obj.y !== 0.5,
+								'The default `anchor` is the centre of the screen (`{ x: 0.5, y: 0.5 }`) and doesn\'t need to be configured.',
+							)
+							.optional()
+							.describe('Locks the graphic to some point on the screen (default: centre).'),
+						offset: vector2
+							.optional()
+							.describe('Offsets the graphic from its `anchor` by some number of pixels.'),
+					})
+					.strict(),
+			])
+			.superRefine((obj, ctx) => {
+				if (obj.type !== 'screenSpace') {
+					const issueAccumulator = [];
+					issueAccumulator.push(propertyDependencies(['gridUnits'], ['offset'], obj));
+					issueAccumulator.push(propertyDependencies(['local'], ['offset', 'randomOffset'], obj));
+
+					for (const issue of issueAccumulator.filter(issue => issue !== undefined)) {
+						ctx.addIssue(issue);
+					}
+				}
+			})
+			.describe(
+				'Configures where and how the graphic should be placed.\n- `"type": "static"`: sets a constant position for the graphic.\n- `"type": "dynamic"`: \'attaches\' the graphic onto a placeable (e.g. token, template), so that the graphic moves with the placeable.\n- `"type": "screenSpace"`: Causes the graphic to be displayed in \'screen space\' rather than within Foundry\'s \'canvas space\'. This means that the graphic is rendered with respect to the screen or viewport, rather than a particular point on the scene.',
+			),
 		size: z
 			.discriminatedUnion('type', [
 				sizeBaseObject
