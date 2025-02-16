@@ -119,7 +119,7 @@
 					</select>
 					<button
 						disabled={readonly}
-						class='w-min text-nowrap h-8'
+						class='w-min text-nowrap h-8 ml-1'
 						on:click={() => {
 							if (!data.execute) return;
 							if (data.execute.position) {
@@ -142,9 +142,9 @@
 						}}
 					>
 						{#if data.execute.position}
-							<i class='fa fa-trash fa-fw'></i>
+							<i class='fa fa-trash fa-fw mx-auto'></i>
 						{:else}
-							<i class='fa fa-plus fa-fw'></i>
+							<i class='fa fa-plus fa-fw mx-auto'></i>
 						{/if}
 					</button>
 				</div>
@@ -361,7 +361,7 @@
 					</select>
 					<button
 						disabled={readonly}
-						class='w-min text-nowrap h-8'
+						class='w-min text-nowrap h-8 ml-1'
 						on:click={() => {
 							if (data.execute?.size) {
 								if (!data.execute) return;
@@ -375,9 +375,9 @@
 						}}
 					>
 						{#if data.execute.size}
-							<i class='fa fa-trash fa-fw'></i>
+							<i class='fa fa-trash fa-fw mx-auto'></i>
 						{:else}
-							<i class='fa fa-plus fa-fw'></i>
+							<i class='fa fa-plus fa-fw mx-auto'></i>
 						{/if}
 					</button>
 				</div>

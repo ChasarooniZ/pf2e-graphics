@@ -147,11 +147,7 @@
 					<span class='flex items-center' data-tooltip='pf2e-graphics.explanations.rollOption'>
 						Roll Option&nbsp;
 						<span style:opacity='0.5'>
-							(<a
-								href='https://github.com/foundryvtt/pf2e/wiki/Quickstart-guide-for-rule-elements#predicates'
-								target='_blank'>
-								wiki
-							</a>)
+							(<a href='https://github.com/foundryvtt/pf2e/wiki/Quickstart-guide-for-rule-elements#predicates' target='_blank'>wiki</a>)
 						</span>
 						<i class='fa fa-info-circle px-2 ml-auto'></i>
 					</span>
