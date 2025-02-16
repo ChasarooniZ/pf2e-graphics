@@ -288,6 +288,17 @@
 					}
 				}
 			}
+		},
+		"messages": {
+			"tourNag": {
+				"header": "Welcome to <i>PF2e Graphics!</i>",
+				"body": "For the most part, <i>PF2e Graphics</i> operates silently in the background; you don't need to do anything to get started. However, if you want to get stuck in with customisation, we've prepared some guides. <i>So</i>, with that in mind...",
+				"doYouWantATour": "Do you want a tour?",
+				"buttons": {
+					"seeAllTours": "See all tours",
+					"neverSpeakToMeAgain": "Never speak to me again."
+				}
+			}
 		}
 	}
 }

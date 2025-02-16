@@ -1,13 +1,10 @@
+import type { TourConfigOptions } from '.';
+
 /**
- * Defines and registers the module's tours with Foundry.
- *
- * During registration, it checks whether the user has started the tour. If any tour is unstarted, a private chat message offering to start the tours is posted.
+ * An array of `TourConfig`s that define the tours that *PF2e Graphics* adds.
  */
-export async function registerTours() {
-	/**
-	 * An array of `TourConfig`s that define the tours that *PF2e Graphics* adds.
-	 */
-	const newTourConfigs: TourConfig[] = [
+export function generateSeriousTourConfigs(options: TourConfigOptions): TourConfig[] {
+	return [
 		{
 			namespace: 'pf2e-graphics',
 			id: 'sidebar',
@@ -57,8 +54,9 @@ export async function registerTours() {
 					content: 'pf2e-graphics.tours.sidebar.steps.6:animationHistory.content',
 					selector: 'li[data-tool="animationhistory"]',
 					layer: 'tokens',
+					tool: 'animationhistory',
 					tooltipDirection: 'RIGHT',
-					restricted: !(game.settings.get('pf2e-graphics', 'history') as boolean),
+					restricted: !options.canSeeAnimationHistory,
 				},
 				{
 					id: '7:animationSetsVolumeSlider',
@@ -75,68 +73,16 @@ export async function registerTours() {
 				},
 			],
 		},
+		// {
+		// 	namespace: 'pf2e-graphics',
+		// 	id: 'creationUI',
+		// 	title: 'pf2e-graphics.tours.creationUI.title',
+		// 	description: 'pf2e-graphics.tours.creationUI.description',
+		// 	display: true,
+		// 	canBeResumed: true,
+		// 	steps: [
+		// 		// TODO
+		// 	],
+		// },
 	] as const;
-
-	/**
-	 * A Tour subclass that handles controlling the UI state of a loaded world. It can handle both `sidebarTab` and `layer` controls.
-	 * Code adapted from FoundryVTT's core `CanvasTour` class definition.
-	 */
-	class GrandUnifiedTour extends SidebarTour {
-		override get canStart() {
-			return !!canvas.scene;
-		}
-
-		override async _preStep() {
-			await super._preStep();
-			if ('layer' in this.currentStep! && canvas.scene) {
-				const layer = canvas[this.currentStep.layer as keyof typeof canvas] as InteractionLayer;
-				if (layer.active) {
-					ui.controls.initialize({ tool: this.currentStep.tool });
-				} else {
-					layer.activate({ tool: this.currentStep.tool });
-				}
-			}
-		}
-	}
-
-	// Get the secret tour progress-tracker for the client
-	const tourProgress = game.settings.get('core', 'tourProgress') as {
-		[Namespace: string]: {
-			[ID: string]: number;
-			//                    -1 :: not started
-			//              0..(N-1) :: completed Nth step
-			// N = Tour.steps.length :: all complete
-		};
-	};
-
-	const unstartedTourConfigs: TourConfig[] = [];
-
-	// Register tours
-	for (const newTourConfig of newTourConfigs) {
-		game.tours.register(newTourConfig.namespace, newTourConfig.id, new GrandUnifiedTour(newTourConfig));
-		if (
-			tourProgress[newTourConfig.namespace] === undefined
-			|| tourProgress[newTourConfig.namespace][newTourConfig.id] === undefined
-			|| tourProgress[newTourConfig.namespace][newTourConfig.id] === -1
-		) {
-			unstartedTourConfigs.push(newTourConfig);
-		}
-	}
-
-	// Post ~~nagging~~ welcome message if client has unstarted PF2e Graphics tours
-	if (unstartedTourConfigs.length) {
-		ChatMessage.create({
-			style: CONST.CHAT_MESSAGE_STYLES.OOC,
-			speaker: {
-				alias: 'PF2e Graphics',
-			},
-			flags: {
-				'pf2e-graphics': {
-					component: 'TourNag',
-					unstartedTourConfigs,
-				},
-			},
-			whisper: [game.userId],
-		});
-	}
 }

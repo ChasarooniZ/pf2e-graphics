@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store';
 import { initSettings } from './settings.ts';
 import { loadAnimations } from './storage/index.ts';
-import { registerTours } from './tours.ts';
+import { registerTours } from './tours';
 import { i18n } from './utils.ts';
 import { initSidebar } from './view/AnimationSidebar/index.ts';
 
