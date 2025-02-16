@@ -85,9 +85,7 @@ export async function registerTours() {
 			flags: {
 				'pf2e-graphics': {
 					component: 'TourNag',
-					unstartedTourConfigs: randomUnstartedSillyTourConfig
-						? unstartedSeriousTourConfigs.concat(randomUnstartedSillyTourConfig)
-						: unstartedSeriousTourConfigs,
+					unstartedTourConfigs: unstartedSeriousTourConfigs.concat(randomUnstartedSillyTourConfig ?? []),
 				},
 			},
 			whisper: [game.userId],
