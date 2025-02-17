@@ -1,6 +1,6 @@
 import type { ExecutionContext } from '.';
 import type { Payload } from '../../schema';
-import { addCustomExecutionContext, offsetToVector2, parseMinMaxObject, positionToArgument } from '.';
+import { addCustomExecutionContext, parseMinMaxObject, positionToArgument } from '.';
 import { AnimCore } from '../storage/AnimCore';
 
 export function executeSound(payload: Extract<Payload, { type: 'sound' }>, context: ExecutionContext): Sequence {
