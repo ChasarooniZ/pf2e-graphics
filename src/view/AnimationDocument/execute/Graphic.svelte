@@ -429,7 +429,7 @@
 					<label class='flex items-center gap-2'>
 						X
 						<select bind:value={data.execute.reflection.x} class='w-full'>
-							<option></option>
+							<option value={undefined}>None</option>
 							<option value='always'>Always</option>
 							<option value='random'>Random</option>
 						</select>
@@ -437,7 +437,7 @@
 					<label class='flex items-center gap-2'>
 						Y
 						<select bind:value={data.execute.reflection.y} class='w-full'>
-							<option></option>
+							<option value={undefined}>None</option>
 							<option value='always'>Always</option>
 							<option value='random'>Random</option>
 						</select>
@@ -487,12 +487,59 @@
 			</div>
 		</label>
 		<!-- #endregion -->
+		<!-- #region Visibility -->
+		<FadedWrapper>
+			<h3 slot='title' class='text-lg font-bold mb-0'>Visibility</h3>
 
+			{#if !data.execute.visibility}
+				<!-- If wrong, don't! -->
+				{(data.execute.visibility = {}) && ''}
+			{:else}
+				<label class='grid grid-cols-3 items-center'>
+					<span class='flex items-center' data-tooltip='TODO: Explain'>
+						Opacity
+						<i class='fa fa-info-circle px-2 ml-auto'></i>
+					</span>
+					<div class='flex align-middle items-center col-span-2 gap-2'>
+						<input
+							class='grow'
+							bind:value={data.execute.visibility.opacity}
+							type='range'
+							placeholder='1'
+							min='0.05' max='1' step='.05' disabled={readonly} {readonly}
+						/>
+						<input
+							class='shrink w-min'
+							bind:value={data.execute.visibility.opacity}
+							on:change={() => {
+								if (!data.execute?.visibility?.opacity) return;
+
+								if (data.execute.visibility.opacity < 0) data.execute.visibility.opacity = 0.05;
+								if (data.execute.visibility.opacity > 1) data.execute.visibility.opacity = 1;
+							}}
+							type='number'
+							placeholder='1'
+							min='0.05' max='1' step='.05' disabled={readonly} {readonly}
+						/>
+					</div>
+				</label>
+				<label class='grid grid-cols-3 items-center'>
+					<span class='flex items-center' data-tooltip='TODO: Explain'>
+						Ignore Token Vision
+						<i class='fa fa-info-circle px-2 ml-auto'></i>
+					</span>
+					<div class='flex align-middle items-center col-span-2'>
+						<input disabled={readonly} {readonly} bind:checked={data.execute.visibility.ignoreTokenVision} type='checkbox' />
+					</div>
+				</label>
+			{/if}
+		</FadedWrapper>
+		<!-- #endregion -->
 		<!-- #region Unfinished -->
 		<FadedWrapper>
 			<p>Missing things in the UI, in no particular order:</p>
 			<ul class='columns-2'>
-				{#each ['rotation', 'visibility', 'elevation', 'varyProperties (😭)', 'drawings (😭)', 'filters (😭)'] as item}
+				{#each ['rotation', 'elevation', 'varyProperties (😭)', 'drawings (😭)', 'filters (😭)'] as item}
 					<li>{item}</li>
 				{/each}
 			</ul>
