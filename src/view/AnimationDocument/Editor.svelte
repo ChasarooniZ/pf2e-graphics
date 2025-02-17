@@ -23,7 +23,7 @@
 		.split('.')
 		.map(x => Number(x));
 
-	let data: AnimationSetContentsItem = animation.animationSets[0] as AnimationSetContentsItem;
+	let data: AnimationSetContentsItem = animation.animationSets?.[0] as AnimationSetContentsItem;
 
 	$: {
 		// Crash prevention in case the animation was modified
