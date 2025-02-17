@@ -491,7 +491,7 @@
 		<!-- #region Unfinished -->
 		<FadedWrapper>
 			<p>Missing things in the UI, in no particular order:</p>
-			<ul class="columns-2">
+			<ul class='columns-2'>
 				{#each ['rotation', 'visibility', 'elevation', 'varyProperties (😭)', 'drawings (😭)', 'filters (😭)'] as item}
 					<li>{item}</li>
 				{/each}
