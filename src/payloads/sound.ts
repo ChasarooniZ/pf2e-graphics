@@ -20,7 +20,7 @@ function processSound(payload: Parameters<typeof executeSound>[0], context: Exec
 
 	if (payload.position) {
 		seq.atLocation(positionToArgument(payload.position.location, context), {
-			offset: offsetToVector2(payload.position.offset),
+			// offset: offsetToVector2(payload.position.offset), TODO: STILL WAIT FOR THIS TO GET MERGED https://github.com/fantasycalendar/FoundryVTT-Sequencer/pull/388
 			randomOffset: payload.position.randomOffset ?? 0,
 			gridUnits: payload.position.gridUnits ?? false,
 		});
