@@ -81,7 +81,7 @@ function processGraphic(payload: Parameters<typeof executeGraphic>[0], context: 
 			options.bindVisibility = !payload.position.unbindVisibility;
 			options.bindAlpha = !payload.position.unbindAlpha;
 			// @ts-expect-error TODO: sequencer types (documentation sometimes uses `followRotation`?)
-			options.bindRotation = !position.ignoreRotation;
+			options.bindRotation = !payload.position.ignoreRotation;
 			options.bindScale = !payload.position.unbindScale;
 			options.bindElevation = !payload.position.unbindElevation;
 			seq.attachTo(positionToArgument(payload.position.location, context), options);
