@@ -83,12 +83,14 @@
 					},
 					"contents": [
 						{
-							"predicates": [{
-								"or": [
-									"check:outcome:critical-failure",
-									"check:outcome:failure"
-								]
-							}],
+							"predicates": [
+								{
+									"or": [
+										"check:outcome:critical-failure",
+										"check:outcome:failure"
+									]
+								}
+							],
 							"execute": {
 								"type": "graphic",
 								"varyProperties": [
@@ -127,12 +129,14 @@
 							}
 						},
 						{
-							"predicates": [{
-								"or": [
-									"check:outcome:success",
-									"check:outcome:critical-success"
-								]
-							}],
+							"predicates": [
+								{
+									"or": [
+										"check:outcome:success",
+										"check:outcome:critical-success"
+									]
+								}
+							],
 							"execute": {
 								"type": "graphic",
 								"varyProperties": [
@@ -173,15 +177,19 @@
 					]
 				},
 				{
-					"predicates": [{
-						"or": [
-							"check:outcome:critical-failure",
-							"check:outcome:failure"
-						]
-					}],
+					"predicates": [
+						{
+							"or": [
+								"check:outcome:critical-failure",
+								"check:outcome:failure"
+							]
+						}
+					],
 					"execute": {
 						"type": "graphic",
-						"graphic": ["jb2a.markers.chain.spectral_standard.complete.02.green"],
+						"graphic": [
+							"jb2a.markers.chain.spectral_standard.complete.02.green"
+						],
 						"size": {
 							"type": "relative",
 							"relativeTo": "TARGETS",
