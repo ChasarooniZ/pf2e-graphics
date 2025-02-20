@@ -93,12 +93,11 @@
 								"type": "graphic",
 								"varyProperties": [
 									{
-										"name": "rotate",
+										"property": "rotation",
 										"ease": "easeInOutBack",
 										"type": "animate",
 										"delay": 300,
-										"target": "sprite",
-										"property": "rotation",
+										"object": "sprite",
 										"from": 0,
 										"to": -90,
 										"duration": 500
@@ -106,21 +105,19 @@
 									{
 										"ease": "easeOutCubic",
 										"delay": 1500,
-										"name": "moveX",
 										"duration": 600,
 										"type": "animate",
-										"target": "sprite",
+										"object": "sprite",
 										"property": "position.x",
 										"from": 0,
 										"to": -1,
 										"gridUnits": true
 									},
 									{
-										"name": "rotate",
 										"ease": "easeInOutBack",
 										"type": "animate",
 										"delay": 1400,
-										"target": "sprite",
+										"object": "sprite",
 										"property": "rotation",
 										"from": 0,
 										"to": 45,
@@ -140,11 +137,10 @@
 								"type": "graphic",
 								"varyProperties": [
 									{
-										"name": "rotate",
 										"ease": "easeInOutBack",
 										"type": "animate",
 										"delay": 300,
-										"target": "sprite",
+										"object": "sprite",
 										"property": "rotation",
 										"from": 0,
 										"to": -90,
@@ -153,21 +149,19 @@
 									{
 										"ease": "easeOutCubic",
 										"delay": 1500,
-										"name": "moveX",
 										"duration": 600,
 										"type": "animate",
-										"target": "sprite",
+										"object": "sprite",
 										"property": "position.x",
 										"from": 0,
 										"to": -2,
 										"gridUnits": true
 									},
 									{
-										"name": "rotate",
 										"ease": "easeInOutBack",
 										"type": "animate",
 										"delay": 1400,
-										"target": "sprite",
+										"object": "sprite",
 										"property": "rotation",
 										"from": 0,
 										"to": 45,
