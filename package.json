@@ -67,5 +67,12 @@
 		"zod": "^3.24.2",
 		"zod-to-json-schema": "^3.24.3",
 		"zod-validation-error": "^3.4.0"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"@parcel/watcher",
+			"esbuild",
+			"svelte-preprocess"
+		]
 	}
 }
