@@ -7,6 +7,7 @@
 
 	let positionType: 'static' | 'dynamic' = 'static';
 	let size: 'absolute' | 'relative' | 'directed' | 'screenSpace' = 'relative';
+	let rotation: 'absolute' | 'relative' | 'directed' = 'relative';
 </script>
 
 {#if !data.execute}
@@ -57,11 +58,11 @@
 		<!-- #endregion -->
 		<!-- #region Position -->
 		<FadedWrapper showButton={Boolean(data.execute?.position)}>
-			<label class='grid grid-cols-3 items-center' slot='title'>
-				<span class='flex items-center' data-tooltip='TODO: Explain'>
+			<label class='grid grid-cols-3 items-center gap-1' slot='title'>
+				<h3 class='font-bold mb-0 flex items-center' data-tooltip='TODO: Explain'>
 					Position
 					<i class='fa fa-info-circle px-2 ml-auto'></i>
-				</span>
+				</h3>
 				<div class='flex align-middle items-center col-span-2'>
 					<select
 						disabled={readonly || Boolean(data.execute.position)}
@@ -299,11 +300,11 @@
 		<!-- #endregion -->
 		<!-- #region Size -->
 		<FadedWrapper showButton={Boolean(data.execute.size)}>
-			<label class='grid grid-cols-3 items-center' slot='title'>
-				<span class='flex items-center' data-tooltip='TODO: Explain'>
+			<label class='grid grid-cols-3 items-center gap-1' slot='title'>
+				<h3 class='font-bold mb-0 flex items-center' data-tooltip='TODO: Explain'>
 					Size / Direction
 					<i class='fa fa-info-circle px-2 ml-auto'></i>
-				</span>
+				</h3>
 				<div class='flex align-middle items-center col-span-2'>
 					<select
 						disabled={readonly || Boolean(data.execute.size)}
@@ -407,6 +408,57 @@
 				Unimplemented!
 			{/if}
 			{#if data.execute?.size?.type === 'absolute'}
+				Unimplemented!
+			{/if}
+		</FadedWrapper>
+		<!-- #endregion -->
+		<!-- #region Rotation -->
+		<FadedWrapper showButton={Boolean(data.execute.rotation)}>
+			<label class='grid grid-cols-3 items-center gap-1' slot='title'>
+				<h3 class='font-bold mb-0 flex items-center' data-tooltip='TODO: Explain'>
+					Rotation
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
+				</h3>
+				<div class='flex align-middle items-center col-span-2'>
+					<select
+						disabled={readonly || Boolean(data.execute.rotation)}
+						bind:value={rotation}
+						class='grow h-8 capitalize'
+					>
+						{#each ['absolute', 'relative', 'directed'] as option}
+							<option value={option}>{option}</option>
+						{/each}
+					</select>
+					<button
+						disabled={readonly}
+						class='w-min text-nowrap h-8 ml-1'
+						on:click={() => {
+							if (data.execute?.rotation) {
+								if (!data.execute) return;
+								delete data.execute.rotation;
+								data = data;
+							} else {
+								// @ts-ignore-error Lacking typescript support in Svelte 4
+								data.execute.rotation = { type: rotation };
+								data = data;
+							}
+						}}
+					>
+						{#if data.execute.rotation}
+							<i class='fa fa-trash fa-fw mx-auto'></i>
+						{:else}
+							<i class='fa fa-plus fa-fw mx-auto'></i>
+						{/if}
+					</button>
+				</div>
+			</label>
+			{#if data.execute?.rotation?.type === 'absolute'}
+				Unimplemented!
+			{/if}
+			{#if data.execute?.rotation?.type === 'relative'}
+				Unimplemented!
+			{/if}
+			{#if data.execute?.rotation?.type === 'directed'}
 				Unimplemented!
 			{/if}
 		</FadedWrapper>
@@ -610,15 +662,15 @@
 					/>
 				</div>
 			</label>
-		</FadedWrapper><!-- #region Unfinished -->
+		</FadedWrapper>
+		<!-- #endregion -->
 		<FadedWrapper>
 			<p>Missing things in the UI, in no particular order:</p>
-			<ul class='columns-2'>
-				{#each ['rotation', 'varyProperties (😭)', 'drawings (😭)', 'filters (😭)'] as item}
+			<ul class='columns-3'>
+				{#each ['varyProperties (😭)', 'drawings (😭)', 'filters (😭)'] as item}
 					<li>{item}</li>
 				{/each}
 			</ul>
 		</FadedWrapper>
-		<!-- #endregion -->
 	</div>
 {/if}
