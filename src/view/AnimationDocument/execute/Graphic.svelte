@@ -5,9 +5,9 @@
 	export let data: AnimationSetContentsItem<'graphic'>;
 	export let readonly: boolean;
 
-	let positionType: 'static' | 'dynamic' = 'static';
-	let size: 'absolute' | 'relative' | 'directed' | 'screenSpace' = 'relative';
-	let rotation: 'absolute' | 'relative' | 'directed' = 'relative';
+	let positionType: 'static' | 'dynamic' | 'screenSpace' = data.execute?.position?.type || 'static';
+	let size: 'absolute' | 'relative' | 'directed' | 'screenSpace' = data.execute?.size?.type || 'relative';
+	let rotation: 'absolute' | 'relative' | 'directed' = data.execute?.rotation?.type || 'relative';
 </script>
 
 {#if !data.execute}
@@ -69,7 +69,7 @@
 						bind:value={positionType}
 						class='grow h-8 capitalize'
 					>
-						{#each ['static', 'dynamic'] as section}
+						{#each ['static', 'dynamic', 'screenSpace'] as section}
 							<option value={section}>{section}</option>
 						{/each}
 					</select>
@@ -81,18 +81,24 @@
 							if (data.execute.position) {
 								delete data.execute.position;
 							} else {
-								data.execute.position = {
-									type: positionType,
-									location: 'SOURCES',
-									offset: {
-										x: undefined,
-										y: undefined,
-									},
-									anchor: {
-										x: undefined,
-										y: undefined,
-									},
-								};
+								if (positionType === 'screenSpace') {
+									data.execute.position = {
+										type: positionType,
+									};
+								} else {
+									data.execute.position = {
+										type: positionType,
+										location: 'SOURCES',
+										offset: {
+											x: undefined,
+											y: undefined,
+										},
+										anchor: {
+											x: undefined,
+											y: undefined,
+										},
+									};
+								}
 							}
 							data = data;
 						}}
@@ -453,84 +459,140 @@
 				</div>
 			</label>
 			{#if data.execute?.rotation?.type === 'absolute'}
-				Unimplemented!
+				<label class='grid grid-cols-3 items-center'>
+					<span class='flex items-center' data-tooltip='TODO: Explain'>
+						Angle
+						<i class='fa fa-info-circle px-2 ml-auto'></i>
+					</span>
+					<div class='flex align-middle items-center col-span-2'>
+						<input
+							disabled={readonly || data.execute.rotation.angle === 'random'}
+							{readonly}
+							type='number'
+							bind:value={data.execute.rotation.angle}
+							min={-180}
+							max={180}
+							step='10'
+							placeholder={data.execute.rotation.angle === 'random' ? 'random' : '0'}
+						/>
+						<input
+							disabled={readonly}
+							type='checkbox'
+							checked={data.execute.rotation.angle === 'random'}
+							on:change={(e) => {
+								if (!data.execute?.rotation || data.execute.rotation.type !== 'absolute') return;
+								if (e.currentTarget.checked) {
+									data.execute.rotation.angle = 'random';
+								} else {
+									data.execute.rotation.angle = 0;
+								}
+							}}
+						/>
+						Random?
+					</div>
+				</label>
 			{/if}
 			{#if data.execute?.rotation?.type === 'relative'}
-				Unimplemented!
+				<label class='grid grid-cols-3 items-center'>
+					<span class='flex items-center' data-tooltip='TODO: Explain'>
+						Location
+						<i class='fa fa-info-circle px-2 ml-auto'></i>
+					</span>
+					<datalist id='location'>
+						<option>SOURCES</option>
+						<option>TARGETS</option>
+						<option>TEMPLATES</option>
+					</datalist>
+					<input
+						class='col-span-2'
+						list='location'
+						type='text'
+						bind:value={data.execute.rotation.location}
+						{readonly}
+						disabled={readonly}
+					/>
+				</label>
+				{#if !data.execute.rotation.offset}
+					<!-- If wrong, don't! -->
+					{(data.execute.rotation.offset = { x: undefined, y: undefined }) && ''}
+				{:else}
+					<label class='grid grid-cols-3 items-center'>
+						<span class='flex items-center' data-tooltip='TODO: Explain'>
+							Offset
+							<i class='fa fa-info-circle px-2 ml-auto'></i>
+						</span>
+						<div class='grid grid-cols-2 gap-4 items-stretch col-span-2'>
+							<label class='flex items-center gap-2'>
+								X
+								<input
+									type='number'
+									bind:value={data.execute.rotation.offset.x}
+									{readonly}
+									disabled={readonly}
+								/>
+							</label>
+							<label class='flex items-center gap-2'>
+								Y
+								<input
+									type='number'
+									bind:value={data.execute.rotation.offset.y}
+									{readonly}
+									disabled={readonly}
+								/>
+							</label>
+						</div>
+					</label>
+				{/if}
+				<!-- Random Offset -->
+				<label class='grid grid-cols-3 items-center'>
+					<span class='flex items-center' data-tooltip='TODO: Explain'>
+						Random Offset
+						<i class='fa fa-info-circle px-2 ml-auto'></i>
+					</span>
+					<div class='flex align-middle items-center col-span-2'>
+						<input
+							type='number'
+							bind:value={data.execute.rotation.randomOffset}
+							{readonly}
+							disabled={readonly}
+						/>
+					</div>
+				</label>
+				<!-- Grid Units -->
+				<label class='grid grid-cols-3 items-center'>
+					<span class='flex items-center' data-tooltip='TODO: Explain'>
+						Grid Units
+						<i class='fa fa-info-circle px-2 ml-auto'></i>
+					</span>
+					<div class='flex align-middle items-center col-span-2'>
+						<input
+							type='checkbox'
+							bind:checked={data.execute.rotation.gridUnits}
+							{readonly}
+							disabled={readonly}
+						/>
+					</div>
+				</label>
+				<!-- Local -->
+				<label class='grid grid-cols-3 items-center'>
+					<span class='flex items-center' data-tooltip='TODO: Explain'>
+						Local
+						<i class='fa fa-info-circle px-2 ml-auto'></i>
+					</span>
+					<div class='flex align-middle items-center col-span-2'>
+						<input
+							type='checkbox'
+							bind:checked={data.execute.rotation.local}
+							{readonly}
+							disabled={readonly}
+						/>
+					</div>
+				</label>
 			{/if}
 			{#if data.execute?.rotation?.type === 'directed'}
 				Unimplemented!
 			{/if}
 		</FadedWrapper>
-		<!-- #endregion -->
-		<!-- #region Reflection -->
-		<!-- If wrong, don't! -->
-		{(data.execute.reflection ??= { x: undefined, y: undefined }) && ''}
-		<label class='grid grid-cols-3 items-center'>
-			<span class='flex items-center' data-tooltip='TODO: Explain'>
-				Reflection
-				<i class='fa fa-info-circle px-2 ml-auto'></i>
-			</span>
-			<div class='grid grid-cols-2 gap-4 items-stretch col-span-2'>
-				<label class='flex items-center gap-2'>
-					X
-					<select bind:value={data.execute.reflection.x} class='w-full'>
-						<option value={undefined}>None</option>
-						<option value='always'>Always</option>
-						<option value='random'>Random</option>
-					</select>
-				</label>
-				<label class='flex items-center gap-2'>
-					Y
-					<select bind:value={data.execute.reflection.y} class='w-full'>
-						<option value={undefined}>None</option>
-						<option value='always'>Always</option>
-						<option value='random'>Random</option>
-					</select>
-				</label>
-			</div>
-		</label>
-		<!-- #endregion -->
-		<!-- #region Persistent -->
-		<label class='grid grid-cols-3 items-center'>
-			<span class='flex items-center' data-tooltip='TODO: Explain'>
-				Persistent
-				<i class='fa fa-info-circle px-2 ml-auto'></i>
-			</span>
-			<div class='flex align-middle items-center col-span-2'>
-				<input
-					disabled={readonly}
-					type='checkbox'
-					checked={Boolean(data.execute?.persistent)}
-					on:change={(e) => {
-						if (!data?.execute) return;
-						if (e.currentTarget.checked) {
-							data.execute.persistent = 'canvas';
-						} else {
-							delete data.execute.persistent;
-						}
-						data = data;
-					}}
-				/>
-				{#if data.execute?.persistent}
-					<select disabled={readonly || !data.execute.persistent} bind:value={data.execute.persistent}>
-						<option value='canvas'>Canvas</option>
-						<option value='tokenPrototype'>Token Prototype</option>
-					</select>
-				{/if}
-			</div>
-		</label>
-		<!-- #endregion -->
-		<!-- #region Tie To Documents -->
-		<label class='grid grid-cols-3 items-center'>
-			<span class='flex items-center' data-tooltip='TODO: Explain'>
-				Tie To Documents
-				<i class='fa fa-info-circle px-2 ml-auto'></i>
-			</span>
-			<div class='flex align-middle items-center col-span-2'>
-				<input disabled={readonly} {readonly} bind:checked={data.execute.tieToDocuments} type='checkbox' />
-			</div>
-		</label>
 		<!-- #endregion -->
 		<!-- #region Visibility -->
 		<FadedWrapper>
@@ -663,6 +725,75 @@
 				</div>
 			</label>
 		</FadedWrapper>
+		<!-- #endregion -->
+		<!-- #region Reflection -->
+		<!-- If wrong, don't! -->
+		{(data.execute.reflection ??= { x: undefined, y: undefined }) && ''}
+		<label class='grid grid-cols-3 items-center'>
+			<span class='flex items-center' data-tooltip='TODO: Explain'>
+				Reflection
+				<i class='fa fa-info-circle px-2 ml-auto'></i>
+			</span>
+			<div class='grid grid-cols-2 gap-4 items-stretch col-span-2'>
+				<label class='flex items-center gap-2'>
+					X
+					<select bind:value={data.execute.reflection.x} class='w-full'>
+						<option value={undefined}>None</option>
+						<option value='always'>Always</option>
+						<option value='random'>Random</option>
+					</select>
+				</label>
+				<label class='flex items-center gap-2'>
+					Y
+					<select bind:value={data.execute.reflection.y} class='w-full'>
+						<option value={undefined}>None</option>
+						<option value='always'>Always</option>
+						<option value='random'>Random</option>
+					</select>
+				</label>
+			</div>
+		</label>
+		<!-- #endregion -->
+		<!-- #region Persistent -->
+		<label class='grid grid-cols-3 items-center'>
+			<span class='flex items-center' data-tooltip='TODO: Explain'>
+				Persistent
+				<i class='fa fa-info-circle px-2 ml-auto'></i>
+			</span>
+			<div class='flex align-middle items-center col-span-2'>
+				<input
+					disabled={readonly}
+					type='checkbox'
+					checked={Boolean(data.execute?.persistent)}
+					on:change={(e) => {
+						if (!data?.execute) return;
+						if (e.currentTarget.checked) {
+							data.execute.persistent = 'canvas';
+						} else {
+							delete data.execute.persistent;
+						}
+						data = data;
+					}}
+				/>
+				{#if data.execute?.persistent}
+					<select disabled={readonly || !data.execute.persistent} bind:value={data.execute.persistent}>
+						<option value='canvas'>Canvas</option>
+						<option value='tokenPrototype'>Token Prototype</option>
+					</select>
+				{/if}
+			</div>
+		</label>
+		<!-- #endregion -->
+		<!-- #region Tie To Documents -->
+		<label class='grid grid-cols-3 items-center'>
+			<span class='flex items-center' data-tooltip='TODO: Explain'>
+				Tie To Documents
+				<i class='fa fa-info-circle px-2 ml-auto'></i>
+			</span>
+			<div class='flex align-middle items-center col-span-2'>
+				<input disabled={readonly} {readonly} bind:checked={data.execute.tieToDocuments} type='checkbox' />
+			</div>
+		</label>
 		<!-- #endregion -->
 		<FadedWrapper>
 			<p>Missing things in the UI, in no particular order:</p>
