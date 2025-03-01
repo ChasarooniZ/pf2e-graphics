@@ -546,11 +546,75 @@
 			</label>
 		</FadedWrapper>
 		<!-- #endregion -->
-		<!-- #region Unfinished -->
+		<!-- #region Elevation -->
+		<FadedWrapper>
+			<h3 slot='title' class='text-lg font-bold mb-0'>Elevation</h3>
+			<!-- If wrong, don't! -->
+			{(data.execute.elevation ??= {}) && ''}
+			<label class='grid grid-cols-3 items-center'>
+				<span class='flex items-center' data-tooltip='TODO: Explain'>
+					Altitude
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
+				</span>
+				<div class='flex align-middle items-center col-span-2 gap-2'>
+					<input
+						bind:value={data.execute.elevation.altitude}
+						on:change={() => {
+							if (data.execute?.elevation && !data.execute.elevation.altitude) {
+								delete data.execute.elevation.altitude;
+							}
+						}}
+						type='number'
+						placeholder='0'
+						step='1' disabled={readonly} {readonly}
+					/>
+				</div>
+			</label>
+			<label class='grid grid-cols-3 items-center'>
+				<span class='flex items-center' data-tooltip='TODO: Explain'>
+					Sorting Layer
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
+				</span>
+				<div class='flex align-middle items-center col-span-2'>
+					<select
+						bind:value={data.execute.elevation.sortLayer}
+						disabled={readonly}
+						class='grow h-8 capitalize'
+					>
+						<option value={undefined}>None</option>
+						<option value='belowTiles'>Below Tiles</option>
+						<option value='belowDrawings'>Below Drawings</option>
+						<option value='belowTokens'>Below Tokens</option>
+						<option value='aboveWeather'>Above Weather</option>
+						<option value='aboveLighting'>Above Lighting</option>
+						<option value='aboveInterface'>Above Interface</option>
+					</select>
+				</div>
+			</label>
+			<label class='grid grid-cols-3 items-center'>
+				<span class='flex items-center' data-tooltip='TODO: Explain'>
+					Z-Index
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
+				</span>
+				<div class='flex align-middle items-center col-span-2 gap-2'>
+					<input
+						bind:value={data.execute.elevation.zIndex}
+						type='number'
+						placeholder='0'
+						step='1' disabled={readonly} {readonly}
+						on:change={() => {
+							if (data.execute?.elevation && !data.execute.elevation.zIndex) {
+								delete data.execute.elevation.zIndex;
+							}
+						}}
+					/>
+				</div>
+			</label>
+		</FadedWrapper><!-- #region Unfinished -->
 		<FadedWrapper>
 			<p>Missing things in the UI, in no particular order:</p>
 			<ul class='columns-2'>
-				{#each ['rotation', 'elevation', 'varyProperties (😭)', 'drawings (😭)', 'filters (😭)'] as item}
+				{#each ['rotation', 'varyProperties (😭)', 'drawings (😭)', 'filters (😭)'] as item}
 					<li>{item}</li>
 				{/each}
 			</ul>
