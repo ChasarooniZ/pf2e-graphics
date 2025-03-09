@@ -568,17 +568,6 @@ export let AnimCore = class AnimCore {
 				const templates = (data.targets ?? []).filter(
 					target => target instanceof MeasuredTemplateDocument,
 				);
-				const decodedPayload = await decodePayload(set.execute, {
-					label: set.label,
-					currentIndex: index,
-					sources: data.sources,
-					targets,
-					templates,
-					item: data.item,
-					user: data.user,
-					trigger: data.trigger,
-					triggerContext: data.triggerContext ?? {},
-				});
 
 				// Handle `removes`
 				if (game.user.isGM) {
@@ -602,6 +591,18 @@ export let AnimCore = class AnimCore {
 						}
 					}
 				}
+
+				const decodedPayload = await decodePayload(set.execute, {
+					label: set.label,
+					currentIndex: index,
+					sources: data.sources,
+					targets,
+					templates,
+					item: data.item,
+					user: data.user,
+					trigger: data.trigger,
+					triggerContext: data.triggerContext ?? {},
+				}, Boolean((set?.removes ?? []).length));
 
 				// Handle decoded payload itself
 				if (decodedPayload.type === 'sequence') {
