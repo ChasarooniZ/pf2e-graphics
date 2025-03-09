@@ -7,17 +7,21 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
-### Fixed
-
-- Animation Editor crashing when loading a previously closed and not saved document.
+## [1.0.0-alpha.8] - 2025-03-09
 
 ### Added
 
-- UI Support for Reflections in Graphics.
+- UI Support for Reflections, Elevation, Rotation, and Visibility in Graphics editor.
+- Acid Grip, Sword Group, Ranged Critical Hit Sounds
 
 ### Changed
 
-- (BREAKING) There can now only be one starting position per graphic or sound. 
+- (BREAKING) There can now only be one starting position per graphic or sound.
+- Moved to PNPM
+
+### Fixed
+
+- Animation Editor crashing when loading a previously closed and not saved document.
 
 ## [1.0.0-alpha.7] - 2025-02-10
 
@@ -565,7 +569,8 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 - Moved internal structure
 - Pre-release versions to be semver compliant
 
-[Unreleased]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.7...HEAD
+[Unreleased]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.8...HEAD
+[1.0.0-alpha.8]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.7...v1.0.0-alpha.8
 [1.0.0-alpha.7]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.6...v1.0.0-alpha.7
 [1.0.0-alpha.6]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.5...v1.0.0-alpha.6
 [1.0.0-alpha.5]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.4...v1.0.0-alpha.5
