@@ -55,6 +55,8 @@
 </script>
 
 <div class='space-y-2'>
+	<!-- TODO: -->
+	Doesn't work yet!
 	<div class='flex flex-nowrap items-center gap-2'>
 		Select a File:
 		<input class='grow' type='file' accept='application/JSON' on:change={handleFileChange} />
