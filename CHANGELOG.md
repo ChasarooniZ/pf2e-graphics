@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+### Added
+
+- (Working) JSON Importing
+
 ## [1.0.0-alpha.9] - 2025-03-09
 
 ### Fixed
