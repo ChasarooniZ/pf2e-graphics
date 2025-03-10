@@ -287,6 +287,8 @@ export let AnimCore = class AnimCore {
 
 		const disabledUser = (game.user.getFlag('pf2e-graphics', 'disabledAnimations') as string[]) ?? [];
 		const disabledGlobal = window.pf2eGraphics.liveSettings.globalDisabledAnimations;
+		const disabled = disabledGlobal.concat(disabledUser);
+
 		/**
 		 * Priority (highest to lowest):
 		 * Item >
@@ -299,9 +301,7 @@ export let AnimCore = class AnimCore {
 		 * PF2e Graphics itself
 		 */
 		obj.animations = new Map(
-			[...this.animations, ...worldDocs, ...userDocs].filter(
-				val => !disabledUser.includes(val[0]) || !disabledGlobal.includes(val[0]),
-			),
+			[...this.animations, ...worldDocs, ...userDocs].filter(val => !disabled.includes(val[0])),
 		);
 
 		/* Nobody cares for now

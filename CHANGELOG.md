@@ -9,7 +9,11 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 
 ### Added
 
-- (Working) JSON Importing
+- (Working) JSON Importing.
+
+### Fixed
+
+- Animations set as disabled still being played regardless.
 
 ## [1.0.0-alpha.9] - 2025-03-09
 
