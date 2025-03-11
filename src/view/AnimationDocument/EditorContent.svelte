@@ -73,7 +73,7 @@
 		<!-- #region Label -->
 		{#if 'label' in data}
 			<label class='p-0.5 grid grid-cols-3 items-center'>
-				<span class='flex items-center' data-tooltip='TODO: Explain'>
+				<span class='flex items-center' data-tooltip='pf2e-graphics.explanations.label'>
 					Label
 					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
@@ -211,7 +211,7 @@
 		<!-- #region Overrides -->
 		{#if 'overrides' in data}
 			<label class='p-0.5 grid grid-cols-3 items-center'>
-				<span class='flex items-center' data-tooltip='TODO: Explain'>
+				<span class='flex items-center' data-tooltip='pf2e-graphics.explanations.overrides'>
 					Overrides
 					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
@@ -250,7 +250,7 @@
 		<!-- #region Removes -->
 		{#if 'removes' in data}
 			<label class='p-0.5 grid grid-cols-3 items-center'>
-				<span class='flex items-center' data-tooltip='TODO: Explain'>
+				<span class='flex items-center' data-tooltip='pf2e-graphics.explanations.removes'>
 					Removes
 					<i class='fa fa-info-circle px-2 ml-auto'></i>
 				</span>
@@ -296,7 +296,7 @@
 				class='border border-solid rounded-sm bg-slate-600/15'
 			>
 				<label class='p-0.5 pl-1 grid grid-cols-3 items-center'>
-					<span class='flex items-center' data-tooltip='TODO: Explain'>
+					<span class='flex items-center' data-tooltip='pf2e-graphics.explanations.execute'>
 						Execute
 						<i class='fa fa-info-circle px-2 ml-auto'></i>
 					</span>
