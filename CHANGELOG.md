@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 - (Working) JSON Importing.
 - "Overrides" configuration to the UI.
 
+### Changed
+
+- Improved the "Add" button to automatically switch to the next remaining object.
+
 ### Fixed
 
 - Animations set as disabled still being played regardless.

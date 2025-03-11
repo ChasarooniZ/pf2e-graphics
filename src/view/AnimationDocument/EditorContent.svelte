@@ -14,7 +14,10 @@
 
 	log('Animation Document', animation);
 
-	let selection: keyof AnimationSetContentsItem = 'label';
+	const options: (keyof AnimationSetContentsItem)[] = ['execute', 'label', 'triggers', 'predicates', 'overrides', 'removes'];
+	$: remainingOptions = options.filter(x => !Object.keys(data).includes(x.toLowerCase()));
+	let selection: keyof AnimationSetContentsItem = remainingOptions?.[0];
+	$: selection = remainingOptions?.[0];
 
 	function addSection() {
 		if (selection === 'label') {
@@ -55,12 +58,12 @@
 <div class='flex flex-col gap-2 h-full py-1'>
 	{#if !readonly}
 		<header class='flex items-center grow-0'>
-			<button class='w-min text-nowrap h-8' on:click={addSection}>
+			<button class='w-min text-nowrap h-8' on:click={addSection} disabled={!selection}>
 				<i class='fa fa-plus pr-1'></i>
 				Add
 			</button>
-			<select class='grow h-8' bind:value={selection}>
-				{#each ['Execute', 'Label', 'Triggers', 'Predicates', 'Removes'].filter(x => !Object.keys(data).includes(x.toLowerCase())) as section}
+			<select class='grow h-8 capitalize' bind:value={selection} disabled={!remainingOptions.length}>
+				{#each remainingOptions as section}
 					<option value={section.toLowerCase()}>{section}</option>
 				{/each}
 			</select>
@@ -205,7 +208,7 @@
 			</label>
 		{/if}
 		<!-- #endregion -->
-		<!-- #region overrides -->
+		<!-- #region Overrides -->
 		{#if 'overrides' in data}
 			<label class='p-0.5 grid grid-cols-3 items-center'>
 				<span class='flex items-center' data-tooltip='TODO: Explain'>

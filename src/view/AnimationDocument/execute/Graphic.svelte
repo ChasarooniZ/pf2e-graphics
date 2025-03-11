@@ -728,7 +728,7 @@
 		<!-- #endregion -->
 		<!-- #region Reflection -->
 		<!-- If wrong, don't! -->
-		{(data.execute.reflection ??= { x: undefined, y: undefined }) && ''}
+		{(data.execute.reflection ??= {}) && ''}
 		<label class='grid grid-cols-3 items-center'>
 			<span class='flex items-center' data-tooltip='TODO: Explain'>
 				Reflection
