@@ -27,6 +27,8 @@
 			data.removes = [];
 		} else if (selection === 'execute') {
 			data.execute = {};
+		} else if (selection === 'overrides') {
+			data.overrides = [];
 		}
 	}
 
@@ -193,6 +195,45 @@
 						on:click={() => {
 							delete data.predicates;
 							delete data.default;
+							data = data;
+						}}
+						disabled={readonly}
+					>
+						<i class='fa fa-trash-can mx-auto fa-fw'></i>
+					</button>
+				</div>
+			</label>
+		{/if}
+		<!-- #endregion -->
+		<!-- #region overrides -->
+		{#if 'overrides' in data}
+			<label class='p-0.5 grid grid-cols-3 items-center'>
+				<span class='flex items-center' data-tooltip='TODO: Explain'>
+					Overrides
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
+				</span>
+				<div
+					class='
+						flex align-middle items-center
+						col-span-2
+						[&_button]:w-min
+					'
+				>
+					<input
+						type='text'
+						value={JSON.stringify(data.overrides)}
+						on:change={(ev) => {
+							try {
+								data.overrides = JSON.parse(ev.currentTarget.value);
+							} catch {
+								ErrorMsg.send('Invalid JSON! Any unsaved progress will be lost.');
+							}
+						}}
+					/>
+					<button
+						class='w-min ml-1'
+						on:click={() => {
+							delete data.overrides;
 							data = data;
 						}}
 						disabled={readonly}
