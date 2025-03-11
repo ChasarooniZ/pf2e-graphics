@@ -737,7 +737,7 @@
 			<div class='grid grid-cols-2 gap-4 items-stretch col-span-2'>
 				<label class='flex items-center gap-2'>
 					X
-					<select bind:value={data.execute.reflection.x} class='w-full'>
+					<select disabled={readonly || !data.execute.persistent} bind:value={data.execute.reflection.x} class='w-full'>
 						<option value={undefined}>None</option>
 						<option value='always'>Always</option>
 						<option value='random'>Random</option>
@@ -745,7 +745,7 @@
 				</label>
 				<label class='flex items-center gap-2'>
 					Y
-					<select bind:value={data.execute.reflection.y} class='w-full'>
+					<select disabled={readonly || !data.execute.persistent} bind:value={data.execute.reflection.y} class='w-full'>
 						<option value={undefined}>None</option>
 						<option value='always'>Always</option>
 						<option value='random'>Random</option>
