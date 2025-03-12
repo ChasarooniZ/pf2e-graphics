@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.0-alpha.10] - 2025-03-12
+
 ### Added
 
 - (Working) JSON Importing.
@@ -588,7 +590,8 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 - Moved internal structure
 - Pre-release versions to be semver compliant
 
-[Unreleased]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.9...HEAD
+[Unreleased]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.10...HEAD
+[1.0.0-alpha.10]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.9...v1.0.0-alpha.10
 [1.0.0-alpha.9]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.8...v1.0.0-alpha.9
 [1.0.0-alpha.8]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.7...v1.0.0-alpha.8
 [1.0.0-alpha.7]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.6...v1.0.0-alpha.7
