@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.0-alpha.11] - 2025-03-16
+
+### Added
+
+- Setting an animation `reference` to the UI.
+- Setting a `delay` and `waitUntilFinished` (for Graphics) to the UI.
+- Ping notification that a `position` is required if not set in Graphic animation sets.
+
 ## [1.0.0-alpha.10] - 2025-03-12
 
 ### Added
@@ -590,7 +598,8 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 - Moved internal structure
 - Pre-release versions to be semver compliant
 
-[Unreleased]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.10...HEAD
+[Unreleased]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.11...HEAD
+[1.0.0-alpha.11]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.10...v1.0.0-alpha.11
 [1.0.0-alpha.10]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.9...v1.0.0-alpha.10
 [1.0.0-alpha.9]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.8...v1.0.0-alpha.9
 [1.0.0-alpha.8]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.7...v1.0.0-alpha.8

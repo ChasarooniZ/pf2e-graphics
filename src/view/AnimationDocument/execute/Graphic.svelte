@@ -74,8 +74,9 @@
 						{/each}
 					</select>
 					<button
+						data-tooltip='Required'
 						disabled={readonly}
-						class='w-min text-nowrap h-8 ml-1'
+						class='w-min text-nowrap h-8 ml-1 relative'
 						on:click={() => {
 							if (!data.execute) return;
 							if (data.execute.position) {
@@ -107,7 +108,18 @@
 							<i class='fa fa-trash fa-fw mx-auto'></i>
 						{:else}
 							<i class='fa fa-plus fa-fw mx-auto'></i>
+							<div
+								class='
+									absolute -top-1 right-[5px]
+									text-red-600
+								'
+								style:font-size='10px'
+							>
+								<i class='fa fa-circle block absolute animate-ping'></i>
+								<i class='fa fa-circle block absolute'></i>
+							</div>
 						{/if}
+
 					</button>
 				</div>
 			</label>
@@ -726,6 +738,39 @@
 			</label>
 		</FadedWrapper>
 		<!-- #endregion -->
+		<!-- #region Timing -->
+		<FadedWrapper>
+			<h3 slot='title' class='text-lg font-bold mb-0'>Timing</h3>
+			<label class='grid grid-cols-3 items-center'>
+				<span class='flex items-center' data-tooltip='TODO: Explain'>
+					Delay
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
+				</span>
+				<div class='flex align-middle items-center col-span-2 gap-2'>
+					<input
+						bind:value={data.execute.delay}
+						placeholder='1000 (ms)'
+						type='number'
+						min='0' step='1000' disabled={readonly} {readonly}
+					/>
+				</div>
+			</label>
+			<label class='grid grid-cols-3 items-center'>
+				<span class='flex items-center' data-tooltip='TODO: Explain'>
+					Wait Until Finished
+					<i class='fa fa-info-circle px-2 ml-auto'></i>
+				</span>
+				<div class='flex align-middle items-center col-span-2 gap-2'>
+					<input
+						bind:value={data.execute.waitUntilFinished}
+						placeholder='1000 (ms)'
+						type='number'
+						step='1000' disabled={readonly} {readonly}
+					/>
+				</div>
+			</label>
+		</FadedWrapper>
+		<!-- #endregion -->
 		<!-- #region Reflection -->
 		<!-- If wrong, don't! -->
 		{(data.execute.reflection ??= {}) && ''}
@@ -737,7 +782,7 @@
 			<div class='grid grid-cols-2 gap-4 items-stretch col-span-2'>
 				<label class='flex items-center gap-2'>
 					X
-					<select disabled={readonly || !data.execute.persistent} bind:value={data.execute.reflection.x} class='w-full'>
+					<select disabled={readonly} bind:value={data.execute.reflection.x} class='w-full'>
 						<option value={undefined}>None</option>
 						<option value='always'>Always</option>
 						<option value='random'>Random</option>
@@ -745,7 +790,7 @@
 				</label>
 				<label class='flex items-center gap-2'>
 					Y
-					<select disabled={readonly || !data.execute.persistent} bind:value={data.execute.reflection.y} class='w-full'>
+					<select disabled={readonly} bind:value={data.execute.reflection.y} class='w-full'>
 						<option value={undefined}>None</option>
 						<option value='always'>Always</option>
 						<option value='random'>Random</option>
