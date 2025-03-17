@@ -336,7 +336,7 @@ export let AnimCore = class AnimCore {
 			if (!rollOptions.includes(rollOption)) continue;
 			const animationObjects = parseStrings(animations.animationSets, rollOption);
 			const animationObjectsSansReference = parseReferences(animationObjects, rollOption);
-			const applicableAnimations = filterChildren(animationObjectsSansReference);
+			const applicableAnimations = filterByPredicates(animationObjectsSansReference);
 			const unfoldedAnimations = unfoldAnimationSets(applicableAnimations);
 			unfoldedAnimationSets.push([rollOption, unfoldedAnimations]);
 		}
@@ -419,7 +419,7 @@ export let AnimCore = class AnimCore {
 		 * @param animations An array of `AnimationSet` objects.
 		 * @returns An array of `AnimationSet` objects with matching topmost `predicates`.
 		 */
-		function filterChildren<T extends { predicates?: PredicateStatement[] }>(animations: T[]) {
+		function filterByPredicates<T extends { predicates?: PredicateStatement[] }>(animations: T[]) {
 			return animations.filter(animation => game.pf2e.Predicate.test(animation.predicates, rollOptions));
 		}
 
