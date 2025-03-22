@@ -188,7 +188,7 @@ function processGraphic(payload: Parameters<typeof executeGraphic>[0], context: 
 		if (payload.visibility.opacity) seq.opacity(payload.visibility.opacity);
 		if (payload.visibility.ignoreTokenVision) seq.xray(payload.visibility.ignoreTokenVision);
 		if (payload.visibility.mask) {
-			const masking = payload.visibility.mask.map((x) => {
+			const masking = (x: payload.visibility.mask) => {
 				if (x === 'SOURCES') return context.sources;
 				if (x === 'TARGETS') return context.targets;
 				if (typeof x === 'string') return x;
