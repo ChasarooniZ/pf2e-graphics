@@ -55,7 +55,11 @@ type DecodedPayload =
  *
  * This should probably either be `.play()`ed immediately or merged with another sequence using `.addSequence()`. Named locations must be directly registered with `.addNamedLocation()`, since you cannot `.addSequence()` a named location.
  */
-export async function decodePayload(payload: Payload, context: ExecutionContext, ignoreLackOfPayload?: boolean): Promise<DecodedPayload> {
+export async function decodePayload(
+	payload: Payload,
+	context: ExecutionContext,
+	ignoreLackOfPayload?: boolean,
+): Promise<DecodedPayload> {
 	if (!payload || !payload.type) {
 		if (ignoreLackOfPayload) {
 			return { type: 'null' };
@@ -77,7 +81,10 @@ export async function decodePayload(payload: Payload, context: ExecutionContext,
 		if (payload.everyoneExecutes || game.userId === context.user) {
 			return {
 				type: 'sequence',
-				data: new Sequence().macro(payload.document, { ...context, ...payload.options }),
+				data: new Sequence().macro(fromUuidSync(payload.document) as Macro, {
+					...context,
+					...payload.options,
+				}),
 			};
 		}
 		return { type: 'null' };
