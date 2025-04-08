@@ -1,9 +1,10 @@
 <svelte:options accessors={true} />
 
 <script lang='ts'>
+	import type { Content } from 'svelte-jsoneditor';
 	import type { BasicAppExternal } from './AnimationDocumentApp';
 	import { ApplicationShell } from '#runtime/svelte/component/application';
-	import { clearEmpties } from 'src/utils';
+	import { clearEmpties, devLog } from 'src/utils';
 	import { getContext } from 'svelte';
 	import JsonEditor from '../_components/JSONEditor.svelte';
 	import EditorShell from './EditorShell.svelte';
@@ -12,6 +13,19 @@
 	const { application } = getContext<BasicAppExternal>('#external');
 	let animation = application.options.animation;
 	const json = clearEmpties(animation);
+
+	function onChange(content: Content) {
+		devLog('JSONEditor OnChange:', content);
+		if ('json' in content) {
+			animation = clearEmpties(content.json as typeof animation);
+			application.save(animation);
+		} else if ('text' in content) {
+			const json = clearEmpties(JSON.parse(content.text));
+			devLog('Parsed JSON:', json);
+			animation = json;
+			application.save(animation);
+		}
+	}
 </script>
 
 <ApplicationShell bind:elementRoot>
@@ -49,7 +63,10 @@
 			{#if application.options.tab === 'main'}
 				<EditorShell bind:animation readonly={application.options.readonly} />
 			{:else if application.options.tab === 'json'}
-				<JsonEditor {json} />
+				<JsonEditor
+					{json}
+					{onChange}
+				/>
 			{/if}
 		</main>
 		<footer class='flex gap-1 grow-0 pt-2'>
@@ -59,7 +76,7 @@
 				</button>
 				<button on:click={() => {
 					application.save(animation);
-					application.close();
+					application.close({ dontSave: true });
 				}}>
 					Save and Close
 				</button>

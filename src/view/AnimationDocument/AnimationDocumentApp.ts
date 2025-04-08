@@ -90,11 +90,11 @@ export default class AnimationDocumentApp extends SvelteApplication<BasicAppOpti
 		}
 	}
 
-	override close(_options?: { force?: boolean }): Promise<void> {
+	override close(_options?: { force?: boolean; dontSave: true }): Promise<void> {
 		super.close(_options);
 		const closing: Promise<void> = new Promise((resolve) => {
 			try {
-				resolve(this.save());
+				resolve(_options?.dontSave ? void 0 : this.save());
 			} catch {}
 		});
 		return closing;

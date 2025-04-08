@@ -149,6 +149,23 @@ export function makeAnimation(
 				},
 			},
 		});
+	} else if (type === 'template') {
+		preset.push({
+			label: `${_name} (Template)`,
+			triggers: ['place-template'],
+			execute: {
+				type: 'graphic',
+				graphic: ['jb2a.shield.01.complete.01'],
+				position: {
+					type: 'dynamic',
+					location: 'SOURCES',
+				},
+				size: {
+					type: 'relative',
+					relativeTo: 'SOURCES',
+				},
+			},
+		});
 	} else {
 		error('Unknown preset type!');
 	}

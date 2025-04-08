@@ -1,10 +1,11 @@
 <script lang='ts'>
-	import type { ValidationError } from 'svelte-jsoneditor';
-	import { dev } from 'src/utils';
+	import type { Content, OnChange, OnChangeStatus, ValidationError } from 'svelte-jsoneditor';
+	import { dev, devLog } from 'src/utils';
 	import { Mode, ValidationSeverity } from 'svelte-jsoneditor';
 
 	export let json: object;
 	export let mode: Mode = Mode.text;
+	export let onChange: OnChange = (updatedContent: Content, previousContent: Content, status: OnChangeStatus) => devLog('onChange: ', { updatedContent, previousContent, status });
 
 	async function validatorFactory(): Promise<(json: unknown) => ValidationError[]> {
 		const schema = (await import('schema')).animationSetDocument;
@@ -40,6 +41,7 @@
 					statusBar={false}
 					indentation='	'
 					tabSize={2}
+					{onChange}
 				/>
 			{:catch}
 				Errored trying to load Zod validator!
