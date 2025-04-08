@@ -17,7 +17,7 @@
 	const options: (keyof AnimationSetContentsItem)[] = ['execute', 'label', 'triggers', 'predicates', 'overrides', 'removes'];
 	$: remainingOptions = options.filter(x => !Object.keys(data).includes(x.toLowerCase()));
 	let selection: keyof AnimationSetContentsItem = remainingOptions?.[0];
-	$: selection = remainingOptions?.[0];
+	$: selection ??= remainingOptions?.[0];
 
 	function addSection() {
 		if (selection === 'label') {
