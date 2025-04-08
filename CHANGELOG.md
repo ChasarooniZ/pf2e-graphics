@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.0-alpha.12] - 2025-04-08
+
+### Added
+
+- The ability to edit animation JSON directly in Foundry. Enabled by turning on DEV Mode in module settings. The JSON window continues to be read-only when the setting is disabled.
+- "Template" animation template when creating a new animation.
+
+### Fixed
+
+- Masking input being the wrong type in the UI, causing animations with it to not function. ([#446](https://github.com/MrVauxs/pf2e-graphics/issues/446))
+- "Template" animation template not working. ([#446](https://github.com/MrVauxs/pf2e-graphics/issues/446))
+- Inability to select any root-level option besides the first when making a new animation section. ([#464](https://github.com/MrVauxs/pf2e-graphics/issues/464))
+
 ## [1.0.0-alpha.11] - 2025-03-16
 
 ### Added
@@ -598,7 +611,8 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 - Moved internal structure
 - Pre-release versions to be semver compliant
 
-[Unreleased]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.11...HEAD
+[Unreleased]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.12...HEAD
+[1.0.0-alpha.12]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.11...v1.0.0-alpha.12
 [1.0.0-alpha.11]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.10...v1.0.0-alpha.11
 [1.0.0-alpha.10]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.9...v1.0.0-alpha.10
 [1.0.0-alpha.9]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.8...v1.0.0-alpha.9
