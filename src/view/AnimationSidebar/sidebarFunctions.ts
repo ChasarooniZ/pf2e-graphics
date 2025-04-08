@@ -155,14 +155,16 @@ export function makeAnimation(
 			triggers: ['place-template'],
 			execute: {
 				type: 'graphic',
-				graphic: ['jb2a.shield.01.complete.01'],
+				graphic: [
+					'jb2a.burning_hands.01.orange',
+				],
 				position: {
 					type: 'dynamic',
-					location: 'SOURCES',
+					location: 'TEMPLATES',
 				},
 				size: {
-					type: 'relative',
-					relativeTo: 'SOURCES',
+					type: 'directed',
+					endpoint: 'TEMPLATES',
 				},
 			},
 		});
