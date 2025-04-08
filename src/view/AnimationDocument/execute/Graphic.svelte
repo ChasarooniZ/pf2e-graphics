@@ -1,5 +1,6 @@
 <script lang='ts'>
 	import type { AnimationSetContentsItem } from 'schema/payload';
+	import { error } from 'src/utils';
 	import FadedWrapper from 'src/view/_components/FadedWrapper.svelte';
 
 	export let data: AnimationSetContentsItem<'graphic'>;
@@ -647,15 +648,24 @@
 				</span>
 				<div class='flex align-middle items-center col-span-2'>
 					<datalist id='mask'>
-						<option>SOURCES</option>
-						<option>TARGETS</option>
-						<option>TEMPLATES</option>
+						<option>["SOURCES"]</option>
+						<option>["TARGETS"]</option>
+						<option>["TEMPLATES"]</option>
 					</datalist>
 					<input
 						class='col-span-2'
 						list='mask'
 						type='text'
-						bind:value={data.execute.visibility.mask}
+						value={JSON.stringify(data.execute.visibility.mask) ?? ''}
+						on:change={(ev) => {
+							try {
+								const json = JSON.parse(ev.currentTarget.value);
+								// @ts-ignore-error Lacking typescript support in Svelte 4
+								data.execute.visibility.mask = json;
+							} catch {
+								error('Failed to parse JSON! Make sure your string is correct.');
+							}
+						}}
 						{readonly}
 						disabled={readonly}
 					/>

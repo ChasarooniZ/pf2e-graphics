@@ -29,6 +29,7 @@
 	$: {
 		// Crash prevention in case the animation was modified
 		// when you were gone or crashed before saving.
+		// If this breaks just remove it.
 		try {
 			const found = sectionArray.slice(1).reduce((object, index) => {
 				try {
