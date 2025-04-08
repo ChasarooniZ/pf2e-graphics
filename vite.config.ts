@@ -136,6 +136,7 @@ export default defineConfig(({ mode }) => ({
 	},
 
 	optimizeDeps: {
+		include: ['zod'],
 		esbuildOptions: {
 			target: 'es2022',
 		},

@@ -30,11 +30,10 @@
 	{#await import('svelte-jsoneditor')}
 		Waiting for extra JSONEditor code...
 	{:then Module}
-		{#if dev}
+		{#if dev || window.pf2eGraphics.liveSettings.dev}
 			{#await validatorFactory() then validator}
 				<Module.JSONEditor
 					content={{ json }}
-					readOnly={true}
 					{mode}
 					{validator}
 					navigationBar={false}
