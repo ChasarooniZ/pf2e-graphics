@@ -6,7 +6,7 @@
 	import { clearEmpties } from 'src/utils';
 	import { getContext } from 'svelte';
 	import JsonEditor from '../_components/JSONEditor.svelte';
-	import Editor from './Editor.svelte';
+	import EditorShell from './EditorShell.svelte';
 
 	export let elementRoot: HTMLElement;
 	const { application } = getContext<BasicAppExternal>('#external');
@@ -47,7 +47,7 @@
 		</header>
 		<main class='grow overflow-y-auto'>
 			{#if application.options.tab === 'main'}
-				<Editor bind:animation readonly={application.options.readonly} />
+				<EditorShell bind:animation readonly={application.options.readonly} />
 			{:else if application.options.tab === 'json'}
 				<JsonEditor {json} />
 			{/if}
