@@ -143,7 +143,7 @@ export function positionToArgument(
 	if (typeof position === 'string') return position;
 
 	throw ErrorMsg.send('pf2e-graphics.execute.common.error.unknownPosition', {
-		position: (position as any).toString(),
+		position: JSON.stringify(position as any),
 	});
 }
 
