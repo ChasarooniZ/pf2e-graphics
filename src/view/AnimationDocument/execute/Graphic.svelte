@@ -369,7 +369,7 @@
 							class='grow h-8 capitalize'
 							bind:value={data.execute.size.relativeTo}
 						>
-							{#each ['SOURCES', 'TARGETS'] as option}
+							{#each ['SOURCES', 'TARGETS', 'TEMPLATES'] as option}
 								<option value={option}>{option}</option>
 							{/each}
 						</select>
@@ -416,7 +416,7 @@
 							class='grow h-8 capitalize'
 							bind:value={data.execute.size.endpoint}
 						>
-							{#each ['SOURCES', 'TARGETS'] as option}
+							{#each ['SOURCES', 'TARGETS', 'TEMPLATES'] as option}
 								<option value={option}>{option}</option>
 							{/each}
 						</select>
