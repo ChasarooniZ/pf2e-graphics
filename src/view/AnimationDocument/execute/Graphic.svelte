@@ -1,6 +1,7 @@
 <script lang='ts'>
 	import type { AnimationSetContentsItem } from 'schema/payload';
 	import { error } from 'src/utils';
+	import Control from 'src/view/_components/Control.svelte';
 	import FadedWrapper from 'src/view/_components/FadedWrapper.svelte';
 
 	export let data: AnimationSetContentsItem<'graphic'>;
@@ -20,42 +21,29 @@
 {:else}
 	<div class='space-y-2'>
 		<!-- #region Graphic -->
-		{(data.execute.graphic ??= []) && ''}
-		<label class='grid grid-cols-3 items-center'>
-			<span class='flex items-center' data-tooltip='TODO: Explain'>
-				Graphic
-				<i class='fa fa-info-circle px-2 ml-auto'></i>
-			</span>
-			<div class='flex align-middle items-center col-span-2'>
-				<input
-					list='graphic'
-					type='text'
-					value={data.execute.graphic?.length ? JSON.stringify(data.execute.graphic) : ''}
-					on:change={(e) => {
-						if (!data.execute) data.execute = {};
-						if (e.currentTarget.value) {
-							try {
-								const val = JSON.parse(e.currentTarget.value);
-								if (!Array.isArray(val)) {
-									window.ui.notifications.error(
-										'Graphic must be an array of strings! ex. <code>["jb2a.arrow"]</code>',
-									);
-								} else {
-									data.execute.graphic = JSON.parse(e.currentTarget.value);
-								}
-							} catch {
-								window.ui.notifications.error('The current Graphics value is not valid JSON.');
-							}
+		<Control title='Graphic' explain='TODO: Explain'>
+			<input
+				type='text'
+				value={(() => JSON.stringify(data.execute?.graphic ?? []))()}
+				on:input={(ev) => {
+					const value = ev.currentTarget.value;
+					if (!data.execute) return; // Typescript support in Svelte 5
+					try {
+						const val = JSON.parse(value);
+						if (!Array.isArray(val)) {
+							window.ui.notifications.error('Graphic must be an array of strings! ex. <code>["jb2a.arrow"]</code>');
 						} else {
-							data.execute.graphic = [];
+							data.execute.graphic = val;
 						}
-					}}
-					{readonly}
-					disabled={readonly}
-					placeholder='["graphics-vfx.rpg.accelerate"]'
-				/>
-			</div>
-		</label>
+					} catch {
+						window.ui.notifications.error('The current Graphics value is not valid JSON.');
+					}
+				}}
+				{readonly}
+				disabled={readonly}
+				placeholder='["graphics-vfx.rpg.accelerate"]'
+			/>
+		</Control>
 		<!-- #endregion -->
 		<!-- #region Position -->
 		<FadedWrapper showButton={Boolean(data.execute?.position)}>
