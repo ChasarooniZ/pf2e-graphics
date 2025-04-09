@@ -21,7 +21,8 @@
 		"test:assets": "pnpm run test:assets:exist && pnpm run test:assets:format",
 		"test:assets:exist": "tsx ./scripts/tests/assets/exist.ts",
 		"test:assets:format": "tsx ./scripts/tests/assets/format.ts",
-		"generate-spritesheet": "tsx ./scripts/generateSpritesheetJSON.ts"
+		"generate-spritesheet": "tsx ./scripts/generateSpritesheetJSON.ts",
+		"symlink": "tsx ./scripts/symlink.ts"
 	},
 	"imports": {
 		"#runtime/*": "@typhonjs-fvtt/runtime/*",
@@ -37,6 +38,7 @@
 		"@sveltejs/vite-plugin-svelte": "^3.1.2",
 		"@tsconfig/svelte": "^5.0.4",
 		"@types/jquery": "^3.5.32",
+		"@types/prompts": "^2.4.9",
 		"autoprefixer": "^10.4.21",
 		"cross-env": "^7.0.3",
 		"eslint": "^9.24.0",
@@ -51,6 +53,7 @@
 		"postcss": "^8.5.3",
 		"postcss-minify": "^1.1.0",
 		"postcss-prefixwrap": "^1.55.0",
+		"prompts": "^2.4.2",
 		"sequencer": "github:fantasycalendar/FoundryVTT-Sequencer",
 		"sonda": "^0.7.1",
 		"svelte": "^4.2.19",
