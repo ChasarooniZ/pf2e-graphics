@@ -1,6 +1,6 @@
 <script lang='ts'>
 	import type { AnimationSetContentsItem } from 'schema/payload';
-	import { error } from 'src/utils';
+	import { error, isEmpty } from 'src/utils';
 	import Control from 'src/view/_components/Control.svelte';
 	import FadedWrapper from 'src/view/_components/FadedWrapper.svelte';
 
@@ -770,17 +770,28 @@
 		</FadedWrapper>
 		<!-- #endregion -->
 		<!-- #region Reflection -->
-		<!-- If wrong, don't! -->
-		{(data.execute.reflection ??= {}) && ''}
-		<label class='grid grid-cols-3 items-center'>
-			<span class='flex items-center' data-tooltip='TODO: Explain'>
-				Reflection
-				<i class='fa fa-info-circle px-2 ml-auto'></i>
-			</span>
-			<div class='grid grid-cols-2 gap-4 items-stretch col-span-2'>
+		<Control title='Reflection' explain='TODO: Explain'>
+			<div class='grid grid-cols-2 gap-4 items-stretch col-span-2' slot='inputDiv'>
 				<label class='flex items-center gap-2'>
 					X
-					<select disabled={readonly} bind:value={data.execute.reflection.x} class='w-full'>
+					<select
+						value={data.execute.reflection?.x}
+						on:input={(ev) => {
+							const value = ev.currentTarget.value;
+							if (!data.execute?.reflection) data.execute = { ...data.execute, reflection: {} };
+							if (!value) {
+								// @ts-ignore Typescript support in Svelte 5
+								delete data.execute.reflection.x;
+								// @ts-ignore Typescript support in Svelte 5
+								if (isEmpty(data.execute.reflection)) delete data.execute.reflection;
+							} else {
+								// @ts-ignore Typescript support in Svelte 5
+								data.execute.reflection.x = value;
+							}
+						}}
+						class='w-full'
+						disabled={readonly}
+					>
 						<option value={undefined}>None</option>
 						<option value='always'>Always</option>
 						<option value='random'>Random</option>
@@ -788,14 +799,31 @@
 				</label>
 				<label class='flex items-center gap-2'>
 					Y
-					<select disabled={readonly} bind:value={data.execute.reflection.y} class='w-full'>
+					<select
+						value={data.execute.reflection?.y}
+						on:input={(ev) => {
+							const value = ev.currentTarget.value;
+							if (!data.execute?.reflection) data.execute = { ...data.execute, reflection: {} };
+							if (!value) {
+								// @ts-ignore Typescript support in Svelte 5
+								delete data.execute.reflection.y;
+								// @ts-ignore Typescript support in Svelte 5
+								if (isEmpty(data.execute.reflection)) delete data.execute.reflection;
+							} else {
+								// @ts-ignore Typescript support in Svelte 5
+								data.execute.reflection.y = value;
+							}
+						}}
+						class='w-full'
+						disabled={readonly}
+					>
 						<option value={undefined}>None</option>
 						<option value='always'>Always</option>
 						<option value='random'>Random</option>
 					</select>
 				</label>
 			</div>
-		</label>
+		</Control>
 		<!-- #endregion -->
 		<!-- #region Persistent -->
 		<label class='grid grid-cols-3 items-center'>
