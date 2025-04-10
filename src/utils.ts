@@ -124,6 +124,8 @@ export function nonEmpty(obj: { [K: string]: any }): boolean {
 	return false;
 }
 
+export const isEmpty = (obj: { [K: string]: any }) => !nonEmpty(obj);
+
 /**
  * Returns `true` if the `val` is: `true`, a number, or a non-empty string, object, or array. Returns `false` otherwise (i.e. `null`, `undefined`, and empty strings, objects, or arrays).
  */
