@@ -4,7 +4,7 @@
 	import Control from 'src/view/_components/Control.svelte';
 	import FadedWrapper from 'src/view/_components/FadedWrapper.svelte';
 
-	export let data: AnimationSetContentsItem<'graphic'>;
+	export let data: AnimationSetContentsItem<'graphic'> & { execute: object };
 	export let readonly: boolean;
 
 	let positionType: 'static' | 'dynamic' | 'screenSpace' = data.execute?.position?.type || 'static';
@@ -27,7 +27,6 @@
 				value={(() => JSON.stringify(data.execute?.graphic ?? []))()}
 				on:input={(ev) => {
 					const value = ev.currentTarget.value;
-					if (!data.execute) return; // Typescript support in Svelte 5
 					try {
 						const val = JSON.parse(value);
 						if (!Array.isArray(val)) {
@@ -331,7 +330,7 @@
 								delete data.execute.size;
 								data = data;
 							} else {
-								// @ts-ignore-error Lacking typescript support in Svelte 4
+								// @ts-ignore Typescript support in Svelte 5
 								data.execute.size = { type: size };
 								data = data;
 							}
@@ -440,14 +439,12 @@
 						disabled={readonly}
 						class='w-min text-nowrap h-8 ml-1'
 						on:click={() => {
-							if (data.execute?.rotation) {
-								if (!data.execute) return;
+							if (data.execute.rotation) {
 								delete data.execute.rotation;
 								data = data;
 							} else {
-								// @ts-ignore-error Lacking typescript support in Svelte 4
+								// @ts-ignore-error Typescript support in Svelte 5
 								data.execute.rotation = { type: rotation };
-								data = data;
 							}
 						}}
 					>
@@ -648,7 +645,7 @@
 						on:change={(ev) => {
 							try {
 								const json = JSON.parse(ev.currentTarget.value);
-								// @ts-ignore-error Lacking typescript support in Svelte 4
+								// @ts-ignore-error Typescript support in Svelte 5
 								data.execute.visibility.mask = json;
 							} catch {
 								error('Failed to parse JSON! Make sure your string is correct.');
@@ -778,15 +775,13 @@
 						value={data.execute.reflection?.x}
 						on:input={(ev) => {
 							const value = ev.currentTarget.value;
-							if (!data.execute?.reflection) data.execute = { ...data.execute, reflection: {} };
+							if (!data.execute.reflection) data.execute.reflection = {};
 							if (!value) {
-								// @ts-ignore Typescript support in Svelte 5
 								delete data.execute.reflection.x;
-								// @ts-ignore Typescript support in Svelte 5
 								if (isEmpty(data.execute.reflection)) delete data.execute.reflection;
 							} else {
 								// @ts-ignore Typescript support in Svelte 5
-								data.execute.reflection.x = value;
+								data.execute.reflection.x = value; // as "always" | "random" | undefined
 							}
 						}}
 						class='w-full'
@@ -803,15 +798,13 @@
 						value={data.execute.reflection?.y}
 						on:input={(ev) => {
 							const value = ev.currentTarget.value;
-							if (!data.execute?.reflection) data.execute = { ...data.execute, reflection: {} };
+							if (!data.execute.reflection) data.execute.reflection = {};
 							if (!value) {
-								// @ts-ignore Typescript support in Svelte 5
 								delete data.execute.reflection.y;
-								// @ts-ignore Typescript support in Svelte 5
 								if (isEmpty(data.execute.reflection)) delete data.execute.reflection;
 							} else {
 								// @ts-ignore Typescript support in Svelte 5
-								data.execute.reflection.y = value;
+								data.execute.reflection.y = value; // as "always" | "random" | undefined
 							}
 						}}
 						class='w-full'
