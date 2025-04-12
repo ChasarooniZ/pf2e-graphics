@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.0-alpha.14] - 2025-04-12
+
+### Fixed
+
+- JSON being cleaned with every New Section created, thus making it impossible to make a new section.
+
 ## [1.0.0-alpha.13] - 2025-04-12
 
 ### Fixed
@@ -619,7 +625,8 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 - Moved internal structure
 - Pre-release versions to be semver compliant
 
-[Unreleased]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.13...HEAD
+[Unreleased]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.14...HEAD
+[1.0.0-alpha.14]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.13...v1.0.0-alpha.14
 [1.0.0-alpha.13]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.12...v1.0.0-alpha.13
 [1.0.0-alpha.12]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.11...v1.0.0-alpha.12
 [1.0.0-alpha.11]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.10...v1.0.0-alpha.11

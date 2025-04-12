@@ -184,7 +184,7 @@ export function getPlayerOwners(actor: ActorPF2e): UserPF2e[] {
 export function clearEmpties<T extends Record<string, any>>(o: T): T & Record<string, Exclude<any, undefined>> {
 	for (const k in o) {
 		if (Array.isArray(o[k])) {
-			o[k] = o[k].map(clearEmpties);
+			o[k] = o[k].map(clearEmpties).filter((x: any) => !!x);
 		} else if (!o[k] || typeof o[k] !== 'object') {
 			continue; // If null or not an object, skip to the next iteration
 		}

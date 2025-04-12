@@ -12,7 +12,7 @@
 	export let elementRoot: HTMLElement;
 	const { application } = getContext<BasicAppExternal>('#external');
 	let animation = application.options.animation;
-	$: json = clearEmpties(animation);
+	$: json = clearEmpties(foundry.utils.deepClone(animation));
 
 	function onChange(content: Content) {
 		devLog('JSONEditor OnChange:', content);
