@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 
 ## [Unreleased]
 
+## [1.0.0-alpha.13] - 2025-04-12
+
+### Fixed
+
+- `positionToArgument` not erroring gracefully, causing an unhelpful error message instead.
+- Missing "TEMPLATES" options in Graphics UI elements.
+- Some UI elements creating properties on render instead of when the user sets them.
+
 ## [1.0.0-alpha.12] - 2025-04-08
 
 ### Added
@@ -611,7 +619,8 @@ and this project adheres to [Semantic Versioning](<https://semver.org/spec/v2.0.
 - Moved internal structure
 - Pre-release versions to be semver compliant
 
-[Unreleased]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.12...HEAD
+[Unreleased]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.13...HEAD
+[1.0.0-alpha.13]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.12...v1.0.0-alpha.13
 [1.0.0-alpha.12]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.11...v1.0.0-alpha.12
 [1.0.0-alpha.11]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.10...v1.0.0-alpha.11
 [1.0.0-alpha.10]: https://github.com/MrVauxs/pf2e-graphics/compare/v1.0.0-alpha.9...v1.0.0-alpha.10
