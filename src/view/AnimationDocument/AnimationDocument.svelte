@@ -12,7 +12,7 @@
 	export let elementRoot: HTMLElement;
 	const { application } = getContext<BasicAppExternal>('#external');
 	let animation = application.options.animation;
-	const json = clearEmpties(animation);
+	$: json = clearEmpties(animation);
 
 	function onChange(content: Content) {
 		devLog('JSONEditor OnChange:', content);
