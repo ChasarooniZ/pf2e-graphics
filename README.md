@@ -8,8 +8,8 @@
 [![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fpf2e-graphics&colorB=4aa94a)](https://forge-vtt.com/bazaar#package=pf2e-graphics)
 [![ko-fi](https://shields.io/badge/ko--fi-Buy_me_a_coffee-ff5f5f?logo=ko-fi&style=for-the-badgeKo-fi)](https://ko-fi.com/O4O4DLQC)
 
-| [Animation Requests](https://github.com/MrVauxs/pf2e-graphics/issues?q=is%3Aopen%20is%3Aissue%20label%3A%22Animation%20set%22) | [Feature Requests](https://github.com/MrVauxs/pf2e-graphics/issues?q=is%3Aopen%20is%3Aissue%20label%3A%22Feature%20request%22) | [Bug Reports](https://github.com/MrVauxs/pf2e-graphics/issues?q=is%3Aissue%20state%3Aopen%20label%3ABug) | 
-| ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | --- |
+| [Animation Requests](https://github.com/MrVauxs/pf2e-graphics/issues?q=is%3Aopen%20is%3Aissue%20label%3A%22Animation%20set%22) | [Feature Requests](https://github.com/MrVauxs/pf2e-graphics/issues?q=is%3Aopen%20is%3Aissue%20label%3A%22Feature%20request%22) | [Bug Reports](https://github.com/MrVauxs/pf2e-graphics/issues?q=is%3Aissue%20state%3Aopen%20label%3ABug) |
+| ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
 
 ## Wiki
 
