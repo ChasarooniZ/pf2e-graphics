@@ -288,13 +288,13 @@
 					<!-- Missed -->
 					<label class='grid grid-cols-3 items-center'>
 						<span class='flex items-center' data-tooltip='TODO: Explain'>
-							Missed
+							Animate Missed
 							<i class='fa fa-info-circle px-2 ml-auto'></i>
 						</span>
 						<div class='flex align-middle items-center col-span-2'>
 							<input
-								type='number'
-								bind:value={data.execute.position.missed}
+								type='checkbox'
+								bind:checked={data.execute.position.missed}
 								{readonly}
 								disabled={readonly}
 							/>
