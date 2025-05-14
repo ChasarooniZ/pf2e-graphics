@@ -250,7 +250,6 @@ export const database = {
 					'01': `${p}/ovani-sounds/Seafaring SFX/Non Loops/Enemies/Kraken Distant A.ogg`,
 					'02': `${p}/ovani-sounds/Seafaring SFX/Non Loops/Enemies/Kraken Distant B.ogg`,
 					'03': `${p}/ovani-sounds/Seafaring SFX/Non Loops/Enemies/Kraken Distant C.ogg`,
-					'04': `${p}/ovani-sounds/Seafaring SFX/Non Loops/Enemies/Kraken Distant D.ogg`,
 				},
 			},
 			siren: {
