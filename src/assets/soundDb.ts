@@ -219,7 +219,7 @@ export const database = {
 						'02': `${p}/CyberwaveOrchestra/GameAudio/Sword Magic SFX Pack/Magic Blade Slash/Magic Blade Slash (18).ogg`,
 						'03': `${p}/CyberwaveOrchestra/GameAudio/Sword Magic SFX Pack/Magic Blade Slash/Magic Blade Slash (28).ogg`,
 					},
-					'02':{
+					'02': {
 						'01': `${p}/CyberwaveOrchestra/GameAudio/Sword Magic SFX Pack/Magic Blade Slash/Magic Blade Slash (31).ogg`,
 					},
 				},
@@ -1320,7 +1320,7 @@ export const database = {
 						'08': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fire Spell - Shoot 8.ogg`,
 						'09': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fire Spell - Shoot 9.ogg`,
 						'10': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fire Spell - Shoot 10.ogg`,
-					}
+					},
 				},
 				loop: {
 					'01': `${p}/gamedev-market/Magic_Spells_Sound_Pack/Cast Loops/Fire_Cast_Loop_01.ogg`,
@@ -1542,7 +1542,7 @@ export const database = {
 				'02': {
 					'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Shadow Spell - Shoot 3.ogg`,
 					'02': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Shadow Spell - Shoot 4.ogg`,
-				}
+				},
 			},
 			cast: {
 				'01': {
@@ -1616,7 +1616,7 @@ export const database = {
 					wolf: `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Shadow Spell - Shoot 9.ogg`,
 					zombie: `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Shadow Spell - Shoot 10.ogg`,
 					ghost: `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Shadow Spell - Shoot 11.ogg`,
-				}
+				},
 			},
 			bells: {
 				'01': {
@@ -2044,7 +2044,7 @@ export const database = {
 					'08': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Ice Spell - Shoot 8.ogg`,
 					'09': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Ice Spell - Shoot 9.ogg`,
 					'10': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Ice Spell - Shoot 10.ogg`,
-				}
+				},
 			},
 		},
 		holy: {
@@ -2203,7 +2203,7 @@ export const database = {
 					'08': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Electric Spell - Shoot 8.ogg`,
 					'09': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Electric Spell - Shoot 9.ogg`,
 					'10': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Electric Spell - Shoot 10.ogg`,
-				}
+				},
 			},
 			hold: {
 				'01': `${p}/LastDayDreaming/Magic/Lightning/EM_LIGHT_HOLD_5s.ogg`,
@@ -2775,7 +2775,7 @@ export const database = {
 				},
 				'03': {
 					'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Nature Spell - Shoot 8.ogg`,
-				}
+				},
 			},
 			'charm': {
 				single: {
@@ -2786,7 +2786,7 @@ export const database = {
 					},
 					'02': {
 						'06': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Nature Spell - Shoot 6.ogg`,
-					}
+					},
 				},
 				loop: `${p}/ovani-sounds/Magic II/Nature/Dryad Charm Loop.ogg`,
 			},
@@ -2841,7 +2841,7 @@ export const database = {
 					'01': `${p}/ovani-sounds/Crafting SFX/UI/Craft Text Sprawl B.ogg`,
 				},
 			},
-			cast: {
+			'cast': {
 				'01': {
 					pig: {
 						'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Nature Spell - Shoot 1.ogg`,
@@ -2857,8 +2857,8 @@ export const database = {
 						'02': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Nature Spell - Shoot 9.ogg`,
 					},
 					wolf: `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Nature Spell - Shoot 5.ogg`,
-				}
-			}
+				},
+			},
 		},
 		poison: {
 			cast: {
@@ -2873,8 +2873,8 @@ export const database = {
 					'08': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Poison Spell - Shoot 8.ogg`,
 					'09': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Poison Spell - Shoot 9.ogg`,
 					'10': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Poison Spell - Shoot 10.ogg`,
-				}
-			}
+				},
+			},
 		},
 		music: {
 			harp: {
@@ -2973,7 +2973,7 @@ export const database = {
 						'08': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fairytale Spell - Shoot 8.ogg`,
 						'09': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fairytale Spell - Shoot 9.ogg`,
 						'10': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fairytale Spell - Shoot 10.ogg`,
-					}
+					},
 				},
 			},
 			ricochet: {
