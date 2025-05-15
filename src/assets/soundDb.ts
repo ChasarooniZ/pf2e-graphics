@@ -552,6 +552,69 @@ export const database = {
 				'01': `${p}/gamedev-market/Medieval Fantasy 2 SFX Pack/Weapons/Pot Water.ogg`,
 			},
 		},
+		use: {
+			basic: {
+				'01': {
+					'01': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Use - Basic 1.ogg`,
+					'02': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Use - Basic 2.ogg`,
+					'03': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Use - Basic 3.ogg`,
+					'04': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Use - Basic 4.ogg`,
+				},
+			},
+			healing: {
+				'01': {
+					'01': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Use - Magical Effect 1.ogg`,
+					'02': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Use - Magical Effect 2.ogg`,
+				},
+			},
+			buff: {
+				'01': {
+					'01': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Use - Magical Effect 3.ogg`,
+					'02': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Use - Magical Effect 4.ogg`,
+					'03': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Use - Magical Effect 5.ogg`,
+					'04': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Use - Magical Effect 6.ogg`,
+					'05': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Use - Magical Effect 7.ogg`,
+					'06': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Use - Magical Effect 8.ogg`,
+					'07': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Use - Magical Effect 9.ogg`,
+				},
+			},
+		},
+		throw: {
+			'01': {
+				'01': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Drop 1.ogg`,
+				'02': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Drop 2.ogg`,
+				'03': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Drop 3.ogg`,
+				'04': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Drop 4.ogg`,
+			},
+		},
+		interact: {
+			basic: {
+				'01': {
+					'01': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Inventory Actions (1).ogg`,
+					'02': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Inventory Actions (2).ogg`,
+					'03': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Inventory Actions (3).ogg`,
+					'04': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Inventory Actions (4).ogg`,
+					'05': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Inventory Actions (5).ogg`,
+					'06': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Inventory Actions (6).ogg`,
+					'07': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Inventory Actions (7).ogg`,
+					'08': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Inventory Actions (8).ogg`,
+					'09': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Inventory Actions (9).ogg`,
+					'10': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Inventory Actions (10).ogg`,
+					'11': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Inventory Actions (11).ogg`,
+				},
+			},
+			magical: {
+				'01': {
+					'01': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Pickup or Equip (Magic Touch) (1).ogg`,
+					'02': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Pickup or Equip (Magic Touch) (2).ogg`,
+					'03': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Pickup or Equip (Magic Touch) (3).ogg`,
+					'04': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Pickup or Equip (Magic Touch) (4).ogg`,
+				},
+			},
+		},
+	},
+	food: {
+
 	},
 	flail: {
 		miss: {
@@ -826,6 +889,19 @@ export const database = {
 				'03': `${p}/ovani-sounds/Decks and Cards SFX/FX/FX Flying Cards 003.ogg`,
 				'04': `${p}/ovani-sounds/Decks and Cards SFX/FX/FX Flying Cards 004.ogg`,
 			},
+			'04': {
+				'01': `${p}/CyberwaveOrchestra/GameAudio/Magical Card Game Sound/Special Card Reveal/Special Card Reveal 1.ogg`,
+				'02': `${p}/CyberwaveOrchestra/GameAudio/Magical Card Game Sound/Special Card Reveal/Special Card Reveal 2.ogg`,
+				'03': `${p}/CyberwaveOrchestra/GameAudio/Magical Card Game Sound/Special Card Reveal/Special Card Reveal 3.ogg`,
+				'04': `${p}/CyberwaveOrchestra/GameAudio/Magical Card Game Sound/Special Card Reveal/Special Card Reveal 4.ogg`,
+				'05': `${p}/CyberwaveOrchestra/GameAudio/Magical Card Game Sound/Special Card Reveal/Special Card Reveal 5.ogg`,
+				'06': `${p}/CyberwaveOrchestra/GameAudio/Magical Card Game Sound/Special Card Reveal/Special Card Reveal 6.ogg`,
+				'07': `${p}/CyberwaveOrchestra/GameAudio/Magical Card Game Sound/Special Card Reveal/Special Card Reveal 7.ogg`,
+				'08': `${p}/CyberwaveOrchestra/GameAudio/Magical Card Game Sound/Special Card Reveal/Special Card Reveal 8.ogg`,
+				'09': `${p}/CyberwaveOrchestra/GameAudio/Magical Card Game Sound/Special Card Reveal/Special Card Reveal 9.ogg`,
+				'10': `${p}/CyberwaveOrchestra/GameAudio/Magical Card Game Sound/Special Card Reveal/Special Card Reveal 10.ogg`,
+				'11': `${p}/CyberwaveOrchestra/GameAudio/Magical Card Game Sound/Special Card Reveal/Special Card Reveal 11.ogg`,
+			},
 		},
 		draw: {
 			'01': {
@@ -989,6 +1065,18 @@ export const database = {
 						'03': `${p}/ovani-sounds/Motion and Impacts SFX 2/Whoosh/Whoosh Air Vibe 003.ogg`,
 						'04': `${p}/ovani-sounds/Motion and Impacts SFX 2/Whoosh/Whoosh Air Vibe 004.ogg`,
 						'05': `${p}/ovani-sounds/Motion and Impacts SFX 2/Whoosh/Whoosh Air Vibe 005.ogg`,
+					},
+					'04': {
+						'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Air Spell - Shoot 1.ogg`,
+						'02': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Air Spell - Shoot 2.ogg`,
+						'03': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Air Spell - Shoot 3.ogg`,
+						'04': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Air Spell - Shoot 4.ogg`,
+						'05': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Air Spell - Shoot 5.ogg`,
+						'06': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Air Spell - Shoot 6.ogg`,
+						'07': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Air Spell - Shoot 7.ogg`,
+						'08': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Air Spell - Shoot 8.ogg`,
+						'09': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Air Spell - Shoot 9.ogg`,
+						'10': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Air Spell - Shoot 10.ogg`,
 					},
 				},
 			},
@@ -1221,6 +1309,18 @@ export const database = {
 							'04': `${p}/CyberwaveOrchestra/GameAudio/Fire Spells SFX Pack/Fire Spells No Impact/Fire Spell No Impact 19.ogg`,
 						},
 					},
+					'09': {
+						'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fire Spell - Shoot 1.ogg`,
+						'02': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fire Spell - Shoot 2.ogg`,
+						'03': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fire Spell - Shoot 3.ogg`,
+						'04': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fire Spell - Shoot 4.ogg`,
+						'05': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fire Spell - Shoot 5.ogg`,
+						'06': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fire Spell - Shoot 6.ogg`,
+						'07': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fire Spell - Shoot 7.ogg`,
+						'08': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fire Spell - Shoot 8.ogg`,
+						'09': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fire Spell - Shoot 9.ogg`,
+						'10': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fire Spell - Shoot 10.ogg`,
+					}
 				},
 				loop: {
 					'01': `${p}/gamedev-market/Magic_Spells_Sound_Pack/Cast Loops/Fire_Cast_Loop_01.ogg`,
@@ -1439,6 +1539,10 @@ export const database = {
 					'04': `${p}/gamedev-market/Magic_Spells_Sound_Pack/Elemental Types/Shadow/Shadow_Buff_04.ogg`,
 					'05': `${p}/gamedev-market/Magic_Spells_Sound_Pack/Elemental Types/Shadow/Shadow_Buff_05.ogg`,
 				},
+				'02': {
+					'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Shadow Spell - Shoot 3.ogg`,
+					'02': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Shadow Spell - Shoot 4.ogg`,
+				}
 			},
 			cast: {
 				'01': {
@@ -1464,6 +1568,9 @@ export const database = {
 					'02': `${p}/ovani-sounds/Motion and Impacts SFX 2/Impacts/Impact Moor 002.ogg`,
 					'03': `${p}/ovani-sounds/Motion and Impacts SFX 2/Impacts/Impact Moor 003.ogg`,
 					'04': `${p}/ovani-sounds/Motion and Impacts SFX 2/Impacts/Impact Moor 004.ogg`,
+				},
+				'04': {
+					'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Shadow Spell - Shoot 2.ogg`,
 				},
 			},
 			curse: {
@@ -1499,6 +1606,17 @@ export const database = {
 					'01': `${p}/ovani-sounds/Seafaring SFX/Non Loops/Enemies/Ghost Ship Tier 2 A.ogg`,
 					'02': `${p}/ovani-sounds/Seafaring SFX/Non Loops/Enemies/Ghost Ship Tier 2 B.ogg`,
 				},
+				'08': {
+					'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Shadow Spell - Shoot 5.ogg`,
+					'02': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Shadow Spell - Shoot 6.ogg`,
+					'03': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Shadow Spell - Shoot 7.ogg`,
+				},
+				'09': {
+					crow: `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Shadow Spell - Shoot 8.ogg`,
+					wolf: `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Shadow Spell - Shoot 9.ogg`,
+					zombie: `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Shadow Spell - Shoot 10.ogg`,
+					ghost: `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Shadow Spell - Shoot 11.ogg`,
+				}
 			},
 			bells: {
 				'01': {
@@ -1557,6 +1675,11 @@ export const database = {
 					'03': `${p}/ovani-sounds/Motion and Impacts SFX 2/Whoosh/Whoosh Shadow Teleport 003.ogg`,
 					'04': `${p}/ovani-sounds/Motion and Impacts SFX 2/Whoosh/Whoosh Shadow Teleport 004.ogg`,
 					'05': `${p}/ovani-sounds/Motion and Impacts SFX 2/Whoosh/Whoosh Shadow Teleport 005.ogg`,
+				},
+			},
+			voices: {
+				'01': {
+					'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Shadow Spell - Shoot 1.ogg`,
 				},
 			},
 		},
@@ -1661,6 +1784,34 @@ export const database = {
 						'04': `${p}/ovani-sounds/Seafaring SFX/Non Loops/Battle/Ship Hull Damage D.ogg`,
 						'05': `${p}/ovani-sounds/Seafaring SFX/Non Loops/Battle/Ship Hull Damage E.ogg`,
 						'06': `${p}/ovani-sounds/Seafaring SFX/Non Loops/Battle/Ship Hull Damage F.ogg`,
+					},
+					'02': {
+						'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Earth Spell - Shoot 1.ogg`,
+						'02': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Earth Spell - Shoot 3.ogg`,
+						'03': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Earth Spell - Shoot 4.ogg`,
+						'04': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Earth Spell - Shoot 5.ogg`,
+					},
+					'03': {
+						'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Earth Spell - Shoot 6.ogg`,
+						'02': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Earth Spell - Shoot 7.ogg`,
+					},
+					'04': {
+						'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Earth Spell - Shoot 8.ogg`,
+						'02': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Earth Spell - Shoot 9.ogg`,
+					},
+					'05': {
+						'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Earth Spell - Shoot 11.ogg`,
+						'02': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Earth Spell - Shoot 12.ogg`,
+					},
+				},
+				sand: {
+					'01': {
+						'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Earth Spell - Shoot 2.ogg`,
+					},
+				},
+				crystal: {
+					'01': {
+						'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Earth Spell - Shoot 10.ogg`,
 					},
 				},
 			},
@@ -1882,6 +2033,18 @@ export const database = {
 					'01': `${p}/ovani-sounds/Magic/Ice/Arctic Gale.ogg`,
 					'02': `${p}/ovani-sounds/Magic/Ice/Frost Nova.ogg`,
 				},
+				'04': {
+					'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Ice Spell - Shoot 1.ogg`,
+					'02': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Ice Spell - Shoot 2.ogg`,
+					'03': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Ice Spell - Shoot 3.ogg`,
+					'04': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Ice Spell - Shoot 4.ogg`,
+					'05': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Ice Spell - Shoot 5.ogg`,
+					'06': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Ice Spell - Shoot 6.ogg`,
+					'07': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Ice Spell - Shoot 7.ogg`,
+					'08': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Ice Spell - Shoot 8.ogg`,
+					'09': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Ice Spell - Shoot 9.ogg`,
+					'10': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Ice Spell - Shoot 10.ogg`,
+				}
 			},
 		},
 		holy: {
@@ -2029,6 +2192,18 @@ export const database = {
 					'01': `${p}/ovani-sounds/Magic II/Air and Thunder/Storm Cast 001.ogg`,
 					'02': `${p}/ovani-sounds/Magic II/Air and Thunder/Storm Cast 002.ogg`,
 				},
+				'04': {
+					'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Electric Spell - Shoot 1.ogg`,
+					'02': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Electric Spell - Shoot 2.ogg`,
+					'03': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Electric Spell - Shoot 3.ogg`,
+					'04': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Electric Spell - Shoot 4.ogg`,
+					'05': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Electric Spell - Shoot 5.ogg`,
+					'06': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Electric Spell - Shoot 6.ogg`,
+					'07': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Electric Spell - Shoot 7.ogg`,
+					'08': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Electric Spell - Shoot 8.ogg`,
+					'09': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Electric Spell - Shoot 9.ogg`,
+					'10': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Electric Spell - Shoot 10.ogg`,
+				}
 			},
 			hold: {
 				'01': `${p}/LastDayDreaming/Magic/Lightning/EM_LIGHT_HOLD_5s.ogg`,
@@ -2188,6 +2363,18 @@ export const database = {
 					'02': `${p}/ovani-sounds/Player Status SFX/Ailments/Ailments Poison 002.ogg`,
 					'03': `${p}/ovani-sounds/Player Status SFX/Ailments/Ailments Poison 003.ogg`,
 					'04': `${p}/ovani-sounds/Player Status SFX/Ailments/Ailments Poison 004.ogg`,
+				},
+				'05': {
+					'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Water Spell - Shoot 1.ogg`,
+					'02': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Water Spell - Shoot 2.ogg`,
+					'03': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Water Spell - Shoot 3.ogg`,
+					'04': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Water Spell - Shoot 4.ogg`,
+					'05': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Water Spell - Shoot 5.ogg`,
+					'06': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Water Spell - Shoot 6.ogg`,
+					'07': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Water Spell - Shoot 7.ogg`,
+					'08': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Water Spell - Shoot 8.ogg`,
+					'09': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Water Spell - Shoot 9.ogg`,
+					'10': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Water Spell - Shoot 10.ogg`,
 				},
 			},
 			hold: {
@@ -2586,12 +2773,20 @@ export const database = {
 				'02': {
 					'01': `${p}/ovani-sounds/Magic/Nature/Root Snare.ogg`,
 				},
+				'03': {
+					'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Nature Spell - Shoot 8.ogg`,
+				}
 			},
 			'charm': {
 				single: {
-					'01': `${p}/ovani-sounds/Magic II/Nature/Dryad Charm Loop 001.ogg`,
-					'02': `${p}/ovani-sounds/Magic II/Nature/Dryad Charm Loop 002.ogg`,
-					'03': `${p}/ovani-sounds/Magic II/Nature/Dryad Charm Loop 003.ogg`,
+					'01': {
+						'01': `${p}/ovani-sounds/Magic II/Nature/Dryad Charm Loop 001.ogg`,
+						'02': `${p}/ovani-sounds/Magic II/Nature/Dryad Charm Loop 002.ogg`,
+						'03': `${p}/ovani-sounds/Magic II/Nature/Dryad Charm Loop 003.ogg`,
+					},
+					'02': {
+						'06': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Nature Spell - Shoot 6.ogg`,
+					}
 				},
 				loop: `${p}/ovani-sounds/Magic II/Nature/Dryad Charm Loop.ogg`,
 			},
@@ -2646,6 +2841,40 @@ export const database = {
 					'01': `${p}/ovani-sounds/Crafting SFX/UI/Craft Text Sprawl B.ogg`,
 				},
 			},
+			cast: {
+				'01': {
+					pig: {
+						'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Nature Spell - Shoot 1.ogg`,
+						'02': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Nature Spell - Shoot 7.ogg`,
+					},
+					boar: `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Nature Spell - Shoot 2.ogg`,
+					tiger: {
+						'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Nature Spell - Shoot 3.ogg`,
+						'02': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Nature Spell - Shoot 10.ogg`,
+					},
+					bird: {
+						'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Nature Spell - Shoot 4.ogg`,
+						'02': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Nature Spell - Shoot 9.ogg`,
+					},
+					wolf: `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Nature Spell - Shoot 5.ogg`,
+				}
+			}
+		},
+		poison: {
+			cast: {
+				'01': {
+					'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Poison Spell - Shoot 1.ogg`,
+					'02': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Poison Spell - Shoot 2.ogg`,
+					'03': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Poison Spell - Shoot 3.ogg`,
+					'04': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Poison Spell - Shoot 4.ogg`,
+					'05': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Poison Spell - Shoot 5.ogg`,
+					'06': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Poison Spell - Shoot 6.ogg`,
+					'07': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Poison Spell - Shoot 7.ogg`,
+					'08': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Poison Spell - Shoot 8.ogg`,
+					'09': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Poison Spell - Shoot 9.ogg`,
+					'10': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Poison Spell - Shoot 10.ogg`,
+				}
+			}
 		},
 		music: {
 			harp: {
@@ -2731,6 +2960,20 @@ export const database = {
 						'03': `${p}/ovani-sounds/Combos Crits and Fails/Abilities/Ultimate C.ogg`,
 						'04': `${p}/ovani-sounds/Combos Crits and Fails/Abilities/Ultimate D.ogg`,
 					},
+				},
+				cast: {
+					'01': {
+						'01': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fairytale Spell - Shoot 1.ogg`,
+						'02': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fairytale Spell - Shoot 2.ogg`,
+						'03': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fairytale Spell - Shoot 3.ogg`,
+						'04': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fairytale Spell - Shoot 4.ogg`,
+						'05': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fairytale Spell - Shoot 5.ogg`,
+						'06': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fairytale Spell - Shoot 6.ogg`,
+						'07': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fairytale Spell - Shoot 7.ogg`,
+						'08': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fairytale Spell - Shoot 8.ogg`,
+						'09': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fairytale Spell - Shoot 9.ogg`,
+						'10': `${p}/CyberwaveOrchestra/GameAudio/Ultimate Magic Spell Sounds/Spell Shoot/Fairytale Spell - Shoot 10.ogg`,
+					}
 				},
 			},
 			ricochet: {
@@ -3075,6 +3318,26 @@ export const database = {
 					'02': `${p}/ovani-sounds/Crafting SFX/Magic/Potion Craft B.ogg`,
 					'03': `${p}/ovani-sounds/Crafting SFX/Magic/Potion Craft C.ogg`,
 					'04': `${p}/ovani-sounds/Crafting SFX/Magic/Potion Craft D.ogg`,
+				},
+				'02': {
+					'01': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Crafting - Basic 1.ogg`,
+					'02': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Crafting - Basic 2.ogg`,
+					'03': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Crafting - Basic 3.ogg`,
+					'04': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Crafting - Basic 4.ogg`,
+					'05': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Crafting - Basic 5.ogg`,
+					'06': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Crafting - Basic 6.ogg`,
+					'07': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Crafting - Basic 7.ogg`,
+					'08': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Crafting - Basic 8.ogg`,
+				},
+				'03': {
+					'01': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Crafting - Magic Effect 1.ogg`,
+					'02': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Crafting - Magic Effect 2.ogg`,
+					'03': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Crafting - Magic Effect 3.ogg`,
+					'04': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Crafting - Magic Effect 4.ogg`,
+					'05': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Crafting - Magic Effect 5.ogg`,
+					'06': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Crafting - Magic Effect 6.ogg`,
+					'07': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Crafting - Magic Effect 7.ogg`,
+					'08': `${p}/CyberwaveOrchestra/GameAudio/Food and Potions SFX Pack/Potion Crafting - Magic Effect 8.ogg`,
 				},
 			},
 			sort: {
