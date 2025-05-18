@@ -81,7 +81,7 @@ export async function decodePayload(
 		if (payload.everyoneExecutes || game.userId === context.user) {
 			return {
 				type: 'sequence',
-				data: new Sequence().macro(fromUuidSync(payload.document) as Macro, {
+				data: new Sequence().macro(await fromUuid(payload.document) as Macro, {
 					...context,
 					...payload.options,
 				}),
