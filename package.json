@@ -3,7 +3,6 @@
 	"type": "module",
 	"version": "0.0.0",
 	"private": true,
-	"packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39",
 	"imports": {
 		"#runtime/*": "@typhonjs-fvtt/runtime/*",
 		"#standard/*": "@typhonjs-fvtt/standard/*"
@@ -31,6 +30,9 @@
 	"dependencies": {
 		"@typhonjs-fvtt/runtime": "^0.2.0",
 		"@typhonjs-fvtt/standard": "^0.2.1"
+	},
+	"optionalDependencies": {
+		"@rollup/rollup-linux-x64-gnu": "^4.43.0"
 	},
 	"devDependencies": {
 		"@actions/core": "^1.11.1",
@@ -70,14 +72,6 @@
 		"zod": "^3.25.52",
 		"zod-to-json-schema": "^3.24.5",
 		"zod-validation-error": "^3.4.1"
-	},
-	"pnpm": {
-		"onlyBuiltDependencies": [
-			"@parcel/watcher",
-			"esbuild",
-			"svelte-preprocess",
-			"unrs-resolver"
-		]
 	},
 	"trustedDependencies": [
 		"@parcel/watcher",

@@ -34,18 +34,23 @@ jobs:
             *.ts
             *.js
             *.json
+            test.yml
 
       - name: Install Bun
+        if: steps.changed-source-files.outputs.any_changed == 'true'
         uses: oven-sh/setup-bun@v2
 
       - name: Install packages
+        if: steps.changed-source-files.outputs.any_changed == 'true'
         run: bun install
 
       - name: Vite build
+        if: steps.changed-source-files.outputs.any_changed == 'true'
         id: build
         run: bun run build:vite
 
       - name: File Existence
+        if: steps.changed-source-files.outputs.any_changed == 'true'
         id: files
         uses: andstor/file-existence-action@v3.0.0
         with:
@@ -57,6 +62,7 @@ jobs:
         run: bun run build:vite -- --debug
 
       - name: Svelte check
+        if: steps.changed-source-files.outputs.any_changed == 'true'
         run: bun run check
 
   eslint:
