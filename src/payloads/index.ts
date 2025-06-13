@@ -45,10 +45,10 @@ export interface ExecutionContext {
  * - `'namedLocation'`: a named location returned by a crosshair (since named locations can't be merged with `.addSequence()`)
  * - `'null'`: a blank return that indicates no action should be taken (occurs when animations are played by other users)
  */
-type DecodedPayload =
-	| { type: 'sequence'; data: Sequence }
-	| { type: 'namedLocation'; data: { name: string; position: Vector2 } }
-	| { type: 'null' };
+type DecodedPayload
+	= | { type: 'sequence'; data: Sequence }
+		| { type: 'namedLocation'; data: { name: string; position: Vector2 } }
+		| { type: 'null' };
 
 /**
  * The top-level payload-decoding function. A payload goes in with the current game data (i.e. execution context), and an appropriate comes out.

@@ -150,21 +150,21 @@ export const easing = z
 /**
  * A single predicate (recursive) for the pf2e system.
  */
-export type Predicate =
-	| string
-	| { eq: [string, string | number] }
-	| { gt: [string, string | number] }
-	| { gte: [string, string | number] }
-	| { lt: [string, string | number] }
-	| { lte: [string, string | number] }
-	| { and: Predicate[] }
-	| { or: Predicate[] }
-	| { xor: Predicate[] }
-	| { not: Predicate }
-	| { nand: Predicate[] }
-	| { nor: Predicate[] }
-	| { if: Predicate; then: Predicate }
-	| { iff: Predicate[] };
+export type Predicate
+	= | string
+		| { eq: [string, string | number] }
+		| { gt: [string, string | number] }
+		| { gte: [string, string | number] }
+		| { lt: [string, string | number] }
+		| { lte: [string, string | number] }
+		| { and: Predicate[] }
+		| { or: Predicate[] }
+		| { xor: Predicate[] }
+		| { not: Predicate }
+		| { nand: Predicate[] }
+		| { nor: Predicate[] }
+		| { if: Predicate; then: Predicate }
+		| { iff: Predicate[] };
 
 /**
  * Zod schema for a single predicate (recursive) for the pf2e system.

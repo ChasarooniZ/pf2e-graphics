@@ -28,11 +28,11 @@ export type TokenOrDoc = TokenDocument | Token;
 
 type Entries<T, K extends keyof T = keyof T> = (K extends unknown ? [K, T[K]] : never)[];
 
-export type moduleFlags =
-	| undefined
-	| {
-		customAnimations?: ModuleDataObject;
-	};
+export type moduleFlags
+	= | undefined
+		| {
+			customAnimations?: ModuleDataObject;
+		};
 
 declare global {
 	interface pf2eGraphics {
@@ -82,9 +82,9 @@ declare global {
 /**
  * The nullable interface stored on an actor's module flags to define its tokens' effective size.
  */
-export type EffectiveSize =
-	| undefined
-	| {
-		enabled: boolean;
-		size: number;
-	};
+export type EffectiveSize
+	= | undefined
+		| {
+			enabled: boolean;
+			size: number;
+		};

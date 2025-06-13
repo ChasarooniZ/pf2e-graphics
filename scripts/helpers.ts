@@ -4,14 +4,14 @@ import * as path from 'node:path';
 import * as core from '@actions/core';
 
 type LoggingLevels = 'info' | 'warning' | 'error';
-export type DetailsMessage =
-	| string
-	| { message: string; annotation: core.AnnotationProperties }
-	| {
-		level: 'details';
-		title: string;
-		messages: DetailsMessage[];
-	};
+export type DetailsMessage
+	= | string
+		| { message: string; annotation: core.AnnotationProperties }
+		| {
+			level: 'details';
+			title: string;
+			messages: DetailsMessage[];
+		};
 
 /**
  * Helper class to write unified logs to both local terminals and GitHub Actions.
