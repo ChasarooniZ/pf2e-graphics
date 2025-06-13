@@ -131,9 +131,11 @@ jobs:
             assets/library/**
 
       - name: Install Bun
+        if: steps.changed-assets.outputs.any_changed == 'true'
         uses: oven-sh/setup-bun@v2
 
       - name: Install packages
+        if: steps.changed-assets.outputs.any_changed == 'true'
         run: bun install
 
       - name: Test Sequencer DB
