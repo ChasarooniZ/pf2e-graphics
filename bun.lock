@@ -4,7 +4,6 @@
     "": {
       "name": "pf2e-graphics",
       "dependencies": {
-        "@rollup/rollup-linux-x64-gnu": "^4.43.0",
         "@typhonjs-fvtt/runtime": "^0.2.0",
         "@typhonjs-fvtt/standard": "^0.2.1",
       },
@@ -367,8 +366,6 @@
     "@pkgr/core": ["@pkgr/core@0.1.1", "", {}, ""],
 
     "@replit/codemirror-indentation-markers": ["@replit/codemirror-indentation-markers@6.5.3", "", { "peerDependencies": { "@codemirror/language": "^6.0.0", "@codemirror/state": "^6.0.0", "@codemirror/view": "^6.0.0" } }, ""],
-
-    "@rollup/rollup-linux-x64-gnu": ["@rollup/rollup-linux-x64-gnu@4.43.0", "", { "os": "linux", "cpu": "x64" }, "sha512-jAHr/S0iiBtFyzjhOkAics/2SrXE092qyqEg96e90L3t9Op8OTzS6+IX0Fy5wCt2+KqeHAkti+eitV0wvblEoQ=="],
 
     "@rollup/rollup-win32-x64-msvc": ["@rollup/rollup-win32-x64-msvc@4.35.0", "", { "os": "win32", "cpu": "x64" }, ""],
 
