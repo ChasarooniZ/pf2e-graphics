@@ -78,5 +78,9 @@
 			"svelte-preprocess",
 			"unrs-resolver"
 		]
-	}
+	},
+	"trustedDependencies": [
+		"@parcel/watcher",
+		"svelte-preprocess"
+	]
 }

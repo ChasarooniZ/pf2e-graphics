@@ -48,6 +48,10 @@
       },
     },
   },
+  "trustedDependencies": [
+    "svelte-preprocess",
+    "@parcel/watcher",
+  ],
   "packages": {
     "@actions/core": ["@actions/core@1.11.1", "", { "dependencies": { "@actions/exec": "^1.1.1", "@actions/http-client": "^2.0.1" } }, ""],
 
